@@ -1,0 +1,26 @@
+secret = "DqLEdu5Z5FrdJD98nCqqzTPTUc1Bow6ZU747VbNZmoGgik9Cd8Hm9+XkcXMZnmOFR91kla0w3hvXMpOLRxF+M2g12g+A/Sz8/gW0nAKY7GM1D3/Q7QhY0Q4P+IB5wNPRJFh3rNHqv1upPOLeZvfqftn0eNiwgezh+/0+5Xa/pS2ibw3AmwcRSimgxvJEpZxiPlD0tNx3iBu6+FSdiLW09Yn7YtoE4IFCYl0JE/s6M/WYHDrQxG8HzjWSW8kZ3Vw6CQq0F7GO7dQ7m8Pxl1vIYRY+3BwNdEuO3Ardk/IKdvygecS6csFpsvphVYX2WyCb5Mbks+eo+mxY7Fse+Q8VwXrDJkTH1cpHUWD0hSgBUADw48EWYcPNAvkMfTCOANWy2vTo1TpMHfEAdzsL6pt1fvkk/86REmYB/jR4bNttboeLgRgs5R4vKI6BsnexQX7csTUtN2BJayolW/YW6/JIanrQAdm7vJABeTb444ictlpDJNFGapq8Q64ZDuVdr5cJEhHgARUJwWsmy1hViaHfIj4ahpOzBgow9+JbvhRenJhIYaqGNv/7vqO9tU0h+p+TxS7WyvpAVCttuwK7w2OOyoCfGDIL5uakJgfUjuf/mh0ihNySwIoqIYvS3bdeWo2xdMXd6lC9FP+zy/NhjBOpmyJDHDOJpy6MWmswHBSllmk="
+
+[http]
+  domain = "localhost"
+  port = 3000
+  ssl = false
+
+[database]
+  adapter = "postgres"
+  host = "localhost"
+  port = 5432
+  name = "itpkg_reading_dev"
+  user = "postgres"
+  password = ""
+  [database.extra]
+    sslmode = "disable"
+
+[redis]
+  host = "localhost"
+  port = 6379
+  db = 1
+
+[elastic_search]
+  host = "localhost"
+  port = 9300
+  index = "reading_dev"

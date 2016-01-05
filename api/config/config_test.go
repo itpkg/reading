@@ -10,6 +10,7 @@ import (
 func TestHttp(t *testing.T) {
 	models := map[string]interface{}{
 		"development": &config.Model{
+			SecretsS: random(),
 			Redis: &config.Redis{
 				Host: "localhost",
 				Port: 6379,
@@ -29,12 +30,12 @@ func TestHttp(t *testing.T) {
 				Index: "reading_dev",
 			},
 			Http: &config.Http{
-				Domain:  "localhost",
-				Port:    3000,
-				Secrets: random(),
+				Domain: "localhost",
+				Port:   3000,
 			},
 		},
 		"production": &config.Model{
+			SecretsS: random(),
 			Redis: &config.Redis{
 				Host: "localhost",
 				Port: 6379,
@@ -54,12 +55,12 @@ func TestHttp(t *testing.T) {
 				Index: "reading_prod",
 			},
 			Http: &config.Http{
-				Domain:  "change-me",
-				Port:    3000,
-				Secrets: random(),
+				Domain: "change-me",
+				Port:   3000,
 			},
 		},
 		"test": &config.Model{
+			SecretsS: random(),
 			Redis: &config.Redis{
 				Host: "localhost",
 				Port: 6379,
@@ -79,9 +80,8 @@ func TestHttp(t *testing.T) {
 				Index: "reading_test",
 			},
 			Http: &config.Http{
-				Domain:  "localhost",
-				Port:    3000,
-				Secrets: random(),
+				Domain: "localhost",
+				Port:   3000,
 			},
 		},
 	}
