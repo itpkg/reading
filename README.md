@@ -31,7 +31,10 @@ I love reading.
     service postgresql restart
 
 ### Start
-    go run app.go s
+    cd $GOPATH/src/github.com/itpkg/reading/api
+    go run app.go server
+    
+    cd $GOPATH/src/github.com/itpkg/reading/front
     npm run start
 
 ## Deployment
