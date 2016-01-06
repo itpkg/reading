@@ -4,6 +4,7 @@ import (
 	"crypto/cipher"
 	"fmt"
 
+	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/config"
 	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
@@ -51,12 +52,16 @@ func Init(env string) error {
 		return err
 	}
 	db.LogMode(!cfg.IsProduction())
+	//--------------cache
+	var cp cache.Provider
+	cp = &cache.RedisProvider{}
 
 	//------------
 	if err = In(
 		cfg,
 		db,
 		cfg.Redis.Open(),
+		cp,
 		render.New(render.Options{
 			IsDevelopment: !cfg.IsProduction(),
 		}),

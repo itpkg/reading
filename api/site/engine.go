@@ -1,6 +1,7 @@
 package site
 
 import (
+	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
@@ -19,6 +20,7 @@ type SiteEngine struct {
 	Dao    *Dao            `inject:""`
 	Logger *logging.Logger `inject:""`
 	Render *render.Render  `inject:""`
+	Cache  cache.Provider  `inject:""`
 }
 
 func (p *SiteEngine) Mount(rt core.Router) {

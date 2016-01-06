@@ -1,6 +1,7 @@
 package site
 
 import (
+	"bytes"
 	"fmt"
 	"net/http"
 
@@ -10,46 +11,58 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func (p *SiteEngine) sitemap(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
-	hds := make([]sitemap.Handler, 0)
-	core.Loop(func(en core.Engine) error {
-		hds = append(hds, en.Sitemap())
-		return nil
+func (p *SiteEngine) sitemap(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	p.CachePage(w, p.Cache, "sitemap.xml", "application/xml", 24*60, func() ([]byte, error) {
+		var buf bytes.Buffer
+		hds := make([]sitemap.Handler, 0)
+		core.Loop(func(en core.Engine) error {
+			hds = append(hds, en.Sitemap())
+			return nil
+		})
+		err := sitemap.Xml(&buf, hds...)
+		return buf.Bytes(), err
 	})
-	sitemap.Xml(w, hds...)
 }
 
 func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	lang := p.Locale(r)
-	hds := make([]rss.Handler, 0)
-	core.Loop(func(en core.Engine) error {
-		hds = append(hds, en.Rss())
-		return nil
+	p.CachePage(w, p.Cache, fmt.Sprintf("rss.%s.atom", lang), "application/xml", 6*60, func() ([]byte, error) {
+		var buf bytes.Buffer
+		hds := make([]rss.Handler, 0)
+		core.Loop(func(en core.Engine) error {
+			hds = append(hds, en.Rss())
+			return nil
+		})
+		err := rss.Xml(
+			&buf,
+			lang,
+			p.Dao.GetSiteInfo("title", lang),
+			p.Cfg.Home(),
+			p.Dao.GetSiteInfo("author.name", ""),
+			p.Dao.GetSiteInfo("author.email", ""),
+			hds...,
+		)
+		return buf.Bytes(), err
 	})
-	rss.Xml(
-		w,
-		lang,
-		p.Dao.GetSiteInfo("title", lang),
-		p.Cfg.Home(),
-		p.Dao.GetSiteInfo("author.name", ""),
-		p.Dao.GetSiteInfo("author.email", ""),
-		hds...,
-	)
 }
 
 func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	lang := p.Locale(r)
-	p.Render.JSON(w, http.StatusOK, map[string]interface{}{
-		"title":       p.Dao.GetSiteInfo("title", lang),
-		"subTitle":    p.Dao.GetSiteInfo("sub_title", lang),
-		"keywords":    p.Dao.GetSiteInfo("keywords", lang),
-		"description": p.Dao.GetSiteInfo("description", lang),
-		"author": map[string]string{
-			"email": p.Dao.GetSiteInfo("author.email", lang),
-			"name":  p.Dao.GetSiteInfo("author.name", lang),
-		},
-		"copyright": p.Dao.GetSiteInfo("copyright", lang),
+	p.CachePage(w, p.Cache, fmt.Sprintf("site.info.%s", lang), "application/json", 6*60, func() ([]byte, error) {
+		ifo := map[string]interface{}{
+			"title":       p.Dao.GetSiteInfo("title", lang),
+			"subTitle":    p.Dao.GetSiteInfo("sub_title", lang),
+			"keywords":    p.Dao.GetSiteInfo("keywords", lang),
+			"description": p.Dao.GetSiteInfo("description", lang),
+			"author": map[string]string{
+				"email": p.Dao.GetSiteInfo("author.email", lang),
+				"name":  p.Dao.GetSiteInfo("author.name", lang),
+			},
+			"copyright": p.Dao.GetSiteInfo("copyright", lang),
+		}
+		return core.ToJson(ifo)
 	})
+
 }
 
 func (p *SiteEngine) robots(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
