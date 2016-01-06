@@ -12,7 +12,7 @@ import (
 )
 
 func (p *SiteEngine) sitemap(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	p.CachePage(w, p.Cache, "sitemap.xml", "application/xml", 24*60, func() ([]byte, error) {
+	p.Cache.Page(w, r, "application/xml", 24*60, func() ([]byte, error) {
 		var buf bytes.Buffer
 		hds := make([]sitemap.Handler, 0)
 		core.Loop(func(en core.Engine) error {
@@ -26,7 +26,7 @@ func (p *SiteEngine) sitemap(w http.ResponseWriter, r *http.Request, _ httproute
 
 func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	lang := p.Locale(r)
-	p.CachePage(w, p.Cache, fmt.Sprintf("rss.%s.atom", lang), "application/xml", 6*60, func() ([]byte, error) {
+	p.Cache.Page(w, r, "application/xml", 6*60, func() ([]byte, error) {
 		var buf bytes.Buffer
 		hds := make([]rss.Handler, 0)
 		core.Loop(func(en core.Engine) error {
@@ -48,7 +48,7 @@ func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 
 func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	lang := p.Locale(r)
-	p.CachePage(w, p.Cache, fmt.Sprintf("site.info.%s", lang), "application/json", 6*60, func() ([]byte, error) {
+	p.Cache.Page(w, r, "application/json", 6*60, func() ([]byte, error) {
 		ifo := map[string]interface{}{
 			"title":       p.Dao.GetSiteInfo("title", lang),
 			"subTitle":    p.Dao.GetSiteInfo("sub_title", lang),

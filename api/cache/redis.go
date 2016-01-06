@@ -4,12 +4,33 @@ import (
 	"bytes"
 	"encoding/gob"
 	"fmt"
+	"net/http"
 
 	"github.com/garyburd/redigo/redis"
 )
 
 type RedisProvider struct {
 	Redis *redis.Pool `inject:""`
+}
+
+func (p *RedisProvider) Page(wrt http.ResponseWriter, req *http.Request, contentType string, minutes uint, callback func() ([]byte, error)) {
+	var body []byte
+	key := fmt.Sprintf("%s/%s", req.URL.Path, req.URL.Query().Get("locale"))
+	if err := p.Get(key, &body); err != nil {
+		if body, err = callback(); err != nil {
+			wrt.WriteHeader(http.StatusInternalServerError)
+			wrt.Write([]byte(err.Error()))
+			return
+		}
+		p.Set(key, body, minutes)
+
+		wrt.Header().Set("Content-Type", contentType)
+		wrt.WriteHeader(http.StatusOK)
+	} else {
+		wrt.Header().Set("Content-Type", contentType)
+		wrt.WriteHeader(http.StatusNotModified)
+	}
+	wrt.Write(body)
 }
 
 func (p *RedisProvider) key(k string) string {
