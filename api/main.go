@@ -1,21 +1,16 @@
 package main
 
 import (
-	"fmt"
-	"github.com/gorilla/mux"
-	"html"
-	"net/http"
+	"log"
+
+	_ "github.com/itpkg/reading/api/auth"
+	"github.com/itpkg/reading/api/core"
+	_ "github.com/itpkg/reading/api/site"
+	_ "github.com/lib/pq"
 )
 
-func Test1(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "vars, %v\n", mux.Vars(r))
-	fmt.Fprintf(w, "query, %v\n", r.URL.Query())
-	fmt.Fprintf(w, "Hello, %q", html.EscapeString(r.URL.Path))
-}
-
 func main() {
-	r := pat.New()
-	r.Get("/test1/{k}/{f}.{i}", Test1)
-
-	http.ListenAndServe(":8080", r)
+	if err := core.Run(); err != nil {
+		log.Fatalln(err)
+	}
 }

@@ -9,12 +9,18 @@ import (
 	"github.com/op/go-logging"
 )
 
+func Load(env string) (*config.Model, error) {
+	cfg := config.Model{Env: env}
+	err := FromToml(fmt.Sprintf("config/%s.toml", env), &cfg)
+	return &cfg, err
+}
+
 func Init(env string) error {
 	var err error
 
 	//--------config
-	var cfg = &config.Model{Env: env}
-	if err = FromToml(fmt.Sprintf("%s.toml", env), &cfg); err != nil {
+	var cfg *config.Model
+	if cfg, err = Load(env); err != nil {
 		return err
 	}
 
@@ -44,7 +50,7 @@ func Init(env string) error {
 	//------------
 
 	if err = In(
-		&cfg,
+		cfg,
 		cfg.Redis.Open(),
 		logger,
 	); err != nil {
