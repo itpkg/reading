@@ -4,15 +4,37 @@ import (
 	"fmt"
 	"net/http"
 
+	"github.com/itpkg/reading/api/core"
+	"github.com/itpkg/reading/api/rss"
+	"github.com/itpkg/reading/api/sitemap"
 	"github.com/julienschmidt/httprouter"
 )
 
 func (p *SiteEngine) sitemap(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
-	//todo
+	hds := make([]sitemap.Handler, 0)
+	core.Loop(func(en core.Engine) error {
+		hds = append(hds, en.Sitemap())
+		return nil
+	})
+	sitemap.Xml(w, hds...)
 }
 
-func (p *SiteEngine) rss(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
-	//todo
+func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	lang := p.Locale(r)
+	hds := make([]rss.Handler, 0)
+	core.Loop(func(en core.Engine) error {
+		hds = append(hds, en.Rss())
+		return nil
+	})
+	rss.Xml(
+		w,
+		lang,
+		p.Dao.GetSiteInfo("title", lang),
+		p.Cfg.Home(),
+		p.Dao.GetSiteInfo("author.name", ""),
+		p.Dao.GetSiteInfo("author.email", ""),
+		hds...,
+	)
 }
 
 func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {

@@ -1,6 +1,7 @@
 package site
 
 import (
+	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/sitemap"
@@ -13,6 +14,7 @@ import (
 type SiteEngine struct {
 	core.Controller
 
+	Cfg    *config.Model   `inject:""`
 	Db     *gorm.DB        `inject:""`
 	Dao    *Dao            `inject:""`
 	Logger *logging.Logger `inject:""`

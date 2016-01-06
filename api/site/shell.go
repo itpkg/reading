@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"strings"
 	"text/template"
 
 	"github.com/codegangsta/cli"
@@ -46,7 +47,8 @@ func (p *SiteEngine) Shell() []cli.Command {
 					return nil
 				})
 				for _, r := range rt.routes {
-					fmt.Printf("%s\t%s\t%v\n", r.method, r.path, core.FuncName(r.handle))
+					name := core.FuncName(r.handle)
+					fmt.Printf("%s\t%s\t%v\n", r.method, r.path, name[0:strings.Index(name, ")")+1])
 				}
 			},
 		},
