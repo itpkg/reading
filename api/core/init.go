@@ -7,6 +7,7 @@ import (
 	"github.com/itpkg/reading/api/config"
 	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
+	"github.com/unrolled/render"
 )
 
 func Load(env string) (*config.Model, error) {
@@ -56,6 +57,9 @@ func Init(env string) error {
 		cfg,
 		db,
 		cfg.Redis.Open(),
+		render.New(render.Options{
+			IsDevelopment: !cfg.IsProduction(),
+		}),
 		logger,
 	); err != nil {
 		return err
