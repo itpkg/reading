@@ -5,13 +5,12 @@ import (
 	"github.com/gorilla/pat"
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/sitemap"
-	"github.com/jinzhu/gorm"
 )
 
 type Engine interface {
 	Mount(*pat.Router)
-	Seed(*gorm.DB) error
-	Migrate(*gorm.DB) error
+	Seed()
+	Migrate()
 	Sitemap() sitemap.Handler
 	Rss() rss.Handler
 	Shell() []cli.Command

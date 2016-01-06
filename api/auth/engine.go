@@ -6,7 +6,6 @@ import (
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/sitemap"
-	"github.com/jinzhu/gorm"
 	"golang.org/x/tools/blog/atom"
 )
 
@@ -16,13 +15,11 @@ type AuthEngine struct {
 func (p *AuthEngine) Mount(*pat.Router) {
 	//todo
 }
-func (p *AuthEngine) Seed(*gorm.DB) error {
+func (p *AuthEngine) Seed() {
 	//todo
-	return nil
 }
-func (p *AuthEngine) Migrate(*gorm.DB) error {
+func (p *AuthEngine) Migrate() {
 	//todo
-	return nil
 
 }
 
