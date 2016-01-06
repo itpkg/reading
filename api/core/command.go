@@ -15,6 +15,7 @@ var ENV = cli.StringFlag{
 
 func Action(act func(env string) error) func(c *cli.Context) {
 	return func(c *cli.Context) {
+		log.Println("Begin...")
 		if e := act(c.String("environment")); e == nil {
 			log.Println("Done!!!")
 		} else {

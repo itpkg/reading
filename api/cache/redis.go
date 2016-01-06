@@ -73,3 +73,51 @@ func (p *RedisProvider) Get(key string, val interface{}) error {
 	buf.Write(bys)
 	return dec.Decode(val)
 }
+
+func (p *RedisProvider) Del(key string) error {
+	rc := p.Redis.Get()
+	defer rc.Close()
+	_, err := rc.Do("DEL", p.key(key))
+	return err
+}
+
+func (p *RedisProvider) Status() (map[string]int, error) {
+
+	rc := p.Redis.Get()
+	defer rc.Close()
+
+	status := make(map[string]int)
+
+	keys, err := redis.Strings(rc.Do("KEYS", p.key("*")))
+	if err == nil {
+		idx := len(p.key(""))
+		for _, k := range keys {
+			if ttl, err := redis.Int(rc.Do("TTL", k)); err == nil {
+				status[k[idx:]] = ttl
+			} else {
+				return nil, err
+			}
+		}
+		return status, nil
+	} else {
+		return nil, err
+	}
+}
+
+func (p *RedisProvider) Clear() error {
+
+	rc := p.Redis.Get()
+	defer rc.Close()
+
+	keys, err := redis.Strings(rc.Do("KEYS", p.key("*")))
+	if err != nil {
+		return err
+	}
+	for _, k := range keys {
+
+		if _, err = rc.Do("DEL", k); err != nil {
+			return err
+		}
+	}
+	return nil
+}

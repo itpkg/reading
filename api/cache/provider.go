@@ -9,4 +9,7 @@ type Provider interface {
 	Set(key string, val interface{}, minutes uint) error
 	Get(key string, val interface{}) error
 	Page(wrt http.ResponseWriter, req *http.Request, contentType string, minutes uint, callback func() ([]byte, error))
+	Del(key string) error
+	Status() (map[string]int, error)
+	Clear() error
 }

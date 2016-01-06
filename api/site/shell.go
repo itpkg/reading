@@ -8,8 +8,10 @@ import (
 	"text/template"
 
 	"github.com/codegangsta/cli"
+	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/core"
 	"github.com/julienschmidt/httprouter"
+	"log"
 )
 
 func (p *SiteEngine) Shell() []cli.Command {
@@ -72,6 +74,71 @@ func (p *SiteEngine) Shell() []cli.Command {
 				}
 				return t.Execute(f, cfg.Http)
 			}),
+		},
+		{
+			Name:    "cache",
+			Aliases: []string{"c"},
+			Usage:   "cache operations",
+			Subcommands: []cli.Command{
+				{
+					Name:    "remove",
+					Aliases: []string{"r"},
+					Usage:   "remove cache item by key",
+					Flags: []cli.Flag{
+						core.ENV,
+						cli.StringFlag{
+							Name:  "key, k",
+							Value: "",
+							Usage: "key of cache item",
+						},
+					},
+					Action: func(c *cli.Context) {
+						cfg, err := core.Load(c.String("environment"))
+						if err != nil {
+							log.Fatalln(err)
+						}
+						cp := cache.RedisProvider{Redis: cfg.Redis.Open()}
+						if err = cp.Del(c.String("key")); err != nil {
+							log.Fatalln(err)
+						}
+					},
+				},
+				{
+					Name:    "list",
+					Aliases: []string{"l"},
+					Usage:   "list all cache keys",
+					Flags:   []cli.Flag{core.ENV},
+					Action: core.Action(func(env string) error {
+						cfg, err := core.Load(env)
+						if err != nil {
+							return err
+						}
+						cp := cache.RedisProvider{Redis: cfg.Redis.Open()}
+						keys, err := cp.Status()
+						if err == nil {
+							fmt.Println("TTL\tKEY")
+							for k, t := range keys {
+								fmt.Printf("%d\t%s\n", t, k)
+							}
+						}
+						return err
+					}),
+				},
+				{
+					Name:    "clear",
+					Aliases: []string{"c"},
+					Usage:   "clear all cache items",
+					Flags:   []cli.Flag{core.ENV},
+					Action: core.Action(func(env string) error {
+						cfg, err := core.Load(env)
+						if err != nil {
+							return err
+						}
+						cp := cache.RedisProvider{Redis: cfg.Redis.Open()}
+						return cp.Clear()
+					}),
+				},
+			},
 		},
 		{
 			Name:    "database",
