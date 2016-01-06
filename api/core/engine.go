@@ -2,14 +2,13 @@ package core
 
 import (
 	"github.com/codegangsta/cli"
-	"github.com/gorilla/pat"
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/sitemap"
 )
 
 type Engine interface {
-	Mount(*pat.Router)
-	Seed()
+	Mount(Router)
+	Seed() error
 	Migrate()
 	Sitemap() sitemap.Handler
 	Rss() rss.Handler

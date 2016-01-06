@@ -1,11 +1,13 @@
 package site
 
 import (
-	"github.com/gorilla/pat"
+	"net/http"
+
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/sitemap"
 	"github.com/jinzhu/gorm"
+	"github.com/julienschmidt/httprouter"
 	"github.com/op/go-logging"
 	"golang.org/x/tools/blog/atom"
 )
@@ -16,12 +18,28 @@ type SiteEngine struct {
 	Logger *logging.Logger `inject:""`
 }
 
-func (p *SiteEngine) Mount(*pat.Router) {
+func (p *SiteEngine) Mount(rt core.Router) {
+	rt.GET("/baidu_:id", func(http.ResponseWriter, *http.Request, httprouter.Params) {
+		//todo
+	})
+	rt.GET("/google_:id", func(http.ResponseWriter, *http.Request, httprouter.Params) {
+		//todo
+	})
+	rt.GET("/rss.atom", func(http.ResponseWriter, *http.Request, httprouter.Params) {
+		//todo
+	})
+	rt.GET("/sitemap.xml", func(http.ResponseWriter, *http.Request, httprouter.Params) {
+		//todo
+	})
+	rt.GET("/robots.txt", func(http.ResponseWriter, *http.Request, httprouter.Params) {
+		//todo
+	})
 }
 
 //=========================================================
-func (p *SiteEngine) Seed() {
+func (p *SiteEngine) Seed() error {
 	//todo
+	return nil
 
 }
 

@@ -7,8 +7,8 @@ import (
 	"text/template"
 
 	"github.com/codegangsta/cli"
-	"github.com/gorilla/pat"
 	"github.com/itpkg/reading/api/core"
+	"github.com/julienschmidt/httprouter"
 )
 
 func (p *SiteEngine) Shell() []cli.Command {
@@ -26,13 +26,29 @@ func (p *SiteEngine) Shell() []cli.Command {
 				if err != nil {
 					return err
 				}
-				router := pat.New()
+				rt := httprouter.New()
 				core.Loop(func(en core.Engine) error {
-					en.Mount(router)
+					en.Mount(rt)
 					return nil
 				})
-				return http.ListenAndServe(fmt.Sprintf(":%d", cfg.Http.Port), router)
+				return http.ListenAndServe(fmt.Sprintf(":%d", cfg.Http.Port), rt)
 			}),
+		},
+		{
+			Name:    "routers",
+			Aliases: []string{"ro"},
+			Usage:   "print out all defined routes in match order, with names",
+			Flags:   []cli.Flag{core.ENV},
+			Action: func(c *cli.Context) {
+				rt := router{routes: make([]*route, 0)}
+				core.Loop(func(en core.Engine) error {
+					en.Mount(&rt)
+					return nil
+				})
+				for _, r := range rt.routes {
+					fmt.Printf("%s\t%s\t%v\n", r.method, r.path, core.FuncName(r.handle))
+				}
+			},
 		},
 		{
 			Name:    "nginx",
@@ -116,8 +132,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 							return err
 						}
 						return core.Loop(func(en core.Engine) error {
-							en.Seed()
-							return nil
+							return en.Seed()
 						})
 					}),
 				},
