@@ -19,6 +19,19 @@ module.exports = function(environment) {
     }
   };
 
+  ENV['ember-simple-auth'] = {
+    authorizer: 'authorizer:token'
+  };
+
+  ENV['ember-simple-auth-token'] = {
+    serverTokenEndpoint: '/api/token-auth/',
+    identificationField: 'identification',
+    passwordField: 'password',
+    refreshAccessTokens: true,
+    timeFactor: 1,
+    refreshLeeway: 300
+  };
+
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
     // ENV.APP.LOG_ACTIVE_GENERATION = true;
@@ -40,7 +53,9 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV['ember-cli-mirage'] = {
+      enabled: false
+    }
   }
 
   return ENV;
