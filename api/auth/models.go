@@ -11,48 +11,20 @@ import (
 type User struct {
 	core.Model
 
-	Email        string `sql:"not null;unique"`
-	Password     string
+	Email        string `sql:"not null;index:idx_users_email"`
 	Uid          string `sql:"not null;unique;type:char(36)"`
+	Home         string `sql:"not null"`
 	Logo         string `sql:"not null"`
 	Name         string `sql:"not null"`
-	ProviderType string `sql:"not null;default:'email';index:idx_users_provider_type"`
-	ProviderId   string
-	LastSignIn   time.Time `sql:"not null"`
-	SignInCount  uint      `sql:"not null;default:0"`
+	ProviderType string `sql:"not null;default:'unknown';index:idx_users_provider_type"`
+	ProviderId   string `sql:"not null;index:idx_users_provider_id"`
 
-	ConfirmedAt *time.Time
-	LockedAt    *time.Time
+	LastSignIn  time.Time `sql:"not null"`
+	SignInCount uint      `sql:"not null;default:0"`
 }
 
 func (p *User) SetGravatar() {
 	p.Logo = fmt.Sprintf("https://gravatar.com/avatar/%s.png", core.Md5([]byte(strings.ToLower(p.Email))))
-}
-
-func (p *User) IsLocked() bool {
-	return p.LockedAt != nil
-}
-func (p *User) IsConfirmed() bool {
-	return p.ConfirmedAt != nil
-}
-
-type Contact struct {
-	core.Model
-	UserID uint `sql:"not null"`
-	User   User
-
-	Email    string
-	Qq       string
-	Wechat   string
-	Weibo    string
-	Facebook string
-	Blog     string
-
-	Tel     string
-	Fax     string
-	Address string
-
-	Profile string `sql:"type:text"`
 }
 
 type Log struct {

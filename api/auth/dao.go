@@ -15,66 +15,50 @@ func (p *Dao) Log(user uint, message string) error {
 	return p.Db.Create(&Log{UserID: user, Message: message}).Error
 }
 
-func (p *Dao) ConfirmUser(id uint) error {
-	return p.Db.Model(&User{}).Where("id = ?", id).UpdateColumn("confirmed_at", time.Now()).Error
-}
-
-func (p *Dao) SetUserSignIn(u *User) error {
-	return p.Db.Model(&User{}).Where("id = ?", u.ID).UpdateColumns(map[string]interface{}{
-		"last_sign_in":  time.Now(),
-		"sign_in_count": u.SignInCount + 1,
-	}).Error
-}
-
-func (p *Dao) SetUserPassword(id uint, password string) error {
-	passwd, err := core.Ssha512([]byte(password), 8)
-	if err != nil {
-		return err
-	}
-	return p.Db.Model(&User{}).Where("id = ?", id).UpdateColumn("password", passwd).Error
-}
-
-func (p *Dao) LockUser(id uint, flag bool) error {
-	var t *time.Time
-	if flag {
-		n := time.Now()
-		t = &n
+func (p *Dao) SaveUser(pty, pid, email, name, home, logo string) (*User, error) {
+	db := p.Db
+	user := User{}
+	var err error
+	if db.Where("provider_id = ? AND provider_type = ?", pid, pty).First(&user).RecordNotFound() {
+		user = User{
+			Name:         name,
+			Email:        email,
+			Home:         home,
+			Logo:         logo,
+			Uid:          core.Uuid(),
+			ProviderId:   pid,
+			ProviderType: pty,
+			LastSignIn:   time.Now(),
+			SignInCount:  1,
+		}
+		err = p.Db.Create(&user).Error
 	} else {
-		t = nil
+		err = db.Model(&user).UpdateColumns(map[string]interface{}{
+			"name":          name,
+			"email":         email,
+			"home":          home,
+			"logo":          logo,
+			"last_sign_in":  time.Now(),
+			"sign_in_count": user.SignInCount + 1,
+		}).Error
 	}
-	return p.Db.Model(&User{}).Where("id = ?", id).UpdateColumn("locked_at", t).Error
+	return &user, err
 }
 
-func (p *Dao) NewEmailUser(name, email, password string) (*User, error) {
-	passwd, err := core.Ssha512([]byte(password), 8)
-	if err != nil {
-		return nil, err
-	}
+func (p *Dao) GetRole(name string, resource_type string, resource_id uint) (*Role, error) {
+	var e error
+	r := Role{}
+	db := p.Db
+	if db.Where("name = ? AND resource_type = ? AND resource_id = ?", name, resource_type, resource_id).First(&r).RecordNotFound() {
+		r = Role{
+			Name:         name,
+			ResourceType: resource_type,
+			ResourceId:   resource_id,
+		}
+		e = db.Create(&r).Error
 
-	u := User{
-		Name:       name,
-		Email:      email,
-		Password:   passwd,
-		Uid:        core.Uuid(),
-		ProviderId: email,
 	}
-	u.SetGravatar()
-	if err = p.Db.Create(&u).Error; err != nil {
-		return nil, err
-	}
-	return &u, nil
-}
-
-func (p *Dao) NewRole(name string, resource_type string, resource_id uint) (*Role, error) {
-	r := Role{
-		Name:         name,
-		ResourceType: resource_type,
-		ResourceId:   resource_id,
-	}
-	if err := p.Db.Create(&r).Error; err != nil {
-		return nil, err
-	}
-	return &r, nil
+	return &r, e
 }
 
 func (p *Dao) Apply(role uint, user uint, dur time.Duration) error {

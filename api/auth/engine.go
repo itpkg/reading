@@ -3,6 +3,7 @@ package auth
 import (
 	"encoding/json"
 	"os"
+	"time"
 
 	"github.com/codegangsta/cli"
 	"github.com/itpkg/reading/api/config"
@@ -38,7 +39,32 @@ func (p *AuthEngine) loadGoogleOauthConf() (*GoogleConf, error) {
 	}
 	return &cfg, nil
 }
+func (p *AuthEngine) initRoles() error {
 
+	db := p.Db
+	var count int
+	db.Model(Role{}).Count(&count)
+	if count == 0 {
+		dur := 24 * 365 * 10 * time.Hour
+
+		var rootR *Role
+		var adminR *Role
+		var err error
+		if rootR, err = p.Dao.GetRole("root", "-", 0); err != nil {
+			return err
+		}
+		if err = p.Dao.Apply(rootR.ID, 1, dur); err != nil {
+			return err
+		}
+		if adminR, err = p.Dao.GetRole("admin", "-", 0); err != nil {
+			return err
+		}
+		if err = p.Dao.Apply(adminR.ID, 1, dur); err != nil {
+			return err
+		}
+	}
+	return nil
+}
 func (p *AuthEngine) Seed() error {
 	if gcf, err := p.loadGoogleOauthConf(); err == nil {
 		if err := p.SiteDao.Set("google.oauth", gcf, true); err != nil {
@@ -48,45 +74,12 @@ func (p *AuthEngine) Seed() error {
 		return err
 	}
 
-	return nil
-
-	//	var count int
-	//	p.Db.Model(User{}).Count(&count)
-	//	if count == 0 {
-	//		var root *User
-	//		var adminR *Role
-	//		var rootR *Role
-	//		var err error
-	//		if root, err = p.Dao.NewEmailUser("root", fmt.Sprintf("root@%s", p.Cfg.Http.Domain), "changeme"); err != nil {
-	//			return err
-	//		}
-	//
-	//		dur := 24 * 365 * 10 * time.Hour
-	//
-	//		if err = p.Dao.ConfirmUser(root.ID); err != nil {
-	//			return err
-	//		}
-	//		if rootR, err = p.Dao.NewRole("root", "-", 0); err != nil {
-	//			return err
-	//		}
-	//		if err = p.Dao.Apply(rootR.ID, root.ID, dur); err != nil {
-	//			return err
-	//		}
-	//		if adminR, err = p.Dao.NewRole("admin", "-", 0); err != nil {
-	//			return err
-	//		}
-	//		if err = p.Dao.Apply(adminR.ID, root.ID, dur); err != nil {
-	//			return err
-	//		}
-	//
-	//	}
-	//	return nil
-
+	return p.initRoles()
 }
 
 func (p *AuthEngine) Migrate() {
 	db := p.Db
-	db.AutoMigrate(&User{}, &Contact{}, &Role{}, &Permission{}, &Log{})
+	db.AutoMigrate(&User{}, &Role{}, &Permission{}, &Log{})
 	db.Model(&User{}).AddUniqueIndex("idx_user_provider_type_id", "provider_type", "provider_id")
 	db.Model(&Role{}).AddUniqueIndex("idx_roles_name_resource_type_id", "name", "resource_type", "resource_id")
 	db.Model(&Permission{}).AddUniqueIndex("idx_permissions_user_role", "user_id", "role_id")

@@ -1,6 +1,7 @@
 package auth
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/itpkg/reading/api/core"
@@ -20,7 +21,25 @@ func (p *AuthEngine) googleCallback(w http.ResponseWriter, r *http.Request, _ ht
 		p.Abort(w, e2)
 		return
 	}
-	w.Write(buf)
+	info := make(map[string]interface{})
+	if err := json.Unmarshal(buf, &info); err != nil {
+		p.Abort(w, err)
+		return
+	}
+
+	user, err := p.Dao.SaveUser(
+		"google",
+		info["id"].(string),
+		info["email"].(string),
+		info["name"].(string),
+		info["link"].(string),
+		info["picture"].(string),
+	)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+	p.Render.JSON(w, http.StatusOK, user)
 }
 
 func (p *AuthEngine) googleSignIn(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
