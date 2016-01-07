@@ -42,11 +42,11 @@ func (p *Dao) Set(key string, val interface{}, flag bool) error {
 	}
 
 	var c int
-	p.Db.Where("key = ?", key).Count(&c)
+	p.Db.Model(Setting{}).Where("key = ?", key).Count(&c)
 	if c == 0 {
 		return p.Db.Create(&s).Error
 	} else {
-		return p.Db.Model(&Setting{}).Where("key = ?", key).UpdateColumn(val, s.Val).Error
+		return p.Db.Model(&Setting{}).Where("key = ?", key).UpdateColumns(map[string]interface{}{"val": s.Val}).Error
 	}
 
 }

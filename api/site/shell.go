@@ -64,11 +64,12 @@ func (p *SiteEngine) Shell() []cli.Command {
 				if e1 != nil {
 					return e1
 				}
-				t, e2 := template.ParseFiles("views/nginx.conf")
+				t, e2 := template.ParseFiles("templates/nginx.conf")
 				if e2 != nil {
 					return e2
 				}
 				f, e3 := os.OpenFile("config/nginx.conf", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+				defer f.Close()
 				if e3 != nil {
 					return e3
 				}
