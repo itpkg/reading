@@ -22,11 +22,10 @@ func (p *AuthEngine) Shell() []cli.Command {
 				if err != nil {
 					return err
 				}
-				db, err := cfg.Database.Open()
+				db, err := cfg.OpenDatabase()
 				if err != nil {
 					return err
 				}
-				db.LogMode(!cfg.IsProduction())
 				dao := Dao{Db: db}
 				fmt.Println("UID USER")
 				for _, u := range dao.ListUser() {
@@ -68,12 +67,10 @@ func (p *AuthEngine) Shell() []cli.Command {
 				if err != nil {
 					log.Fatalln(err)
 				}
-				db, err := cfg.Database.Open()
-				db.LogMode(!cfg.IsProduction())
+				db, err := cfg.OpenDatabase()
 				if err != nil {
 					log.Fatalln(err)
 				}
-				db.LogMode(true)
 				dao := Dao{Db: db}
 				role, err := dao.Role(r, "-", 0)
 				if err != nil {

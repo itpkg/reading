@@ -26,8 +26,8 @@ func TestHttp(t *testing.T) {
 			},
 			ElasticSearch: &config.ElasticSearch{
 				Host:  "localhost",
-				Port:  9300,
-				Index: "reading_dev",
+				Port:  9200,
+				Index: "itpkg_reading_dev",
 			},
 			Http: &config.Http{
 				Domain: "localhost",
@@ -51,8 +51,8 @@ func TestHttp(t *testing.T) {
 			},
 			ElasticSearch: &config.ElasticSearch{
 				Host:  "localhost",
-				Port:  9300,
-				Index: "reading_prod",
+				Port:  9200,
+				Index: "itpkg_reading_prod",
 			},
 			Http: &config.Http{
 				Domain: "change-me",
@@ -76,8 +76,8 @@ func TestHttp(t *testing.T) {
 			},
 			ElasticSearch: &config.ElasticSearch{
 				Host:  "localhost",
-				Port:  9300,
-				Index: "reading_test",
+				Port:  9200,
+				Index: "itpkg_reading_test",
 			},
 			Http: &config.Http{
 				Domain: "localhost",

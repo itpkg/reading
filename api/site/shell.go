@@ -102,7 +102,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 						if err != nil {
 							log.Fatalln(err)
 						}
-						cp := cache.RedisProvider{Redis: cfg.Redis.Open()}
+						cp := cache.RedisProvider{Redis: cfg.OpenRedis()}
 						if err = cp.Del(key); err != nil {
 							log.Fatalln(err)
 						}
@@ -118,7 +118,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 						if err != nil {
 							return err
 						}
-						cp := cache.RedisProvider{Redis: cfg.Redis.Open()}
+						cp := cache.RedisProvider{Redis: cfg.OpenRedis()}
 						keys, err := cp.Status()
 						if err == nil {
 							fmt.Println("TTL\tKEY")
@@ -139,7 +139,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 						if err != nil {
 							return err
 						}
-						cp := cache.RedisProvider{Redis: cfg.Redis.Open()}
+						cp := cache.RedisProvider{Redis: cfg.OpenRedis()}
 						return cp.Clear()
 					}),
 				},

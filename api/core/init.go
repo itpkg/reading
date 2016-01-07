@@ -49,20 +49,25 @@ func Init(env string) error {
 
 	//--------------database
 	var db *gorm.DB
-	if db, err = cfg.Database.Open(); err != nil {
+	if db, err = cfg.OpenDatabase(); err != nil {
 		return err
 	}
-	db.LogMode(!cfg.IsProduction())
 	//--------------cache
 	var cp cache.Provider
 	cp = &cache.RedisProvider{}
+	//--------------elacsic search
+	esc, err := cfg.OpenElasic()
+	if err != nil {
+		return err
+	}
 
 	//------------
 	if err = In(
 		cfg,
 		db,
-		cfg.Redis.Open(),
+		cfg.OpenRedis(),
 		cp,
+		esc,
 		&token.RedisProvider{},
 		render.New(render.Options{
 			IsDevelopment: !cfg.IsProduction(),
