@@ -45,36 +45,48 @@ func (p *Model) OpenElasic() (*elastic.Client, error) {
 	if p.IsProduction() {
 		client, err = elastic.NewClient(elastic.SetURL(p.ElasticSearch.Url()))
 	} else {
-
+		//		file, err := os.OpenFile("tmp/elastic.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0600)
+		//		if err!=nil{
+		//			return nil, err
+		//		}
 		client, err = elastic.NewClient(
 			elastic.SetURL(p.ElasticSearch.Url()),
-			elastic.SetErrorLog(log.New(os.Stderr, "ELASTIC ", log.LstdFlags)),
+			elastic.SetErrorLog(log.New(os.Stderr, "", log.LstdFlags)),
 			elastic.SetInfoLog(log.New(os.Stdout, "", log.LstdFlags)),
+			elastic.SetTraceLog(log.New(os.Stdout, "", log.LstdFlags)),
 		)
 	}
 
-	if err != nil {
-		return nil, err
-	}
-	exists, err := client.IndexExists(p.ElasticSearch.Index).Do()
-	if err != nil {
-		return nil, err
-	}
-	if !exists {
-		if _, err := client.CreateIndex(p.ElasticSearch.Index).BodyString(
-			`
-{
-	"settings":{
-		"number_of_shards":1,
-		"number_of_replicas":0
-	},
-	"mappings":{}
-}
-			`,
-		).Do(); err != nil {
+	/*
+		if err != nil {
 			return nil, err
 		}
-	}
+
+		if _, _, err := client.Ping().Do();err!=nil{
+			return nil, err
+		}
+	*/
+	/*
+			exists, err := client.IndexExists(p.ElasticSearch.Index).Do()
+			if err != nil {
+				return nil, err
+			}
+			if !exists {
+				if _, err := client.CreateIndex(p.ElasticSearch.Index).BodyString(
+					`
+		{
+			"settings":{
+				"number_of_shards":1,
+				"number_of_replicas":0
+			},
+			"mappings":{}
+		}
+					`,
+				).Do(); err != nil {
+					return nil, err
+				}
+			}
+	*/
 	return client, err
 }
 

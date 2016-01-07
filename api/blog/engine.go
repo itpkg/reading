@@ -2,13 +2,21 @@ package blog
 
 import (
 	"github.com/codegangsta/cli"
+	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/sitemap"
+	"github.com/op/go-logging"
+	"github.com/unrolled/render"
 	"golang.org/x/tools/blog/atom"
 )
 
 type BlogEngine struct {
+	Render *render.Render `inject:""`
+
+	Dao    *Dao            `inject:""`
+	Logger *logging.Logger `inject:""`
+	Cache  cache.Provider  `inject:""`
 }
 
 func (p *BlogEngine) Seed() error {
