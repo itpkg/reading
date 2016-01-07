@@ -13,10 +13,10 @@ var ENV = cli.StringFlag{
 	EnvVar: "ITPKG_ENV",
 }
 
-func Action(act func(env string) error) func(c *cli.Context) {
+func EnvAction(act func(env string, c *cli.Context) error) func(c *cli.Context) {
 	return func(c *cli.Context) {
 		log.Println("Begin...")
-		if e := act(c.String("environment")); e == nil {
+		if e := act(c.String("environment"), c); e == nil {
 			log.Println("Done!!!")
 		} else {
 			log.Fatalln(e)

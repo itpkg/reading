@@ -14,7 +14,7 @@ func TestElacsicSearch(t *testing.T) {
 			Index: "test",
 		},
 	}
-	_, err := cfg.OpenElasic()
+	_, err := cfg.OpenElastic()
 	if err != nil {
 		t.Errorf("bad in open elacsicsearch: %v", err)
 	}

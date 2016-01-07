@@ -1,39 +1,29 @@
-package core
+package site
 
 import (
 	"crypto/cipher"
-	"fmt"
 
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/config"
+	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/token"
 	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
 	"github.com/unrolled/render"
 )
 
-func Load(env string) (*config.Model, error) {
-	cfg := config.Model{Env: env}
-	if err := FromToml(fmt.Sprintf("config/%s.toml", env), &cfg); err == nil {
-		cfg.Secrets, err = FromBase64(cfg.SecretsS)
-		return &cfg, err
-	} else {
-		return nil, err
-	}
-}
-
 func Init(env string) error {
 	var err error
 
 	//--------config
 	var cfg *config.Model
-	if cfg, err = Load(env); err != nil {
+	if cfg, err = config.Load(env); err != nil {
 		return err
 	}
 
 	//-----------------aes
 	var cip cipher.Block
-	if cip, err = NewAesCipher(cfg.Secrets[60:92]); err != nil {
+	if cip, err = core.NewAesCipher(cfg.Secrets[60:92]); err != nil {
 		return err
 	}
 
@@ -56,13 +46,13 @@ func Init(env string) error {
 	var cp cache.Provider
 	cp = &cache.RedisProvider{}
 	//--------------elacsic search
-	esc, err := cfg.OpenElasic()
+	esc, err := cfg.OpenElastic()
 	if err != nil {
 		return err
 	}
 
 	//------------
-	if err = In(
+	if err = core.In(
 		cfg,
 		db,
 		cfg.OpenRedis(),
@@ -76,16 +66,16 @@ func Init(env string) error {
 	); err != nil {
 		return err
 	}
-	if err = Use(map[string]interface{}{
+	if err = core.Use(map[string]interface{}{
 		"aes.cipher": cip,
 	}); err != nil {
 		return err
 	}
-	if err = Loop(func(en Engine) error {
-		return In(en)
+	if err = core.Loop(func(en core.Engine) error {
+		return core.In(en)
 	}); err != nil {
 		return err
 	}
 
-	return Check()
+	return core.Check()
 }

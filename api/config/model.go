@@ -38,7 +38,7 @@ func (p *Model) Home() string {
 	}
 }
 
-func (p *Model) OpenElasic() (*elastic.Client, error) {
+func (p *Model) OpenElastic() (*elastic.Client, error) {
 	var err error
 	var client *elastic.Client
 

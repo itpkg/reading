@@ -1,4 +1,4 @@
-package blog
+package assets
 
 import (
 	"encoding/json"
@@ -14,7 +14,7 @@ type Dao struct {
 	Cfg    *config.Model   `inject:""`
 }
 
-const TYPE = "blog"
+const TYPE = "assets"
 
 func (p *Dao) Del(title string) error {
 	_, err := p.Client.Delete().
@@ -37,7 +37,12 @@ func (p *Dao) Del(title string) error {
 //}
 
 func (p *Dao) List(type_ string, from, size int) (int64, []*Item, error) {
-	q := elastic.NewMatchQuery("type", type_) //todo fix bugs
+	var q elastic.Query
+	if type_ == "" {
+		q = elastic.NewMatchAllQuery()
+	} else {
+		q = elastic.NewMatchQuery("type", type_) //fixme
+	}
 
 	r, e := p.Client.Search().
 		Index(p.Cfg.ElasticSearch.Index).

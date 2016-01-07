@@ -1,4 +1,4 @@
-package blog
+package assets
 
 import (
 	"github.com/itpkg/reading/api/core"

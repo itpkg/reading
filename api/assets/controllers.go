@@ -1,4 +1,4 @@
-package blog
+package assets
 
 import (
 	"github.com/itpkg/reading/api/core"
@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func (p *BlogEngine) index(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (p *AssetsEngine) index(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	pager := core.NewPager(20)
 	_, from, size := pager.Parse(r)
 	total, items, err := p.Dao.List("text/html", from, size)
@@ -22,7 +22,7 @@ func (p *BlogEngine) index(w http.ResponseWriter, r *http.Request, ps httprouter
 	}
 }
 
-func (p *BlogEngine) show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (p *AssetsEngine) show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	it := Item{Title: ps.ByName("title")}
 	if item, err := p.Dao.Get(it.Id()); err == nil {
 		p.Render.JSON(w, http.StatusOK, item)
@@ -31,7 +31,7 @@ func (p *BlogEngine) show(w http.ResponseWriter, r *http.Request, ps httprouter.
 	}
 }
 
-func (p *BlogEngine) Mount(rt core.Router) {
-	rt.GET("/blog/*title", p.show)
-	rt.GET("/blog", p.index)
+func (p *AssetsEngine) Mount(rt core.Router) {
+	rt.GET("/assets/*title", p.show)
+	rt.GET("/assets", p.index)
 }

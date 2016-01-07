@@ -1,10 +1,10 @@
-package blog_test
+package assets_test
 
 import (
 	"fmt"
 	"testing"
 
-	"github.com/itpkg/reading/api/blog"
+	"github.com/itpkg/reading/api/assets"
 	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
 )
@@ -17,11 +17,11 @@ func TestDao(t *testing.T) {
 			Index: "test",
 		},
 	}
-	c, e := cfg.OpenElasic()
+	c, e := cfg.OpenElastic()
 	if e != nil {
 		t.Logf("error on open: %v", e)
 	}
-	dao := blog.Dao{Client: c, Cfg: &cfg}
+	dao := assets.Dao{Client: c, Cfg: &cfg}
 	ty := "text/plain"
 
 	title := "ttt"
@@ -51,7 +51,7 @@ func TestDao(t *testing.T) {
 	for i := 1; i < 10; i++ {
 		dao.Set(ty, fmt.Sprintf("title / %d", i), fmt.Sprintf("body %d", i))
 	}
-	total, ids, err := dao.List(ty+"111", 1, 5)
+	total, ids, err := dao.List(ty+"111", 0, 5)
 	if err != nil {
 		t.Errorf("bad in list: %v", err)
 

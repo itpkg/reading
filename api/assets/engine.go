@@ -1,7 +1,6 @@
-package blog
+package assets
 
 import (
-	"github.com/codegangsta/cli"
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
@@ -11,7 +10,7 @@ import (
 	"golang.org/x/tools/blog/atom"
 )
 
-type BlogEngine struct {
+type AssetsEngine struct {
 	core.Controller
 
 	Render *render.Render  `inject:""`
@@ -20,29 +19,25 @@ type BlogEngine struct {
 	Cache  cache.Provider  `inject:""`
 }
 
-func (p *BlogEngine) Seed() error {
+func (p *AssetsEngine) Seed() error {
 	return nil
 }
 
-func (p *BlogEngine) Migrate() {
+func (p *AssetsEngine) Migrate() {
 
 }
 
-func (p *BlogEngine) Sitemap() sitemap.Handler {
+func (p *AssetsEngine) Sitemap() sitemap.Handler {
 	return func() []*sitemap.Url {
 		return []*sitemap.Url{} //todo
 	}
 }
-func (p *BlogEngine) Rss() rss.Handler {
+func (p *AssetsEngine) Rss() rss.Handler {
 	return func(lang string) []*atom.Entry {
 		return []*atom.Entry{}
 	}
 }
 
-func (p *BlogEngine) Shell() []cli.Command {
-	return []cli.Command{}
-}
-
 func init() {
-	core.Register(&BlogEngine{})
+	core.Register(&AssetsEngine{})
 }

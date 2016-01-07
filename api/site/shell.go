@@ -1,6 +1,7 @@
 package site
 
 import (
+	"errors"
 	"fmt"
 	"net/http"
 	"os"
@@ -8,10 +9,11 @@ import (
 	"text/template"
 
 	"github.com/codegangsta/cli"
+	"github.com/garyburd/redigo/redis"
 	"github.com/itpkg/reading/api/cache"
+	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
 	"github.com/julienschmidt/httprouter"
-	"log"
 )
 
 func (p *SiteEngine) Shell() []cli.Command {
@@ -21,14 +23,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 			Aliases: []string{"s"},
 			Usage:   "start the web server",
 			Flags:   []cli.Flag{core.ENV},
-			Action: core.Action(func(env string) error {
-				if err := core.Init(env); err != nil {
-					return err
-				}
-				cfg, err := core.Load(env)
-				if err != nil {
-					return err
-				}
+			Action: config.ConfigAction(func(cfg *config.Model, _ *cli.Context) error {
 				rt := httprouter.New()
 				core.Loop(func(en core.Engine) error {
 					en.Mount(rt)
@@ -59,11 +54,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 			Aliases: []string{"n"},
 			Usage:   "generate nginx files",
 			Flags:   []cli.Flag{core.ENV},
-			Action: core.Action(func(env string) error {
-				cfg, e1 := core.Load(env)
-				if e1 != nil {
-					return e1
-				}
+			Action: config.ConfigAction(func(cfg *config.Model, ctx *cli.Context) error {
 				t, e2 := template.ParseFiles("templates/nginx.conf")
 				if e2 != nil {
 					return e2
@@ -93,40 +84,32 @@ func (p *SiteEngine) Shell() []cli.Command {
 							Usage: "key of cache item",
 						},
 					},
-					Action: func(c *cli.Context) {
-						key := c.String("key")
+					Action: config.RedisAction(func(rep *redis.Pool, ctx *cli.Context) error {
+						key := ctx.String("key")
 						if key == "" {
-							log.Fatalln("need key")
+							return errors.New("need a key")
 						}
-						cfg, err := core.Load(c.String("environment"))
-						if err != nil {
-							log.Fatalln(err)
-						}
-						cp := cache.RedisProvider{Redis: cfg.OpenRedis()}
-						if err = cp.Del(key); err != nil {
-							log.Fatalln(err)
-						}
-					},
+						cp := cache.RedisProvider{Redis: rep}
+						return cp.Del(key)
+					}),
 				},
 				{
 					Name:    "list",
 					Aliases: []string{"l"},
 					Usage:   "list all cache keys",
 					Flags:   []cli.Flag{core.ENV},
-					Action: core.Action(func(env string) error {
-						cfg, err := core.Load(env)
+					Action: config.RedisAction(func(rep *redis.Pool, ctx *cli.Context) error {
+						cp := cache.RedisProvider{Redis: rep}
+						keys, err := cp.Status()
 						if err != nil {
 							return err
 						}
-						cp := cache.RedisProvider{Redis: cfg.OpenRedis()}
-						keys, err := cp.Status()
-						if err == nil {
-							fmt.Println("TTL\tKEY")
-							for k, t := range keys {
-								fmt.Printf("%d\t%s\n", t, k)
-							}
+						fmt.Println("TTL\tKEY")
+						for k, t := range keys {
+							fmt.Printf("%d\t%s\n", t, k)
 						}
-						return err
+
+						return nil
 					}),
 				},
 				{
@@ -134,12 +117,8 @@ func (p *SiteEngine) Shell() []cli.Command {
 					Aliases: []string{"c"},
 					Usage:   "clear all cache items",
 					Flags:   []cli.Flag{core.ENV},
-					Action: core.Action(func(env string) error {
-						cfg, err := core.Load(env)
-						if err != nil {
-							return err
-						}
-						cp := cache.RedisProvider{Redis: cfg.OpenRedis()}
+					Action: config.RedisAction(func(rep *redis.Pool, ctx *cli.Context) error {
+						cp := cache.RedisProvider{Redis: rep}
 						return cp.Clear()
 					}),
 				},
@@ -155,12 +134,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 					Aliases: []string{"n"},
 					Usage:   "creates the database",
 					Flags:   []cli.Flag{core.ENV},
-					Action: core.Action(func(env string) error {
-						cfg, e := core.Load(env)
-						if e != nil {
-							return e
-						}
-
+					Action: config.ConfigAction(func(cfg *config.Model, ctx *cli.Context) error {
 						c, a := cfg.Database.Execute(fmt.Sprintf("CREATE DATABASE %s WITH ENCODING='UTF8'", cfg.Database.Name))
 						return core.Shell(c, a...)
 					}),
@@ -170,13 +144,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 					Aliases: []string{"c"},
 					Usage:   "start a console for the database",
 					Flags:   []cli.Flag{core.ENV},
-					Action: core.Action(func(env string) error {
-
-						cfg, e := core.Load(env)
-						if e != nil {
-							return e
-						}
-
+					Action: config.ConfigAction(func(cfg *config.Model, ctx *cli.Context) error {
 						c, a := cfg.Database.Console()
 						return core.Shell(c, a...)
 					}),
@@ -186,10 +154,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 					Aliases: []string{"m"},
 					Usage:   "migrate the database",
 					Flags:   []cli.Flag{core.ENV},
-					Action: core.Action(func(env string) error {
-						if err := core.Init(env); err != nil {
-							return err
-						}
+					Action: IocAction(func(*cli.Context) error {
 						return core.Loop(func(en core.Engine) error {
 							en.Migrate()
 							return nil
@@ -201,10 +166,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 					Aliases: []string{"s"},
 					Usage:   "load the seed data",
 					Flags:   []cli.Flag{core.ENV},
-					Action: core.Action(func(env string) error {
-						if err := core.Init(env); err != nil {
-							return err
-						}
+					Action: IocAction(func(*cli.Context) error {
 						return core.Loop(func(en core.Engine) error {
 							return en.Seed()
 						})
@@ -215,12 +177,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 					Aliases: []string{"d"},
 					Usage:   "drops the database",
 					Flags:   []cli.Flag{core.ENV},
-					Action: core.Action(func(env string) error {
-
-						cfg, err := core.Load(env)
-						if err != nil {
-							return err
-						}
+					Action: config.ConfigAction(func(cfg *config.Model, ctx *cli.Context) error {
 						c, a := cfg.Database.Execute(fmt.Sprintf("DROP DATABASE %s", cfg.Database.Name))
 						return core.Shell(c, a...)
 					}),

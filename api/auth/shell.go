@@ -1,12 +1,14 @@
 package auth
 
 import (
+	"errors"
 	"fmt"
 	"time"
 
 	"github.com/codegangsta/cli"
+	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
-	"log"
+	"github.com/jinzhu/gorm"
 )
 
 func (p *AuthEngine) Shell() []cli.Command {
@@ -17,15 +19,7 @@ func (p *AuthEngine) Shell() []cli.Command {
 			Aliases: []string{"us"},
 			Usage:   "list all users",
 			Flags:   []cli.Flag{core.ENV},
-			Action: core.Action(func(env string) error {
-				cfg, err := core.Load(env)
-				if err != nil {
-					return err
-				}
-				db, err := cfg.OpenDatabase()
-				if err != nil {
-					return err
-				}
+			Action: config.DatabaseAction(func(db *gorm.DB, _ *cli.Context) error {
 				dao := Dao{Db: db}
 				fmt.Println("UID USER")
 				for _, u := range dao.ListUser() {
@@ -56,40 +50,30 @@ func (p *AuthEngine) Shell() []cli.Command {
 					Usage: "remove role from user",
 				},
 			},
-			Action: func(c *cli.Context) {
-				u := c.String("user")
-				r := c.String("name")
-				d := c.Bool("deny")
+			Action: config.DatabaseAction(func(db *gorm.DB, ctx *cli.Context) error {
+				u := ctx.String("user")
+				r := ctx.String("name")
+				d := ctx.Bool("deny")
 				if u == "" || r == "" {
-					log.Fatalln("need role's name and user's uid")
+					return errors.New("need role's name and user's uid")
 				}
-				cfg, err := core.Load(c.String("environment"))
-				if err != nil {
-					log.Fatalln(err)
-				}
-				db, err := cfg.OpenDatabase()
-				if err != nil {
-					log.Fatalln(err)
-				}
+
 				dao := Dao{Db: db}
 				role, err := dao.Role(r, "-", 0)
 				if err != nil {
-					log.Fatalln(err)
+					return err
 				}
 				user, err := dao.GetUser(u)
 				if err != nil {
-					log.Fatalln(err)
+					return err
 				}
 				if d {
 					err = dao.Deny(role.ID, user.ID)
 				} else {
 					err = dao.Allow(role.ID, user.ID, 24*365*10*time.Hour)
 				}
-				if err != nil {
-					log.Fatalln(err)
-				}
-				log.Println("Done...")
-			},
+				return err
+			}),
 		},
 	}
 }
