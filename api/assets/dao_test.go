@@ -9,7 +9,7 @@ import (
 	"github.com/itpkg/reading/api/core"
 )
 
-func TestDao(t *testing.T) {
+func TestDaoElastic(t *testing.T) {
 	cfg := config.Model{
 		ElasticSearch: &config.ElasticSearch{
 			Host:  "localhost",

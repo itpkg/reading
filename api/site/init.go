@@ -45,7 +45,7 @@ func Init(env string) error {
 	//--------------cache
 	var cp cache.Provider
 	cp = &cache.RedisProvider{}
-	//--------------elacsic search
+	//--------------Elastic search
 	esc, err := cfg.OpenElastic()
 	if err != nil {
 		return err

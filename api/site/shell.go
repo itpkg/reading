@@ -23,7 +23,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 			Aliases: []string{"s"},
 			Usage:   "start the web server",
 			Flags:   []cli.Flag{core.ENV},
-			Action: config.ConfigAction(func(cfg *config.Model, _ *cli.Context) error {
+			Action: IocAction(func(cfg *config.Model, _ *cli.Context) error {
 				rt := httprouter.New()
 				core.Loop(func(en core.Engine) error {
 					en.Mount(rt)
@@ -154,7 +154,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 					Aliases: []string{"m"},
 					Usage:   "migrate the database",
 					Flags:   []cli.Flag{core.ENV},
-					Action: IocAction(func(*cli.Context) error {
+					Action: IocAction(func(*config.Model, *cli.Context) error {
 						return core.Loop(func(en core.Engine) error {
 							en.Migrate()
 							return nil
@@ -166,7 +166,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 					Aliases: []string{"s"},
 					Usage:   "load the seed data",
 					Flags:   []cli.Flag{core.ENV},
-					Action: IocAction(func(*cli.Context) error {
+					Action: IocAction(func(*config.Model, *cli.Context) error {
 						return core.Loop(func(en core.Engine) error {
 							return en.Seed()
 						})

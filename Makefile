@@ -1,10 +1,12 @@
 target=release
 
 build:
-	npm run build
-	go build -ldflags "-s" -o $(target)/itpkg main.go
-	cp -a config views locales $(target)
-	mkdir -p $(target)/tmp/blogs
+	#npm run build
+	go build -ldflags "-s" -o $(target)/itpkg api/main.go
+	mkdir -p $(target)/config
+	cp -a api/config/development.toml $(target)/config
+	cp -a templates $(target)
+	mkdir -p $(target)/tmp
 
 
 clean:

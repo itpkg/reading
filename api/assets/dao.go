@@ -69,7 +69,6 @@ func (p *Dao) List(type_ string, from, size int) (int64, []*Item, error) {
 
 	return r.Hits.TotalHits, items, nil
 }
-
 func (p *Dao) Set(type_, title, body string) error {
 	item := Item{Title: title, Type: type_, Body: body}
 	_, err := p.Client.Index().

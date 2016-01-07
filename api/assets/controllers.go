@@ -23,7 +23,7 @@ func (p *AssetsEngine) index(w http.ResponseWriter, r *http.Request, ps httprout
 }
 
 func (p *AssetsEngine) show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	it := Item{Title: ps.ByName("title")}
+	it := Item{Title: ps.ByName("name")}
 	if item, err := p.Dao.Get(it.Id()); err == nil {
 		p.Render.JSON(w, http.StatusOK, item)
 	} else {
@@ -32,6 +32,6 @@ func (p *AssetsEngine) show(w http.ResponseWriter, r *http.Request, ps httproute
 }
 
 func (p *AssetsEngine) Mount(rt core.Router) {
-	rt.GET("/assets/*title", p.show)
+	rt.GET("/assets/*name", p.show)
 	rt.GET("/assets", p.index)
 }
