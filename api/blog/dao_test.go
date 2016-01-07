@@ -6,6 +6,7 @@ import (
 
 	"github.com/itpkg/reading/api/blog"
 	"github.com/itpkg/reading/api/config"
+	"github.com/itpkg/reading/api/core"
 )
 
 func TestDao(t *testing.T) {
@@ -28,7 +29,10 @@ func TestDao(t *testing.T) {
 		t.Errorf("error on set: %v", e)
 		return
 	}
-	b, e := dao.Get(title)
+
+	id := core.Md5([]byte(title))
+
+	b, e := dao.Get(id)
 	if e != nil {
 		t.Errorf("error on get: %v", e)
 		return
@@ -39,7 +43,7 @@ func TestDao(t *testing.T) {
 		return
 	}
 
-	if err := dao.Del(title); err != nil {
+	if err := dao.Del(id); err != nil {
 		t.Errorf("bad in del %v", err)
 		return
 	}
@@ -47,7 +51,7 @@ func TestDao(t *testing.T) {
 	for i := 1; i < 10; i++ {
 		dao.Set(ty, fmt.Sprintf("title / %d", i), fmt.Sprintf("body %d", i))
 	}
-	ids, err := dao.List(ty, 1, 5)
+	total, ids, err := dao.List(ty+"111", 1, 5)
 	if err != nil {
 		t.Errorf("bad in list: %v", err)
 
@@ -55,7 +59,7 @@ func TestDao(t *testing.T) {
 	if len(ids) == 0 {
 		t.Errorf("ids is empty")
 	} else {
-		t.Logf("GET IDS(%d): %v", len(ids), ids)
+		t.Logf("GET IDS(%d of %d): %v", len(ids), total, ids)
 	}
 
 }

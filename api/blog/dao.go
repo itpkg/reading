@@ -3,6 +3,7 @@ package blog
 import (
 	"encoding/json"
 	"errors"
+	"reflect"
 
 	"github.com/itpkg/reading/api/config"
 	"gopkg.in/olivere/elastic.v3"
@@ -35,8 +36,8 @@ func (p *Dao) Del(title string) error {
 //
 //}
 
-func (p *Dao) List(type_ string, from, size int) ([]string, error) {
-	q := elastic.NewMatchQuery("type", type_)
+func (p *Dao) List(type_ string, from, size int) (int64, []*Item, error) {
+	q := elastic.NewMatchQuery("type", type_) //todo fix bugs
 
 	r, e := p.Client.Search().
 		Index(p.Cfg.ElasticSearch.Index).
@@ -46,34 +47,40 @@ func (p *Dao) List(type_ string, from, size int) ([]string, error) {
 		Do()
 
 	if e != nil {
-		return nil, e
+		return 0, nil, e
 	}
 
-	ids := make([]string, 0)
+	items := make([]*Item, 0)
 
-	if r.Hits != nil {
-		for _, hit := range r.Hits.Hits {
-			ids = append(ids, hit.Id)
+	for _, item := range r.Each(reflect.TypeOf(Item{})) {
+		if t, ok := item.(Item); ok {
+			items = append(items, &t)
 		}
 	}
-	return ids, nil
+
+	//	for _, hit := range r.Hits.Hits {
+	//		ids = append(ids, hit.Id)
+	//	}
+
+	return r.Hits.TotalHits, items, nil
 }
 
 func (p *Dao) Set(type_, title, body string) error {
+	item := Item{Title: title, Type: type_, Body: body}
 	_, err := p.Client.Index().
-		Index(p.Cfg.ElasticSearch.Index).Type(TYPE).Id(title).
-		BodyJson(Item{Type: type_, Body: body}).Do()
+		Index(p.Cfg.ElasticSearch.Index).Type(TYPE).Id(item.Id()).
+		BodyJson(item).Do()
 	return err
 }
 
-func (p *Dao) Get(title string) (*Item, error) {
-	r, e := p.Client.Get().Index(p.Cfg.ElasticSearch.Index).Type(TYPE).Id(title).Do()
+func (p *Dao) Get(id string) (*Item, error) {
+	r, e := p.Client.Get().Index(p.Cfg.ElasticSearch.Index).Type(TYPE).Id(id).Do()
 	if e != nil {
 		return nil, e
 	}
 
 	if r.Found {
-		i := Item{Title: title}
+		i := Item{}
 		e := json.Unmarshal(*r.Source, &i)
 		return &i, e
 	} else {

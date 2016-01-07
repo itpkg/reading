@@ -12,8 +12,9 @@ import (
 )
 
 type BlogEngine struct {
-	Render *render.Render `inject:""`
+	core.Controller
 
+	Render *render.Render  `inject:""`
 	Dao    *Dao            `inject:""`
 	Logger *logging.Logger `inject:""`
 	Cache  cache.Provider  `inject:""`
