@@ -6,6 +6,7 @@ import (
 
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/config"
+	"github.com/itpkg/reading/api/token"
 	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
 	"github.com/unrolled/render"
@@ -62,6 +63,7 @@ func Init(env string) error {
 		db,
 		cfg.Redis.Open(),
 		cp,
+		&token.RedisProvider{},
 		render.New(render.Options{
 			IsDevelopment: !cfg.IsProduction(),
 		}),

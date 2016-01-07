@@ -11,6 +11,7 @@ import (
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/site"
 	"github.com/itpkg/reading/api/sitemap"
+	"github.com/itpkg/reading/api/token"
 	"github.com/jinzhu/gorm"
 	"github.com/unrolled/render"
 	"golang.org/x/tools/blog/atom"
@@ -23,6 +24,7 @@ type AuthEngine struct {
 	Db      *gorm.DB       `inject:""`
 	Dao     *Dao           `inject:""`
 	Cfg     *config.Model  `inject:""`
+	Token   token.Provider `inject:""`
 	Render  *render.Render `inject:""`
 }
 

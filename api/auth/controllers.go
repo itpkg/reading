@@ -39,7 +39,13 @@ func (p *AuthEngine) googleCallback(w http.ResponseWriter, r *http.Request, _ ht
 		p.Abort(w, err)
 		return
 	}
-	p.Render.JSON(w, http.StatusOK, user)
+
+	tkn, err := p.Token.New(map[string]interface{}{
+		"id":   user.Uid,
+		"name": user.Name,
+		"logo": user.Logo,
+	}, 7*24*60)
+	p.Render.HTML(w, http.StatusOK, "sign_in", tkn)
 }
 
 func (p *AuthEngine) googleSignIn(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
