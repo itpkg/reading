@@ -3,9 +3,7 @@ package auth
 import (
 	"encoding/json"
 	"os"
-	"time"
 
-	"github.com/codegangsta/cli"
 	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
@@ -41,32 +39,7 @@ func (p *AuthEngine) loadGoogleOauthConf() (*GoogleConf, error) {
 	}
 	return &cfg, nil
 }
-func (p *AuthEngine) initRoles() error {
 
-	db := p.Db
-	var count int
-	db.Model(Role{}).Count(&count)
-	if count == 0 {
-		dur := 24 * 365 * 10 * time.Hour
-
-		var rootR *Role
-		var adminR *Role
-		var err error
-		if rootR, err = p.Dao.GetRole("root", "-", 0); err != nil {
-			return err
-		}
-		if err = p.Dao.Apply(rootR.ID, 1, dur); err != nil {
-			return err
-		}
-		if adminR, err = p.Dao.GetRole("admin", "-", 0); err != nil {
-			return err
-		}
-		if err = p.Dao.Apply(adminR.ID, 1, dur); err != nil {
-			return err
-		}
-	}
-	return nil
-}
 func (p *AuthEngine) Seed() error {
 	if gcf, err := p.loadGoogleOauthConf(); err == nil {
 		if err := p.SiteDao.Set("google.oauth", gcf, true); err != nil {
@@ -76,7 +49,7 @@ func (p *AuthEngine) Seed() error {
 		return err
 	}
 
-	return p.initRoles()
+	return nil
 }
 
 func (p *AuthEngine) Migrate() {
@@ -97,10 +70,6 @@ func (p *AuthEngine) Rss() rss.Handler {
 	return func(lang string) []*atom.Entry {
 		return []*atom.Entry{}
 	}
-}
-
-func (p *AuthEngine) Shell() []cli.Command {
-	return []cli.Command{}
 }
 
 func init() {

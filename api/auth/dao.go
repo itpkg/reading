@@ -15,6 +15,18 @@ func (p *Dao) Log(user uint, message string) error {
 	return p.Db.Create(&Log{UserID: user, Message: message}).Error
 }
 
+func (p *Dao) GetUser(uid string) (*User, error) {
+	user := User{}
+	err := p.Db.Where("uid = ?", uid).First(&user).Error
+	return &user, err
+}
+
+func (p *Dao) ListUser() []User {
+	users := make([]User, 0)
+	p.Db.Find(&users)
+	return users
+}
+
 func (p *Dao) SaveUser(pty, pid, email, name, home, logo string) (*User, error) {
 	db := p.Db
 	user := User{}
@@ -45,7 +57,7 @@ func (p *Dao) SaveUser(pty, pid, email, name, home, logo string) (*User, error) 
 	return &user, err
 }
 
-func (p *Dao) GetRole(name string, resource_type string, resource_id uint) (*Role, error) {
+func (p *Dao) Role(name string, resource_type string, resource_id uint) (*Role, error) {
 	var e error
 	r := Role{}
 	db := p.Db
@@ -61,11 +73,15 @@ func (p *Dao) GetRole(name string, resource_type string, resource_id uint) (*Rol
 	return &r, e
 }
 
-func (p *Dao) Apply(role uint, user uint, dur time.Duration) error {
+func (p *Dao) Deny(role uint, user uint) error {
+	return p.Db.Where("role_id = ? AND user_id = ?", role, user).Delete(Permission{}).Error
+}
+
+func (p *Dao) Allow(role uint, user uint, dur time.Duration) error {
 	begin := time.Now()
 	end := begin.Add(dur)
 	var count int
-	p.Db.Model(Permission{}).Where("role_id = ? AND user_id = ?", role, user).Count(&count)
+	p.Db.Model(&Permission{}).Where("role_id = ? AND user_id = ?", role, user).Count(&count)
 	if count == 0 {
 		return p.Db.Create(&Permission{
 			UserID: user,
@@ -74,6 +90,6 @@ func (p *Dao) Apply(role uint, user uint, dur time.Duration) error {
 			End:    end,
 		}).Error
 	} else {
-		return p.Db.Model(&Permission{}).Where("role_id = ? AND user_id = ?", role, user).Updates(map[string]interface{}{"begin": begin, "end": end}).Error
+		return p.Db.Model(&Permission{}).Where("role_id = ? AND user_id = ?", role, user).UpdateColumns(map[string]interface{}{"begin": begin, "end": end}).Error
 	}
 }

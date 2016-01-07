@@ -94,12 +94,16 @@ func (p *SiteEngine) Shell() []cli.Command {
 						},
 					},
 					Action: func(c *cli.Context) {
+						key := c.String("key")
+						if key == "" {
+							log.Fatalln("need key")
+						}
 						cfg, err := core.Load(c.String("environment"))
 						if err != nil {
 							log.Fatalln(err)
 						}
 						cp := cache.RedisProvider{Redis: cfg.Redis.Open()}
-						if err = cp.Del(c.String("key")); err != nil {
+						if err = cp.Del(key); err != nil {
 							log.Fatalln(err)
 						}
 					},
