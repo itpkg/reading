@@ -1,0 +1,17 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    htmlcompressor (0.3.0)
+    rake (10.4.2)
+    redcarpet (3.3.4)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  htmlcompressor
+  rake
+  redcarpet
+
+BUNDLED WITH
+   1.11.2
