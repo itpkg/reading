@@ -1,1 +1,15 @@
 Dir.glob('tasks/*.rake').each { |r| import r }
+
+desc 'build all assets'
+task assets: %w(convert:epub convert:markdown convert:latex convert:xhtml convert:pictures) do
+
+end
+
+Rake::TaskManager.record_task_metadata = true
+
+desc 'list all tasks'
+task :default do
+  Rake::application.options.show_tasks = :tasks
+  Rake::application.options.show_task_pattern = //
+  Rake::application.display_tasks_and_comments
+end

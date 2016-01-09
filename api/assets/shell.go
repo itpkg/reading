@@ -36,7 +36,7 @@ func (p *AssetsEngine) Shell() []cli.Command {
 					},
 					Action: config.ElasticAction(func(con *elastic.Client, cfg *config.Model, ctx *cli.Context) error {
 
-						dao := Dao{Client: con, Cfg: cfg}
+						dao := Search{Client: con, Cfg: cfg}
 						fmt.Println("ID TITLE")
 						_, items, err := dao.List("", ctx.Int("from"), ctx.Int("size"))
 						if err != nil {

@@ -21,7 +21,7 @@ func TestDaoElastic(t *testing.T) {
 	if e != nil {
 		t.Logf("error on open: %v", e)
 	}
-	dao := assets.Dao{Client: c, Cfg: &cfg}
+	dao := assets.Search{Client: c, Cfg: &cfg}
 	ty := "text/plain"
 
 	title := "ttt"

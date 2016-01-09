@@ -5,6 +5,7 @@ import (
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/sitemap"
+	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
 	"github.com/unrolled/render"
 	"golang.org/x/tools/blog/atom"
@@ -14,17 +15,13 @@ type AssetsEngine struct {
 	core.Controller
 
 	Render *render.Render  `inject:""`
-	Dao    *Dao            `inject:""`
+	Db     *gorm.DB        `inject:""`
 	Logger *logging.Logger `inject:""`
 	Cache  cache.Provider  `inject:""`
 }
 
 func (p *AssetsEngine) Seed() error {
 	return nil
-}
-
-func (p *AssetsEngine) Migrate() {
-
 }
 
 func (p *AssetsEngine) Sitemap() sitemap.Handler {

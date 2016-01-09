@@ -6,17 +6,28 @@ import (
 	"reflect"
 
 	"github.com/itpkg/reading/api/config"
+	"github.com/itpkg/reading/api/core"
 	"gopkg.in/olivere/elastic.v3"
 )
 
-type Dao struct {
+type Item struct {
+	Title string `json:"title"`
+	Type  string `json:"type"`
+	Body  string `json:"body"`
+}
+
+func (p *Item) Id() string {
+	return core.Md5([]byte(p.Title))
+}
+
+type Search struct {
 	Client *elastic.Client `inject:""`
 	Cfg    *config.Model   `inject:""`
 }
 
 const TYPE = "assets"
 
-func (p *Dao) Del(title string) error {
+func (p *Search) Del(title string) error {
 	_, err := p.Client.Delete().
 		Index(p.Cfg.ElasticSearch.Index).
 		Type(TYPE).
@@ -36,7 +47,7 @@ func (p *Dao) Del(title string) error {
 //
 //}
 
-func (p *Dao) List(type_ string, from, size int) (int64, []*Item, error) {
+func (p *Search) List(type_ string, from, size int) (int64, []*Item, error) {
 	var q elastic.Query
 	if type_ == "" {
 		q = elastic.NewMatchAllQuery()
@@ -69,7 +80,7 @@ func (p *Dao) List(type_ string, from, size int) (int64, []*Item, error) {
 
 	return r.Hits.TotalHits, items, nil
 }
-func (p *Dao) Set(type_, title, body string) error {
+func (p *Search) Set(type_, title, body string) error {
 	item := Item{Title: title, Type: type_, Body: body}
 	_, err := p.Client.Index().
 		Index(p.Cfg.ElasticSearch.Index).Type(TYPE).Id(item.Id()).
@@ -77,7 +88,7 @@ func (p *Dao) Set(type_, title, body string) error {
 	return err
 }
 
-func (p *Dao) Get(id string) (*Item, error) {
+func (p *Search) Get(id string) (*Item, error) {
 	r, e := p.Client.Get().Index(p.Cfg.ElasticSearch.Index).Type(TYPE).Id(id).Do()
 	if e != nil {
 		return nil, e

@@ -1,15 +1,30 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    addressable (2.4.0)
+    archive-zip (0.8.0)
+      io-like (~> 0.3.0)
+    epub-parser (0.2.5)
+      addressable (>= 2.3.5)
+      archive-zip
+      nokogiri (~> 1.6)
+      rchardet (>= 1.6.1)
     htmlcompressor (0.3.0)
+    io-like (0.3.0)
+    mini_portile2 (2.0.0)
+    nokogiri (1.6.7.1)
+      mini_portile2 (~> 2.0.0.rc2)
     rake (10.4.2)
+    rchardet (1.6.1)
     redcarpet (3.3.4)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  epub-parser
   htmlcompressor
+  nokogiri
   rake
   redcarpet
 
