@@ -8,13 +8,13 @@ namespace :convert do
   desc 'convert latex'
   task :latex do
     File.open('latex.sql', 'w') do |sf|
-      sf.puts "DELETE FROM assets WHERE type = 'latex';"
+      sf.puts "DELETE FROM pages WHERE type = 'latex';"
       Dir.glob('src/**/*.tex').each do |src|
         puts "Find file #{src}"
         dst = "#{src[0..-5]}.xhtml"
         puts "Write #{dst}"
         puts `pandoc -s #{src} -o #{dst}`
-        sf.puts "INSERT INTO assets(title, type) VALUES('#{src[4..-5]}.html', 'latex');"
+        sf.puts "INSERT INTO pages(title, type) VALUES('#{src[4..-5]}', 'latex');"
       end
     end
   end
@@ -88,7 +88,7 @@ namespace :convert do
   desc 'convert markdown files'
   task :markdown do
     File.open('markdown.sql', 'w') do |sf|
-      sf.puts "DELETE FROM assets WHERE type = 'markdown';"
+      sf.puts "DELETE FROM pages WHERE type = 'markdown';"
       Dir.glob('src/**/*.md').each do |src|
         puts "Find file #{src}"
         dst = "dst/#{src[4..-4]}.html"
@@ -105,7 +105,7 @@ namespace :convert do
             end
           end
         end
-        sf.puts "INSERT INTO assets(title, type) VALUES('#{src[4..-4]}.html', 'markdown');"
+        sf.puts "INSERT INTO pages(title, type) VALUES('#{src[4..-4]}', 'markdown');"
       end
 
     end
