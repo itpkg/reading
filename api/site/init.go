@@ -46,10 +46,10 @@ func Init(env string) error {
 	var cp cache.Provider
 	cp = &cache.RedisProvider{}
 	//--------------Elastic search
-	esc, err := cfg.OpenElastic()
-	if err != nil {
-		return err
-	}
+	//	esc, err := cfg.OpenElastic()
+	//	if err != nil {
+	//		return err
+	//	}
 
 	//------------
 	if err = core.In(
@@ -57,7 +57,7 @@ func Init(env string) error {
 		db,
 		cfg.OpenRedis(),
 		cp,
-		esc,
+		//		esc,
 		&token.RedisProvider{},
 		render.New(render.Options{
 			IsDevelopment: !cfg.IsProduction(),

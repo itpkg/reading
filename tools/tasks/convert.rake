@@ -14,7 +14,7 @@ namespace :convert do
         dst = "#{src[0..-5]}.xhtml"
         puts "Write #{dst}"
         puts `pandoc -s #{src} -o #{dst}`
-        sf.puts "INSERT INTO assets(title, type) VALUES('#{src[4..-5]}', 'latex');"
+        sf.puts "INSERT INTO assets(title, type) VALUES('#{src[4..-5]}.html', 'latex');"
       end
     end
   end
@@ -105,7 +105,7 @@ namespace :convert do
             end
           end
         end
-        sf.puts "INSERT INTO assets(title, type) VALUES('#{src[4..-4]}', 'markdown');"
+        sf.puts "INSERT INTO assets(title, type) VALUES('#{src[4..-4]}.html', 'markdown');"
       end
 
     end
