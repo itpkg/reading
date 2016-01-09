@@ -1,1 +1,3 @@
-console.log("devel mode");
+import Main from './main'
+Main({});
+

@@ -19,6 +19,7 @@
     "famfamfam-flags": "^0.4.1",
     "famfamfam-mini": "^0.3.5",
     "famfamfam-silk": "^0.3.4",
+    "history": "^1.17.0",
     "i18next": "^2.0.18",
     "i18next-browser-languagedetector": "0.0.11",
     "i18next-xhr-backend": "^0.2.0",
