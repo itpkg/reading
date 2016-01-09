@@ -1,9 +1,14 @@
 require 'json'
 require 'open-uri'
 require 'net/http'
+require 'pg'
 
 def http_json_get(url)
   JSON.parse Net::HTTP.get(URI(url))
+end
+
+def escape_string(s)
+  PG::Connection.escape_string s
 end
 
 desc 'youtube videos crawler'
@@ -49,11 +54,11 @@ task :youtube do
     f.puts "DELETE FROM playlists WHERE type = 'youtube';"
     f.puts "DELETE FROM videos WHERE type = 'youtube';"
     channels.each do |ch|
-      f.puts "INSERT INTO channels(cid, type, title, description) VALUES('#{ch.fetch :id}', 'youtube', '#{ch.fetch :title}', '#{ch.fetch :description}');"
+      f.puts "INSERT INTO channels(cid, type, title, description) VALUES('#{ch.fetch :id}', 'youtube', '#{ch.fetch :title}', '#{escape_string ch.fetch(:description)}');"
       ch.fetch(:playlist).each do |pl|
-        f.puts "INSERT INTO playlists(cid, pid, type, title, description) VALUES('#{ch.fetch :id}','#{pl.fetch :id}', 'youtube', '#{pl.fetch :title}', '#{pl.fetch :description}');"
+        f.puts "INSERT INTO playlists(cid, pid, type, title, description) VALUES('#{ch.fetch :id}','#{pl.fetch :id}', 'youtube', '#{escape_string pl.fetch(:title)}', '#{escape_string pl.fetch(:description)}');"
         pl.fetch(:videos).each do |v|
-          f.puts "INSERT INTO videos(pid, vid, type, title, description) VALUES('#{pl.fetch :id}','#{v.fetch :id}', 'youtube', '#{v.fetch :title}', '#{v.fetch :description}');"
+          f.puts "INSERT INTO videos(pid, vid, type, title, description) VALUES('#{pl.fetch :id}','#{v.fetch :id}', 'youtube', '#{escape_string v.fetch(:title)}', '#{escape_string v.fetch(:description)}');"
         end
       end
 
