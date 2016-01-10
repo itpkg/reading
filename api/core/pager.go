@@ -6,14 +6,14 @@ import (
 )
 
 func NewPager(max int) *Pager {
-	return &Pager{size: max}
+	return &Pager{Size: max}
 }
 
 type Pager struct {
-	size  int
-	total int
-	count int
-	page  int
+	Size  int `json:"size"`
+	Total int `json:"total"`
+	Count int `json:"count"`
+	Page  int `json:"page"`
 }
 
 func (p *Pager) Parse(r *http.Request) (int, int, int) {
@@ -23,32 +23,32 @@ func (p *Pager) Parse(r *http.Request) (int, int, int) {
 		page = 1
 	}
 	size, err := strconv.Atoi(r.URL.Query().Get("size"))
-	if err != nil || size <= 0 || size > p.size {
-		size = p.size
+	if err != nil || size <= 0 || size > p.Size {
+		size = p.Size
 	}
 
-	p.page = page
-	p.size = size
+	p.Page = page
+	p.Size = size
 	return page, (page - 1) * size, size
 }
 
 func (p *Pager) To() map[string]int {
 	return map[string]int{
-		"total": p.count,
-		"size":  p.size,
-		"page":  p.page,
-		"count": p.count,
+		"total": p.Count,
+		"size":  p.Size,
+		"page":  p.Page,
+		"count": p.Count,
 	}
 }
 
 func (p *Pager) SetTotal(total int) int {
 
-	count := total / p.size
-	if total%p.size != 0 {
+	count := total / p.Size
+	if total%p.Size != 0 {
 		count++
 	}
 
-	p.total = total
-	p.count = count
+	p.Total = total
+	p.Count = count
 	return count
 }

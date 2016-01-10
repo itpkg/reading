@@ -1,0 +1,19 @@
+web:
+  button:
+    ok: Ok
+    cancel: Cancel
+    submit: Submit
+    reset: Reset
+    close: Close
+    view: View
+    show: Show
+    edit: Edit
+    update: Update
+    upgrade: Upgrade
+    remove: Remove
+
+  user:
+    sign_out: Sign out
+    sign_in_with:
+      google: Sign in with google account.
+

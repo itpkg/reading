@@ -23,15 +23,6 @@ type SiteEngine struct {
 	Cache  cache.Provider  `inject:""`
 }
 
-func (p *SiteEngine) Mount(rt core.Router) {
-	rt.GET("/info", p.info)
-	rt.GET("/baidu_verify_:id", p.baidu)
-	rt.GET("/google:id", p.google)
-	rt.GET("/rss.atom", p.rss)
-	rt.GET("/sitemap.xml", p.sitemap)
-	rt.GET("/robots.txt", p.robots)
-}
-
 //=========================================================
 func (p *SiteEngine) Seed() error {
 	//todo
