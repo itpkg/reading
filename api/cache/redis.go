@@ -28,7 +28,7 @@ func (p *RedisProvider) Page(wrt http.ResponseWriter, req *http.Request, content
 		wrt.WriteHeader(http.StatusOK)
 	} else {
 		wrt.Header().Set("Content-Type", contentType)
-		wrt.WriteHeader(http.StatusNotModified)
+		wrt.WriteHeader(http.StatusOK)//http.StatusNotModified)
 	}
 	wrt.Write(body)
 }

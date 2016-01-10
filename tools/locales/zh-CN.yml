@@ -1,5 +1,11 @@
 web:
-  button:
+  locales:
+    en_US: English
+    zh_CN: 简体中文
+  links:
+    home: 主页
+    back_to_top: 返回顶部
+  buttons:
     ok: 确定
     cancel: 取消
     submit: 提交
@@ -11,8 +17,8 @@ web:
     update: 更新
     upgrade: 升级
     remove: 删除
-
-  user:
+  users:
+    sign_in: 用户登录
     sign_out: 安全退出
     sign_in_with:
       google: 使用google账户登录
