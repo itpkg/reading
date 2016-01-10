@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"fmt"
 	"net/http"
+	"strings"
 
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
@@ -25,8 +26,8 @@ func (p *SiteEngine) sitemap(w http.ResponseWriter, r *http.Request, _ httproute
 }
 
 func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	lang := p.Locale(r)
 	p.Cache.Page(w, r, "application/xml", 6*60, func() ([]byte, error) {
+		lang := p.Locale(r)
 		var buf bytes.Buffer
 		hds := make([]rss.Handler, 0)
 		core.Loop(func(en core.Engine) error {
@@ -47,8 +48,8 @@ func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 }
 
 func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	lang := p.Locale(r)
 	p.Cache.Page(w, r, "application/json", 6*60, func() ([]byte, error) {
+		lang := p.Locale(r)
 		ifo := map[string]interface{}{
 			"title":       p.Dao.GetSiteInfo("title", lang),
 			"subTitle":    p.Dao.GetSiteInfo("sub_title", lang),
@@ -87,4 +88,42 @@ func (p *SiteEngine) google(w http.ResponseWriter, _ *http.Request, ps httproute
 	} else {
 		p.NotFound(w)
 	}
+}
+
+func (p *SiteEngine) locales(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+	p.Cache.Page(w, r, "application/json", 6*60, func() ([]byte, error) {
+		lang := ps.ByName("lang")
+
+		items := make([]Locale, 0)
+		p.Db.Select("code, message").Where("code LIKE ? AND lang = ?", "web.%", lang).Order("code").Find(&items)
+
+		rt := make(map[string]interface{})
+		for _, item := range items {
+			codes := strings.Split(item.Code[4:], ".")
+			tmp := rt
+			for i, c := range codes {
+				if i+1 == len(codes) {
+					tmp[c] = item.Message
+				} else {
+					if tmp[c] == nil {
+						tmp[c] = make(map[string]interface{})
+					}
+					tmp = tmp[c].(map[string]interface{})
+				}
+			}
+		}
+		return core.ToJson(rt)
+	})
+
+}
+
+func (p *SiteEngine) Mount(rt core.Router) {
+	rt.GET("/locales/:lang", p.locales)
+	rt.GET("/info", p.info)
+	rt.GET("/baidu_verify_:id", p.baidu)
+	rt.GET("/google:id", p.google)
+	rt.GET("/rss.atom", p.rss)
+	rt.GET("/sitemap.xml", p.sitemap)
+	rt.GET("/robots.txt", p.robots)
 }

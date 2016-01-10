@@ -1,0 +1,19 @@
+web:
+  button:
+    ok: 确定
+    cancel: 取消
+    submit: 提交
+    reset: 重写
+    close: 关闭
+    view: 显示
+    show: 查看
+    edit: 编辑
+    update: 更新
+    upgrade: 升级
+    remove: 删除
+
+  user:
+    sign_out: 安全退出
+    sign_in_with:
+      google: 使用google账户登录
+
