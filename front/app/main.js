@@ -1,4 +1,5 @@
 require('./main.css');
+require('bootstrap/dist/css/bootstrap.css');
 
 import React from 'react'
 import ReactDOM from 'react-dom'
@@ -17,7 +18,7 @@ function main(options) {
         .init({
             fallbackLng: 'en-US',
             backend: {
-                loadPath: '/locales/{{lng}}.json'
+                loadPath: '/locales/{{lng}}'
             },
             detection: {
                 order: ['querystring', 'localStorage', 'cookie', 'navigator'],

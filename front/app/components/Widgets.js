@@ -53,9 +53,9 @@ export const Header = React.createClass({
                     </Nav>
                     <Nav pullRight>
                         <NavItem eventKey={1}
-                                 onClick={this.switchLang.bind(this, "en-US")}>{i18next.t("links.en_us")}</NavItem>
+                                 onClick={this.switchLang.bind(this, "en-US")}>{i18next.t("locales.en_US")}</NavItem>
                         <NavItem eventKey={2}
-                                 onClick={this.switchLang.bind(this, "zh-CN")}>{i18next.t("links.zh_cn")}</NavItem>
+                                 onClick={this.switchLang.bind(this, "zh-CN")}>{i18next.t("locales.zh_CN")}</NavItem>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>
