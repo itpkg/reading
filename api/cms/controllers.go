@@ -173,18 +173,18 @@ func (p *CmsEngine) listVideo(w http.ResponseWriter, r *http.Request, ps httprou
 }
 
 func (p *CmsEngine) Mount(rt core.Router) {
-	rt.GET("/channels/:id", p.showChannel)
-	rt.GET("/channels", p.listChannel)
-	rt.GET("/playlist/:id", p.showPlaylist)
-	rt.GET("/playlist", p.listPlaylist)
-	rt.GET("/videos/:id", p.showVideo)
-	rt.GET("/videos", p.listVideo)
+	rt.GET("/videos/channels/:id", p.showChannel)
+	rt.GET("/videos/channels", p.listChannel)
+	rt.GET("/videos/playlist/:id", p.showPlaylist)
+	rt.GET("/videos/playlist", p.listPlaylist)
+	rt.GET("/videos/items/:id", p.showVideo)
+	rt.GET("/videos/items", p.listVideo)
 
-	rt.GET("/books/:id", p.showBook)
-	rt.GET("/books", p.listBook)
+	rt.GET("/cms/books/:id", p.showBook)
+	rt.GET("/cms/books", p.listBook)
 
-	rt.GET("/articles/:id", p.showArticle)
-	rt.GET("/articles", p.listArticle)
-	rt.GET("/tags/:id", p.showTag)
-	rt.GET("/tags", p.listTag)
+	rt.GET("/cms/articles/:id", p.showArticle)
+	rt.GET("/cms/articles", p.listArticle)
+	rt.GET("/cms/tags/:id", p.showTag)
+	rt.GET("/cms/tags", p.listTag)
 }

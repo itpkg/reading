@@ -1,7 +1,7 @@
 package cms
 
 import (
-	"time"
+	"fmt"
 
 	"github.com/itpkg/reading/api/auth"
 	"github.com/itpkg/reading/api/core"
@@ -65,10 +65,13 @@ func (Comment) TableName() string {
 type User struct {
 	core.Model
 
-	Name string `sql:"not null;index"`
+	Uid  string `sql:"not null;index"`
 	Type string `sql:"not null;type:varchar(8);index"`
 }
 
+func (p User) String() string {
+	return fmt.Sprintf("%s@%s", p.Uid, p.Type)
+}
 func (User) TableName() string {
 	return "video_users"
 }
@@ -76,6 +79,7 @@ func (User) TableName() string {
 type Channel struct {
 	core.Model
 
+	Uid         string `sql:"not null;index" json:"uid"`
 	Cid         string `sql:"not null;index" json:"cid"`
 	Type        string `sql:"not null;type:varchar(8);index" json:"type"`
 	Title       string `sql:"not null" json:"title"`
@@ -87,13 +91,12 @@ func (Channel) TableName() string {
 }
 
 type Playlist struct {
-	ID          uint      `gorm:"primary_key" json:"id"`
-	Cid         string    `sql:"not null;index" json:"cid"`
-	Pid         string    `sql:"not null;index" json:"pid"`
-	Type        string    `sql:"not null;type:varchar(8);index" json:"type"`
-	Title       string    `sql:"not null" json:"title"`
-	Description string    `sql:"not null;type:text" json:"description"`
-	CreatedAt   time.Time `sql:"not null;default:current_timestamp" json:"created_at"`
+	core.Model
+	Cid         string `sql:"not null;index" json:"cid"`
+	Pid         string `sql:"not null;index" json:"pid"`
+	Type        string `sql:"not null;type:varchar(8);index" json:"type"`
+	Title       string `sql:"not null" json:"title"`
+	Description string `sql:"not null;type:text" json:"description"`
 }
 
 func (Playlist) TableName() string {
@@ -101,13 +104,13 @@ func (Playlist) TableName() string {
 }
 
 type Video struct {
-	ID          uint      `gorm:"primary_key" json:"id"`
-	Pid         string    `sql:"not null;index" json:"pid"`
-	Vid         string    `sql:"not null;index" json:"vid"`
-	Type        string    `sql:"not null;type:varchar(8);index" json:"type"`
-	Title       string    `sql:"not null" json:"title"`
-	Description string    `sql:"not null;type:text" json:"description"`
-	CreatedAt   time.Time `sql:"not null;default:current_timestamp" json:"created_at"`
+	core.Model
+
+	Pid         string `sql:"not null;index" json:"pid"`
+	Vid         string `sql:"not null;index" json:"vid"`
+	Type        string `sql:"not null;type:varchar(8);index" json:"type"`
+	Title       string `sql:"not null" json:"title"`
+	Description string `sql:"not null;type:text" json:"description"`
 }
 
 func (Video) TableName() string {
@@ -143,7 +146,7 @@ func (p *CmsEngine) Migrate() {
 		&User{}, &Channel{}, &Playlist{}, &Video{},
 		&Book{},
 	)
-	p.Db.Model(&User{}).AddUniqueIndex("idx_video_users_name_type", "name", "type")
+	p.Db.Model(&User{}).AddUniqueIndex("idx_video_users_uid_type", "uid", "type")
 	p.Db.Model(&Channel{}).AddUniqueIndex("idx_video_channels_cid_type", "cid", "type")
 	p.Db.Model(&Playlist{}).AddUniqueIndex("idx_video_playlist_cid_type", "pid", "type")
 	p.Db.Model(&Video{}).AddUniqueIndex("idx_video_items_cid_type", "vid", "type")

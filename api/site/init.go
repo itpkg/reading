@@ -1,8 +1,6 @@
 package site
 
 import (
-	"crypto/cipher"
-
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
@@ -13,17 +11,17 @@ import (
 )
 
 func Init(env string) error {
-	var err error
 
 	//--------config
-	var cfg *config.Model
-	if cfg, err = config.Load(env); err != nil {
+
+	cfg, err := config.Load(env)
+	if err != nil {
 		return err
 	}
 
 	//-----------------aes
-	var cip cipher.Block
-	if cip, err = core.NewAesCipher(cfg.Secrets[60:92]); err != nil {
+	cip, err := cfg.AesCipher()
+	if err != nil {
 		return err
 	}
 
