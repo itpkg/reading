@@ -1,6 +1,7 @@
 package config
 
 import (
+	"crypto/cipher"
 	"errors"
 	"fmt"
 	"log"
@@ -8,6 +9,7 @@ import (
 	"time"
 
 	"github.com/garyburd/redigo/redis"
+	"github.com/itpkg/reading/api/core"
 	"github.com/jinzhu/gorm"
 	"gopkg.in/olivere/elastic.v3"
 )
@@ -110,6 +112,10 @@ func (p *Model) OpenRedis() *redis.Pool {
 			return err
 		},
 	}
+}
+
+func (p *Model) AesCipher() (cipher.Block, error) {
+	return core.NewAesCipher(p.Secrets[60:92])
 }
 
 func (p *Model) OpenDatabase() (*gorm.DB, error) {

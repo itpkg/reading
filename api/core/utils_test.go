@@ -6,6 +6,15 @@ import (
 	"github.com/itpkg/reading/api/core"
 )
 
+func TestMarkdown(t *testing.T) {
+	if hm, err := core.Md2Hm([]byte("### aaa \n * bbb")); err == nil {
+		t.Logf("Markdown to html: \n%s", hm)
+	} else {
+		t.Errorf("Bad in markdown: %v", err)
+	}
+
+}
+
 func TestSha(t *testing.T) {
 	s := []byte("123456")
 	if h, e := core.Ssha512(s, 32); e == nil {

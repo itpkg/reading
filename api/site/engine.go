@@ -25,9 +25,7 @@ type SiteEngine struct {
 
 //=========================================================
 func (p *SiteEngine) Seed() error {
-	//todo
 	return nil
-
 }
 
 func (p *SiteEngine) Migrate() {
