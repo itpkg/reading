@@ -2,6 +2,9 @@ reading
 ---
 I love reading.
 
+## Documents
+ * [https://developers.google.com/youtube/v3/getting-started](https://developers.google.com/youtube/v3/getting-started)
+
 ## Development
  
  
