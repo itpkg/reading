@@ -10,6 +10,9 @@ import (
 	"time"
 
 	"github.com/BurntSushi/toml"
+	"github.com/russross/blackfriday"
+	"github.com/tdewolff/minify"
+	"github.com/tdewolff/minify/html"
 )
 
 func FromToml(f string, v interface{}) error {
@@ -72,6 +75,12 @@ func ToJson(o interface{}) ([]byte, error) {
 
 func FromJson(j []byte, o interface{}) error {
 	return json.Unmarshal(j, o)
+}
+
+func Md2Hm(md []byte) ([]byte, error) {
+	m := minify.New()
+	m.AddFunc("text/html", html.Minify)
+	return m.Bytes("text/html", blackfriday.MarkdownBasic(md))
 }
 
 func init() {

@@ -1,4 +1,5 @@
 src
 dst
+tmp
 *.sql
 .rbenv-vars
