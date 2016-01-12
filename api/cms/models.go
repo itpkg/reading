@@ -115,12 +115,21 @@ func (Video) TableName() string {
 }
 
 type Book struct {
-	ID        uint      `gorm:"primary_key" json:"id"`
-	Url       string    `sql:"not null;index" json:"url"`
-	Title     string    `sql:"not null;index" json:"title"`
-	Author    string    `sql:"not null;index" json:"author"`
-	Type      string    `sql:"not null;type:varchar(8);index" json:"type"`
-	CreatedAt time.Time `sql:"not null;default:current_timestamp" json:"created_at"`
+	core.Model
+	Type      string `sql:"not null;index" json:"type"`
+	Name      string `sql:"not null;unique" json:"name"`
+	IndexHref string `json:"index_href"`
+	IndexType string `json:"index_type"`
+	CoverHref string `json:"cover_href"`
+	CoverType string `json:"cover_type"`
+
+	Title      string `sql:"not null;index" json:"title"`
+	Author     string `sql:"not null;index" json:"author"`
+	Language   string `json:"language"`
+	Identifier string `json:"identifier"`
+	Subject    string `json:"subject"`
+	Publisher  string `json:"publisher"`
+	Date       string `json:"date"`
 }
 
 func (Book) TableName() string {

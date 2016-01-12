@@ -29,6 +29,32 @@ type Opf struct {
 	Spine    Spine    `xml:"spine"`
 }
 
+func (p *Opf) Index() Item {
+	for _, v := range p.Spine.ItemRefs {
+		if v.Linear != "no" {
+			for _, it := range p.Manifest.Items {
+				if it.Id == v.IdRef {
+					return it
+				}
+			}
+		}
+	}
+	return p.Manifest.Items[0]
+}
+
+func (p *Opf) Cover() Item {
+	for _, v := range p.Spine.ItemRefs {
+		if v.Linear == "no" {
+			for _, it := range p.Manifest.Items {
+				if it.Id == v.IdRef {
+					return it
+				}
+			}
+		}
+	}
+	return p.Manifest.Items[0]
+}
+
 type Metadata struct {
 	Title      string `xml:"title"`
 	Creator    string `xml:"creator"`
@@ -52,24 +78,6 @@ type Item struct {
 type Spine struct {
 	Toc      string    `xml:"toc,attr"`
 	ItemRefs []ItemRef `xml:"itemref"`
-}
-
-func (p *Spine) Index() int {
-	for k, v := range p.ItemRefs {
-		if v.Linear != "no" {
-			return k
-		}
-	}
-	return 0
-}
-
-func (p *Spine) Cover() int {
-	for k, v := range p.ItemRefs {
-		if v.Linear == "no" {
-			return k
-		}
-	}
-	return 0
 }
 
 type ItemRef struct {

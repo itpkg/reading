@@ -10,7 +10,7 @@ import (
 //------------------------books------------------------------------------------
 func (p *CmsEngine) showBook(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var item Book
-	err := p.Db.Select([]string{"id", "url", "title", "author"}).Where("id = ?", ps.ByName("id")).First(&item).Error
+	err := p.Db.Where("id = ?", ps.ByName("id")).First(&item).Error
 	if err == nil {
 		p.Render.JSON(w, http.StatusOK, item)
 	} else {
@@ -25,7 +25,7 @@ func (p *CmsEngine) listBook(w http.ResponseWriter, r *http.Request, ps httprout
 	pager.SetTotal(total)
 
 	var items []Book
-	p.Db.Select([]string{"id", "url", "title", "author"}).Offset(start).Limit(size).Find(&items)
+	p.Db.Offset(start).Limit(size).Find(&items)
 	p.Pager(p.Render, w, pager, items)
 }
 
