@@ -1,4 +1,4 @@
-package assets
+package cms
 
 import (
 	"github.com/itpkg/reading/api/cache"
@@ -11,7 +11,7 @@ import (
 	"golang.org/x/tools/blog/atom"
 )
 
-type AssetsEngine struct {
+type CmsEngine struct {
 	core.Controller
 
 	Render *render.Render  `inject:""`
@@ -20,21 +20,21 @@ type AssetsEngine struct {
 	Cache  cache.Provider  `inject:""`
 }
 
-func (p *AssetsEngine) Seed() error {
+func (p *CmsEngine) Seed() error {
 	return nil
 }
 
-func (p *AssetsEngine) Sitemap() sitemap.Handler {
+func (p *CmsEngine) Sitemap() sitemap.Handler {
 	return func() []*sitemap.Url {
 		return []*sitemap.Url{} //todo
 	}
 }
-func (p *AssetsEngine) Rss() rss.Handler {
+func (p *CmsEngine) Rss() rss.Handler {
 	return func(lang string) []*atom.Entry {
 		return []*atom.Entry{}
 	}
 }
 
 func init() {
-	core.Register(&AssetsEngine{})
+	core.Register(&CmsEngine{})
 }

@@ -1,4 +1,4 @@
-package assets
+package cms
 
 import (
 	"net/http"
@@ -7,7 +7,8 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func (p *AssetsEngine) showBook(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+//------------------------books------------------------------------------------
+func (p *CmsEngine) showBook(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var item Book
 	err := p.Db.Select([]string{"id", "url", "title", "author"}).Where("id = ?", ps.ByName("id")).First(&item).Error
 	if err == nil {
@@ -16,7 +17,7 @@ func (p *AssetsEngine) showBook(w http.ResponseWriter, r *http.Request, ps httpr
 		p.Abort(w, err)
 	}
 }
-func (p *AssetsEngine) listBook(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (p *CmsEngine) listBook(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	pager := core.NewPager(24)
 	_, start, size := pager.Parse(r)
 	var total int
@@ -27,28 +28,63 @@ func (p *AssetsEngine) listBook(w http.ResponseWriter, r *http.Request, ps httpr
 	p.Db.Select([]string{"id", "url", "title", "author"}).Offset(start).Limit(size).Find(&items)
 	p.Pager(p.Render, w, pager, items)
 }
-func (p *AssetsEngine) showBlog(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	var item Page
-	err := p.Db.Select([]string{"id", "title"}).Where("id = ?", ps.ByName("id")).First(&item).Error
-	if err == nil {
+
+//------------------------articles tags comments ------------------------------
+func (p *CmsEngine) showArticle(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	var item Article
+	err := p.Db.First(&item, ps.ByName("id")).Error
+	if err != nil {
+		p.Abort(w, err)
+	}
+
+	if err = p.Db.Model(&item).Association("Tags").Error; err == nil {
 		p.Render.JSON(w, http.StatusOK, item)
 	} else {
 		p.Abort(w, err)
 	}
-
 }
-func (p *AssetsEngine) listBlog(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+func (p *CmsEngine) listArticle(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	pager := core.NewPager(60)
 	_, start, size := pager.Parse(r)
 	var total int
-	p.Db.Model(Page{}).Count(&total)
+	p.Db.Model(Article{}).Count(&total)
 	pager.SetTotal(total)
 
-	var items []Page
-	p.Db.Select([]string{"id", "title"}).Where("type = ? OR type = ?", "markdown", "latex").Offset(start).Limit(size).Find(&items)
+	var items []Article
+	p.Db.Select([]string{"id", "summary", "title"}).Offset(start).Limit(size).Find(&items)
 	p.Pager(p.Render, w, pager, items)
 }
-func (p *AssetsEngine) showChannel(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+
+func (p *CmsEngine) showTag(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	var item Tag
+	err := p.Db.First(&item, ps.ByName("id")).Error
+	if err != nil {
+		p.Abort(w, err)
+	}
+
+	if err = p.Db.Model(&item).Association("Articles").Error; err == nil {
+		p.Render.JSON(w, http.StatusOK, item)
+	} else {
+		p.Abort(w, err)
+	}
+}
+
+func (p *CmsEngine) listTag(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	pager := core.NewPager(60)
+	_, start, size := pager.Parse(r)
+	var total int
+	p.Db.Model(Tag{}).Count(&total)
+	pager.SetTotal(total)
+
+	var items []Tag
+	p.Db.Select([]string{"id", "name"}).Offset(start).Limit(size).Find(&items)
+	p.Pager(p.Render, w, pager, items)
+}
+
+//------------------------videos-----------------------------------------------
+
+func (p *CmsEngine) showChannel(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var item Channel
 	err := p.Db.Select([]string{"id", "cid", "title", "type", "description"}).Where("id = ?", ps.ByName("id")).First(&item).Error
 	if err == nil {
@@ -71,7 +107,7 @@ func (p *AssetsEngine) showChannel(w http.ResponseWriter, r *http.Request, ps ht
 		p.Abort(w, err)
 	}
 }
-func (p *AssetsEngine) listChannel(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (p *CmsEngine) listChannel(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	pager := core.NewPager(24)
 	_, start, size := pager.Parse(r)
 	var total int
@@ -82,7 +118,7 @@ func (p *AssetsEngine) listChannel(w http.ResponseWriter, r *http.Request, ps ht
 	p.Db.Select([]string{"id", "cid", "title", "type", "description"}).Offset(start).Limit(size).Find(&items)
 	p.Pager(p.Render, w, pager, items)
 }
-func (p *AssetsEngine) showPlaylist(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (p *CmsEngine) showPlaylist(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var item Playlist
 	err := p.Db.Select([]string{"id", "pid", "title", "type", "description"}).Where("id = ?", ps.ByName("id")).First(&item).Error
 	if err == nil {
@@ -104,7 +140,7 @@ func (p *AssetsEngine) showPlaylist(w http.ResponseWriter, r *http.Request, ps h
 		p.Abort(w, err)
 	}
 }
-func (p *AssetsEngine) listPlaylist(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (p *CmsEngine) listPlaylist(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	pager := core.NewPager(24)
 	_, start, size := pager.Parse(r)
 	var total int
@@ -115,7 +151,7 @@ func (p *AssetsEngine) listPlaylist(w http.ResponseWriter, r *http.Request, ps h
 	p.Db.Select([]string{"id", "pid", "title", "type", "description"}).Offset(start).Limit(size).Find(&items)
 	p.Pager(p.Render, w, pager, items)
 }
-func (p *AssetsEngine) showVideo(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (p *CmsEngine) showVideo(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var item Video
 	err := p.Db.Select([]string{"id", "vid", "title", "type", "description"}).Where("id = ?", ps.ByName("id")).First(&item).Error
 	if err == nil {
@@ -124,7 +160,7 @@ func (p *AssetsEngine) showVideo(w http.ResponseWriter, r *http.Request, ps http
 		p.Abort(w, err)
 	}
 }
-func (p *AssetsEngine) listVideo(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+func (p *CmsEngine) listVideo(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	pager := core.NewPager(24)
 	_, start, size := pager.Parse(r)
 	var total int
@@ -136,7 +172,7 @@ func (p *AssetsEngine) listVideo(w http.ResponseWriter, r *http.Request, ps http
 	p.Pager(p.Render, w, pager, items)
 }
 
-func (p *AssetsEngine) Mount(rt core.Router) {
+func (p *CmsEngine) Mount(rt core.Router) {
 	rt.GET("/channels/:id", p.showChannel)
 	rt.GET("/channels", p.listChannel)
 	rt.GET("/playlist/:id", p.showPlaylist)
@@ -147,34 +183,8 @@ func (p *AssetsEngine) Mount(rt core.Router) {
 	rt.GET("/books/:id", p.showBook)
 	rt.GET("/books", p.listBook)
 
-	rt.GET("/blog/:id", p.showBlog)
-	rt.GET("/blog", p.listBlog)
+	rt.GET("/articles/:id", p.showArticle)
+	rt.GET("/articles", p.listArticle)
+	rt.GET("/tags/:id", p.showTag)
+	rt.GET("/tags", p.listTag)
 }
-
-/*
-func (p *AssetsEngine) index(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		pager := core.NewPager(20)
-		_, from, size := pager.Parse(r)
-		total, items, err := p.Dao.List("text/html", from, size)
-		if err == nil {
-			pager.SetTotal(int(total))
-			p.Render.JSON(w, http.StatusOK, map[string]interface{}{
-				"pager": pager.To(),
-				"items": items,
-			})
-
-		} else {
-			p.Abort(w, err)
-		}
-}
-
-func (p *AssetsEngine) show(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-		it := Item{Title: ps.ByName("name")}
-		if item, err := p.Dao.Get(it.Id()); err == nil {
-			p.Render.JSON(w, http.StatusOK, item)
-		} else {
-			p.Abort(w, err)
-		}
-}
-
-*/
