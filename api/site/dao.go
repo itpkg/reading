@@ -2,6 +2,7 @@ package site
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/itpkg/reading/api/core"
 	"github.com/jinzhu/gorm"
@@ -70,6 +71,7 @@ func (p *Dao) Get(key string, val interface{}) error {
 }
 
 func (*Dao) site_key(key, lang string) string {
+	lang = strings.ToLower(lang)
 	if lang == "" {
 		return fmt.Sprintf("site://%s", key)
 	} else {
