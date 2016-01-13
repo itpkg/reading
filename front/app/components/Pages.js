@@ -1,6 +1,7 @@
 import React from 'react';
 import {Alert} from 'react-bootstrap'
 import parse from 'url-parse'
+import i18next from 'i18next/lib'
 
 export const Home = React.createClass({
     render(){ //todo

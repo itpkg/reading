@@ -1,16 +1,19 @@
 import React from 'react';
 import { render } from 'react-dom'
-import { Router, Route, Link, browserHistory, IndexRoute } from 'react-router'
+import {Route, Link, IndexRoute } from 'react-router'
 
 import {Application} from './Layout'
 import {Home, AboutUs, NoMatch, Message} from './Pages'
 import {Users, SignIn, SignUp, Confirm, Unlock, ForgotPassword,ResetPassword} from './Users'
 import {Personal,Profile} from './Personal'
+import {Demo} from './Demo'
 
-const router = (
-    <Router history={browserHistory}>
+const route = (
+
         <Route path="/" component={Application}>
             <IndexRoute component={Home}/>
+
+            <Route path="demo" component={Demo}/>
 
             <Route path="message" component={Message}/>
             <Route path="about-us" component={AboutUs}/>
@@ -30,7 +33,6 @@ const router = (
 
             <Route path="*" component={NoMatch}/>
         </Route>
-    </Router>
 );
 
-export default router
+export default route
