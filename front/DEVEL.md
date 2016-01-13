@@ -18,7 +18,7 @@ DEVELOPMENT
     npm install -g phantomjs
     npm install
     bower install
-    ember server
+    ember server --proxy http://127.0.0.1:3000
 
 ### Deploy
     ember build --environment="production"
