@@ -12,6 +12,12 @@ func (p *Controller) Pager(r *render.Render, w http.ResponseWriter, pg *Pager, i
 	r.JSON(w, http.StatusOK, map[string]interface{}{"pager": pg, "items": i})
 }
 
+func (p *Controller) Html(w http.ResponseWriter, body string) {
+	w.Header().Set("Content-Type", "text/html; charset=utf-8")
+	w.WriteHeader(http.StatusOK)
+	w.Write([]byte(body))
+}
+
 func (p *Controller) Abort(w http.ResponseWriter, e error) {
 	w.WriteHeader(http.StatusInternalServerError)
 	w.Write([]byte(e.Error()))

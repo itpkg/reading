@@ -2,6 +2,8 @@ package cms
 
 import (
 	"net/http"
+	"os/exec"
+	"strings"
 
 	"github.com/itpkg/reading/api/core"
 	"github.com/julienschmidt/httprouter"
@@ -172,6 +174,15 @@ func (p *CmsEngine) listVideo(w http.ResponseWriter, r *http.Request, ps httprou
 	p.Pager(p.Render, w, pager, items)
 }
 
+func (p *CmsEngine) dict(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	if buf, err := exec.Command("sdcv", "--data-dir", "dict", r.URL.Query().Get("keyword")).Output(); err == nil {
+		p.Html(w, strings.Replace(string(buf), "\n", "<br>", -1))
+	} else {
+		p.Abort(w, err)
+	}
+
+}
+
 func (p *CmsEngine) Mount(rt core.Router) {
 	rt.GET("/videos/channels/:id", p.showChannel)
 	rt.GET("/videos/channels", p.listChannel)
@@ -187,4 +198,6 @@ func (p *CmsEngine) Mount(rt core.Router) {
 	rt.GET("/cms/articles", p.listArticle)
 	rt.GET("/cms/tags/:id", p.showTag)
 	rt.GET("/cms/tags", p.listTag)
+
+	rt.POST("/dict", p.dict)
 }
