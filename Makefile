@@ -6,7 +6,6 @@ build:
 	cp -a api/config/development.toml $(target)/config
 	cp -a api/templates $(target)/
 	mkdir -p $(target)/tmp
-	cd front && ember build --environment="production"
 
 
 clean:
