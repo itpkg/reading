@@ -1,4 +1,5 @@
 web:
+  no_match: 页面不存在。
   locales:
     en_US: English
     zh_CN: 简体中文
