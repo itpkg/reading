@@ -9,7 +9,8 @@ export default Ember.Component.extend({
     });
   }),
   actions: {
-    setLocale(locale) {      
+    setLocale(locale) {
+      localStorage.setItem("locale", locale);  
       this.set('i18n.locale', locale);
     }
   }

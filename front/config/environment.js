@@ -44,8 +44,9 @@ module.exports = function(environment) {
   }
 
   ENV.i18n = {
-    defaultLocale: 'zh-CN'
+    defaultLocale:  'en-US'
   };
+
 
   return ENV;
 };
