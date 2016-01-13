@@ -23,6 +23,12 @@ export default {
     apply: "Apply",
     search: "Search"
   },
+  links:{
+    home: "Home",
+    faq: "Faq",
+    about:"About us",
+    contact: "Contact"
+  },
   build_using: "Build using <a href='{{url}}' target='_blank'>{{url}}</a>"
   // "some.translation.key": "Text for some.translation.key",
   //

@@ -23,6 +23,12 @@ export default {
     apply: "应用",
     search: "搜索"
   },
+  links:{
+    home: "主页",
+    faq: "常见问题",
+    about:"关于我们",
+    contact: "联系我们"
+  },
   build_using: "使用<a href='{{url}}' target='_blank'> {{url}} </a>搭建。"
   // "some.translation.key": "Text for some.translation.key",
   //
