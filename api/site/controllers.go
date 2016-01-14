@@ -15,7 +15,7 @@ import (
 func (p *SiteEngine) sitemap(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	p.Cache.Page(w, r, "application/xml", 24*60, func() ([]byte, error) {
 		var buf bytes.Buffer
-		hds := make([]sitemap.Handler, 0)
+		var hds []sitemap.Handler
 		core.Loop(func(en core.Engine) error {
 			hds = append(hds, en.Sitemap())
 			return nil
@@ -29,7 +29,7 @@ func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 	p.Cache.Page(w, r, "application/xml", 6*60, func() ([]byte, error) {
 		lang := p.Locale(r)
 		var buf bytes.Buffer
-		hds := make([]rss.Handler, 0)
+		var hds []rss.Handler
 		core.Loop(func(en core.Engine) error {
 			hds = append(hds, en.Rss())
 			return nil
@@ -47,7 +47,15 @@ func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 	})
 }
 
-func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	/*
+		lang := p.Locale(r)
+		p.Render.JSON(w, http.StatusOK, map[string]string{
+			"locale": lang,
+			"key":    p.Dao.GetSiteInfo(ps.ByName("key"), lang),
+		})
+	*/
+
 	p.Cache.Page(w, r, "application/json", 6*60, func() ([]byte, error) {
 		lang := p.Locale(r)
 		ifo := map[string]interface{}{
@@ -95,7 +103,7 @@ func (p *SiteEngine) locales(w http.ResponseWriter, r *http.Request, ps httprout
 	p.Cache.Page(w, r, "application/json", 6*60, func() ([]byte, error) {
 		lang := ps.ByName("lang")
 
-		items := make([]Locale, 0)
+		var items []Locale
 		p.Db.Select("code, message").Where("code LIKE ? AND lang = ?", "web.%", lang).Order("code").Find(&items)
 
 		rt := make(map[string]interface{})
@@ -122,7 +130,7 @@ func (p *SiteEngine) Mount(rt core.Router) {
 	//just for i18next
 	//rt.GET("/locales/:lang", p.locales)
 
-	rt.GET("/info", p.info)
+	rt.GET("/site/info", p.info)
 	rt.GET("/baidu_verify_:id", p.baidu)
 	rt.GET("/google:id", p.google)
 	rt.GET("/rss.atom", p.rss)

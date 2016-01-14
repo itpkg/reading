@@ -1,6 +1,3 @@
-/.idea
-/node_modules
 /release
-/npm-debug.log
 .*.swp
 .#*
