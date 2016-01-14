@@ -3,7 +3,8 @@ reading
 I love reading.
 
 ## Documents
- * [https://developers.google.com/youtube/v3/getting-started](https://developers.google.com/youtube/v3/getting-started)
+ * [https://developers.google.com/youtube/v3/getting-started](Youtube API)
+ * [https://developers.google.com/identity/protocols/OAuth2](Google Oauth2)
 
 ## Development
 
@@ -21,14 +22,14 @@ I love reading.
 
     psql
     CREATE USER reading WITH PASSWORD 'changeme';
-    CREATE DATABASE reading_production WITH ENCODING='UTF8';
-    GRANT ALL PRIVILEGES ON DATABASE reading_production TO reading;
+    CREATE DATABASE itpkg_reading_prod WITH ENCODING='UTF8';
+    GRANT ALL PRIVILEGES ON DATABASE itpkg_reading_prod TO reading;
     \q
 
 #### test database connection
 
 
-    psql -U reading -d reading_production    
+    psql -U reading -d itpkg_reading_prod    
 
 * if report 'FATAL:  Peer authentication failed for user "reading"', open file "/etc/postgresql/9.3/main/pg_hba.conf" change line "local   all             all                                     peer" to "local   all             all                                     md5" and then run:
 
@@ -48,7 +49,7 @@ I love reading.
     ls release
 
 ### Run
-    export ITPKG_ENV=production
+    source .env
     ls config # edit config files
     ./itpkg -h
     ./itpkg db migrate

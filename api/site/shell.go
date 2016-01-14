@@ -51,20 +51,48 @@ func (p *SiteEngine) Shell() []cli.Command {
 		},
 		{
 			Name:    "nginx",
-			Aliases: []string{"n"},
+			Aliases: []string{"ng"},
 			Usage:   "generate nginx files",
-			Flags:   []cli.Flag{core.ENV},
-			Action: config.ConfigAction(func(cfg *config.Model, ctx *cli.Context) error {
-				t, e2 := template.ParseFiles("templates/nginx.conf")
-				if e2 != nil {
-					return e2
+			Flags: []cli.Flag{
+				cli.IntFlag{
+					Name:  "port, p",
+					Value: 8080,
+					Usage: "port of server to listen",
+				},
+				cli.StringFlag{
+					Name:  "name, n",
+					Value: "localhost",
+					Usage: "domain name",
+				},
+				cli.BoolFlag{
+					Name:  "ssl, s",
+					Usage: "enable ssl mode",
+				},
+			},
+			Action: core.EnvAction(func(env string, ctx *cli.Context) error {
+				ssl := ctx.Bool("ssl")
+				name := ctx.String("name")
+				port := ctx.Int("port")
+
+				fn := "templates/nginx/http.conf"
+				if ssl {
+					fn = "templates/nginx/https.conf"
 				}
-				f, e3 := os.OpenFile("config/nginx.conf", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+
+				t, err := template.ParseFiles(fn)
+				if err != nil {
+					return err
+				}
+				f, err := os.OpenFile("config/nginx.conf", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0600)
+				if err != nil {
+					return err
+				}
 				defer f.Close()
-				if e3 != nil {
-					return e3
-				}
-				return t.Execute(f, cfg.Http)
+
+				return t.Execute(f, struct {
+					Name string
+					Port int
+				}{Name: name, Port: port})
 			}),
 		},
 		{

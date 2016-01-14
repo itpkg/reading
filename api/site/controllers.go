@@ -119,7 +119,9 @@ func (p *SiteEngine) locales(w http.ResponseWriter, r *http.Request, ps httprout
 }
 
 func (p *SiteEngine) Mount(rt core.Router) {
-	rt.GET("/locales/:lang", p.locales)
+	//just for i18next
+	//rt.GET("/locales/:lang", p.locales)
+
 	rt.GET("/info", p.info)
 	rt.GET("/baidu_verify_:id", p.baidu)
 	rt.GET("/google:id", p.google)
