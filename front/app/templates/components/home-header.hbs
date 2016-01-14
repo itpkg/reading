@@ -12,9 +12,12 @@
         <div id="navbar" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li>{{#link-to "index"}}{{t 'links.home'}}{{/link-to}}</li>
-            <li>{{#link-to "faq"}}{{t 'links.faq'}}{{/link-to}}</li>
-            <li>{{#link-to "about"}}{{t 'links.about'}}{{/link-to}}</li>
-            <li>{{#link-to "contact"}}{{t 'links.contact'}}{{/link-to}}</li>
+            <li>{{#link-to 'cms.articles' }}{{t 'links.articles'}}{{/link-to}}</li>
+            <li>{{#link-to 'books' }}{{t 'links.books'}}{{/link-to}}</li>
+            <li>{{#link-to 'video.items' }}{{t 'links.video.items'}}{{/link-to}}</li>
+            <li>{{#link-to 'cms.articles.show' 'faq'}}{{t 'links.faq'}}{{/link-to}}</li>
+            <li>{{#link-to 'cms.articles.show' 'about'}}{{t 'links.about'}}{{/link-to}}</li>
+            <li>{{#link-to 'cms.articles.show' 'contact'}}{{t 'links.contact'}}{{/link-to}}</li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {{#each locales as |loc|}}

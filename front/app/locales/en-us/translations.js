@@ -25,6 +25,11 @@ export default {
   },
   links:{
     home: "Home",
+    articles: "Articles",
+    books: "Books",
+    video:{
+       items:"Videos"
+    },
     faq: "Faq",
     about:"About us",
     contact: "Contact"

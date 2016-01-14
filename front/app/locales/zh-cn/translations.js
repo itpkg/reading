@@ -25,6 +25,11 @@ export default {
   },
   links:{
     home: "主页",
+    articles: "文章列表",
+    books: "电子书籍",
+    video:{
+      items:"视频列表"
+    },
     faq: "常见问题",
     about:"关于我们",
     contact: "联系我们"

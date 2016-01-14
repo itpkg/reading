@@ -184,12 +184,12 @@ func (p *CmsEngine) dict(w http.ResponseWriter, r *http.Request, ps httprouter.P
 }
 
 func (p *CmsEngine) Mount(rt core.Router) {
-	rt.GET("/videos/channels/:id", p.showChannel)
-	rt.GET("/videos/channels", p.listChannel)
-	rt.GET("/videos/playlist/:id", p.showPlaylist)
-	rt.GET("/videos/playlist", p.listPlaylist)
-	rt.GET("/videos/items/:id", p.showVideo)
-	rt.GET("/videos/items", p.listVideo)
+	rt.GET("/video/channels/:id", p.showChannel)
+	rt.GET("/video/channels", p.listChannel)
+	rt.GET("/video/playlist/:id", p.showPlaylist)
+	rt.GET("/video/playlist", p.listPlaylist)
+	rt.GET("/video/items/:id", p.showVideo)
+	rt.GET("/video/items", p.listVideo)
 
 	rt.GET("/cms/books/:id", p.showBook)
 	rt.GET("/cms/books", p.listBook)
