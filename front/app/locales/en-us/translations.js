@@ -29,6 +29,10 @@ export default {
     about:"About us",
     contact: "Contact"
   },
+  messages:{
+    failed: "Failed!",
+    bad_url: "Bad url."
+  },
   build_using: "Build using <a href='{{url}}' target='_blank'>{{url}}</a>"
   // "some.translation.key": "Text for some.translation.key",
   //

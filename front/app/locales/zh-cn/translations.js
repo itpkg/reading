@@ -29,6 +29,10 @@ export default {
     about:"关于我们",
     contact: "联系我们"
   },
+  messages:{
+    failed: "操作失败！",
+    bad_url: "错误的地址。"
+  },
   build_using: "使用<a href='{{url}}' target='_blank'> {{url}} </a>搭建。"
   // "some.translation.key": "Text for some.translation.key",
   //

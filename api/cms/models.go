@@ -26,6 +26,7 @@ type Article struct {
 	UserID uint `sql:"not null"`
 	User   auth.User
 
+	Aid     string `sql:"not null;type:varchar(36);unique"`
 	Title   string `sql:"not null"`
 	Summary string
 	Lang    string `sql:"not null;type:char(5);index"`
