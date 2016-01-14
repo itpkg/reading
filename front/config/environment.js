@@ -5,6 +5,7 @@ module.exports = function(environment) {
     modulePrefix: 'front',
     environment: environment,
     baseURL: '/',
+    apiHost: null,
     locationType: 'auto',
     EmberENV: {
       FEATURES: {
@@ -40,7 +41,7 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-
+    ENV.apiHost = '/api/v1';
   }
 
   ENV.i18n = {
