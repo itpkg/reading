@@ -8,7 +8,14 @@ module.exports = function (options) {
     };
 
     var loaders = [
-        {test: /\.jsx?$/, exclude: /node_modules/, loader: 'babel', query: {presets: ['react', 'es2015']}},
+        {
+            test: /\.jsx?$/,
+            exclude: /(node_modules)/,
+            loader: 'babel',
+            query: {
+                presets: ['react','stage-0', 'es2015']
+            }
+        },
         {test: /\.css$/, loader: "style!css"},
         {test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2|eot)$/, loader: "file-loader"}
     ];
@@ -23,9 +30,9 @@ module.exports = function (options) {
 
     var htmlOptions = {
         title: 'reading',
-        favicon: path.join(__dirname, 'app', 'favicon.ico'),
+        favicon: 'favicon.ico',
         inject: true,
-        template: path.join(__dirname, 'app', 'index.html')
+        template: 'app/index.html'
     };
 
     if (options.minimize) {
