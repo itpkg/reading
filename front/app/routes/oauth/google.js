@@ -1,8 +1,8 @@
 import Ember from 'ember';
 
 export default Ember.Route.extend({
-  urlParser: Ember.inject.service(),
-  auth: Ember.inject.service(),
+  urlParser: Ember.inject.service(),  
+  session: Ember.inject.service(),
   ajax: Ember.inject.service(),
   redirect(){
     var self = this;
@@ -14,9 +14,8 @@ export default Ember.Route.extend({
         }
       }).then(
         function(tkn){
-          sessionStorage.setItem('token',tkn);            
-          self.get('auth').refresh();
-          self.transitionTo('index');
+           self.get('session').update(tkn);
+           window.location.href='/';
         }
     );
   }

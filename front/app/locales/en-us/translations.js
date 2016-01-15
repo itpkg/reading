@@ -27,6 +27,7 @@ export default {
     home: "Home",
     articles: "Articles",
     books: "Books",
+    personal: "Settings",
     video:{
        items:"Videos"
     },

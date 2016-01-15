@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Service.extend({
   ajax: Ember.inject.service(),
+  session: Ember.inject.service(),
   current_user: null,
   oauth: null,
   init(){
@@ -11,17 +12,14 @@ export default Ember.Service.extend({
     });
     this.refresh();
   },
-  sign_out(){
-    sessionStorage.removeItem('token');
-    this.set('current_user', null);
-  },
   refresh(){
-    var tkn = sessionStorage.getItem('token');
+    var tkn = this.get('session').token;
     if(tkn){
       try{
-        this.set("current_user", JSON.parse(Base64.decode(tkn.split('.')[1])));
+        this.set('current_user', JSON.parse(Base64.decode(tkn.split('.')[1])));
       }catch(e){
-        this.sign_out();
+        this.get('session').clear();
+        this.set('current_user', null);
       }
     }
   }

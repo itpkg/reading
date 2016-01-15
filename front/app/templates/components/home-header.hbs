@@ -24,6 +24,8 @@
                   <span class="caret"></span>
                 {{/bs-dropdown-toggle}}
                 {{#bs-dropdown-menu}}
+                  <li>{{#link-to 'personal' }}{{t 'links.personal'}}{{/link-to}}</li>
+                  <li role="separator" class="divider"></li>
                   <li><a href="#" {{action "signOut"}}>{{t 'users.sign_out'}}</a></li>
                 {{/bs-dropdown-menu}}
               {{/bs-dropdown}}

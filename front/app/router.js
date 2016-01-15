@@ -28,6 +28,7 @@ Router.map(function() {
   this.route('oauth', function() {
     this.route('google');
   });
+  this.route('personal');
 });
 
 export default Router;

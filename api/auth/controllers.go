@@ -62,7 +62,7 @@ func (p *AuthEngine) googleCallback(code string) (string, error) {
 	return p.Token.New(map[string]interface{}{
 		"id":   user.Uid,
 		"name": user.Name,
-		"logo": user.Logo,
+		//	"logo": user.Logo,
 	}, 7*24*60)
 }
 

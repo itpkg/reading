@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
+  session: Ember.inject.service(),
   auth: Ember.inject.service(),
   site: Ember.inject.service('site-info'),
   locales: Ember.computed('i18n.locale', 'i18n.locales', function() {
@@ -17,7 +18,8 @@ export default Ember.Component.extend({
       this.get('site').init();
     },
     signOut(){
-      this.get('auth').sign_out();      
+      this.get('session').clear();
+      window.location.href='/';
     }
   }
 });

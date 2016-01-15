@@ -27,6 +27,7 @@ export default {
     home: "主页",
     articles: "文章列表",
     books: "电子书籍",
+    personal: '控制中心',
     video:{
       items:"视频列表"
     },
