@@ -1,0 +1,48 @@
+{
+  "name": "front-react",
+  "version": "1.0.0",
+  "description": "front of reading(react version)",
+  "main": "index.js",
+  "scripts": {
+    "start": "webpack-dev-server --config webpack-dev.config.js --hot --progress --colors --inline",
+    "build": "webpack --config webpack-prod.config.js --progress --profile --colors",
+    "watch": "webpack --config webpack-dev.config.js --progress --colors --watch"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itpkg/reading.git"
+  },
+  "keywords": [
+    "reading"
+  ],
+  "author": "Jitang Zheng <jitang.zheng@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itpkg/reading/issues"
+  },
+  "homepage": "https://github.com/itpkg/reading#readme",
+  "dependencies": {
+    "bootstrap": "^3.3.6",
+    "famfamfam-flags": "^0.4.1",
+    "famfamfam-mini": "^0.3.5",
+    "famfamfam-silk": "^0.3.4",
+    "history": "^2.0.0-rc2",
+    "jquery": "^2.2.0",
+    "js-base64": "^2.1.9",
+    "markdown": "^0.5.0",
+    "react": "^0.14.6",
+    "react-bootstrap": "^0.28.2",
+    "react-dom": "^0.14.6",
+    "react-redux": "^4.0.6",
+    "react-router": "^2.0.0-rc5",
+    "redux": "^3.0.5",
+    "redux-simple-router": "^2.0.2"
+  },
+  "devDependencies": {
+    "babel-preset-es2015": "^6.3.13",
+    "babel-preset-react": "^6.3.13",
+    "redux-devtools": "^3.0.1",
+    "webpack": "^1.12.11",
+    "webpack-dev-server": "^1.14.1"
+  }
+}

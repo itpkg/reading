@@ -2,4 +2,3 @@ tmp/*
 dict/*
 !tmp/.keep
 !dict/.keep
-.idea
