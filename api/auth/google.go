@@ -27,8 +27,12 @@ type Google struct {
 	cfg *oauth2.Config
 }
 
-func (p *Google) Token(req *http.Request) ([]byte, error) {
-	tok, err := p.cfg.Exchange(oauth2.NoContext, req.URL.Query().Get("code"))
+func (p *Google) ParseToken(req *http.Request) ([]byte, error) {
+	return p.Token(req.URL.Query().Get("code"))
+}
+
+func (p *Google) Token(code string) ([]byte, error) {
+	tok, err := p.cfg.Exchange(oauth2.NoContext, code)
 	if err != nil {
 		return nil, err
 	}

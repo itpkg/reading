@@ -12,7 +12,7 @@ DEVELOPMENT
     script/build
     ls -l $TMPDIR/atom-build/Atom
     sudo script/grunt install
-    
+
 ### Env
     npm install -g ember-cli
     npm install -g phantomjs

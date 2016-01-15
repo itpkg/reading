@@ -36,9 +36,18 @@ export default {
   },
   messages:{
     failed: "操作失败！",
-    bad_url: "错误的地址。"
+    bad_url: "错误的地址。",
+    progressing: "正在处理！",
+    please_waiting: "请稍候..."
   },
-  build_using: "使用<a href='{{url}}' target='_blank'> {{url}} </a>搭建。"
+  build_using: "使用<a href='{{url}}' target='_blank'> {{url}} </a>搭建。",
+  users:{
+    sign_up_or_in: "注册/登录",
+    sign_in:{
+      google: "使用Google账户登录"
+    },
+    sign_out: "安全退出"
+  }
   // "some.translation.key": "Text for some.translation.key",
   //
   // "a": {

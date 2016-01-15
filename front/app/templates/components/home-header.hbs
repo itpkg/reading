@@ -18,6 +18,21 @@
             <li>{{#link-to 'cms.articles.show' 'faq'}}{{t 'links.faq'}}{{/link-to}}</li>
             <li>{{#link-to 'cms.articles.show' 'about'}}{{t 'links.about'}}{{/link-to}}</li>
             <li>{{#link-to 'cms.articles.show' 'contact'}}{{t 'links.contact'}}{{/link-to}}</li>
+            {{#if auth.current_user}}
+              {{#bs-dropdown tagName="li"}}
+                {{#bs-dropdown-toggle}}{{t 'users.welcome' }} <span class="caret"></span>{{/bs-dropdown-toggle}}
+                {{#bs-dropdown-menu}}
+                  <li>{{#link-to "index"}}{{t 'users.sign_out'}}{{/link-to}}</li>
+                {{/bs-dropdown-menu}}
+              {{/bs-dropdown}}
+            {{else}}
+              {{#bs-dropdown tagName="li"}}
+                {{#bs-dropdown-toggle}}{{t 'users.sign_up_or_in'}} <span class="caret"></span>{{/bs-dropdown-toggle}}
+                {{#bs-dropdown-menu}}
+                  <li><a href="{{auth.oauth.google}}">{{t 'users.sign_in.google'}}</a></li>
+                {{/bs-dropdown-menu}}
+              {{/bs-dropdown}}
+            {{/if}}
           </ul>
           <ul class="nav navbar-nav navbar-right">
             {{#each locales as |loc|}}

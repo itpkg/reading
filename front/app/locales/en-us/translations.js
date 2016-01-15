@@ -36,9 +36,18 @@ export default {
   },
   messages:{
     failed: "Failed!",
-    bad_url: "Bad url."
+    bad_url: "Bad url.",
+    progressing: "Progressing",
+    please_waiting: "Please waiting"
   },
-  build_using: "Build using <a href='{{url}}' target='_blank'>{{url}}</a>"
+  build_using: "Build using <a href='{{url}}' target='_blank'>{{url}}</a>",
+  users:{
+    sign_up_or_in: "Sign up/in",
+    sign_in:{
+      google: "Sign in with Google account"
+    },
+    sign_out: "Sign out"
+  }
   // "some.translation.key": "Text for some.translation.key",
   //
   // "a": {

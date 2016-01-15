@@ -24,6 +24,10 @@ Router.map(function() {
   this.route('books', function() {
     this.route('show', { path: '/show/:id' });
   });
+
+  this.route('oauth', function() {
+    this.route('google');
+  });
 });
 
 export default Router;

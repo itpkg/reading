@@ -2,6 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Component.extend({
   i18n: Ember.inject.service(),
+  auth: Ember.inject.service(),
   site: Ember.inject.service('site-info'),
   locales: Ember.computed('i18n.locale', 'i18n.locales', function() {
     const i18n = this.get('i18n');
