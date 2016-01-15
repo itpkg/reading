@@ -15,6 +15,9 @@ export default Ember.Component.extend({
       localStorage.setItem("locale", locale);
       this.set('i18n.locale', locale);
       this.get('site').init();
+    },
+    signOut(){
+      this.get('auth').sign_out();      
     }
   }
 });

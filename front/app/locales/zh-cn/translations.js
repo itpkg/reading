@@ -46,7 +46,8 @@ export default {
     sign_in:{
       google: "使用Google账户登录"
     },
-    sign_out: "安全退出"
+    sign_out: "安全退出",
+    welcome: "欢迎你, {{name}}."
   }
   // "some.translation.key": "Text for some.translation.key",
   //

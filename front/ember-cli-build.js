@@ -20,14 +20,6 @@ module.exports = function(defaults) {
   // please specify an object with the list of modules as keys
   // along with the exports of each module as its value.
   app.import('bower_components/js-base64/base64.js');
-  //app.import('bower_components/base64-js/lib/b64.js');
-  // app.import(
-  //   'bower_components/js-base64/base64.js',
-  //   {
-  //     exports:{
-  //       'js-base64':['base64']
-  //     }
-  //   }
-  // )
+  
   return app.toTree();
 };

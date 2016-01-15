@@ -20,9 +20,11 @@
             <li>{{#link-to 'cms.articles.show' 'contact'}}{{t 'links.contact'}}{{/link-to}}</li>
             {{#if auth.current_user}}
               {{#bs-dropdown tagName="li"}}
-                {{#bs-dropdown-toggle}}{{t 'users.welcome' }} <span class="caret"></span>{{/bs-dropdown-toggle}}
+                {{#bs-dropdown-toggle}}{{t 'users.welcome' name=auth.current_user.name }}
+                  <span class="caret"></span>
+                {{/bs-dropdown-toggle}}
                 {{#bs-dropdown-menu}}
-                  <li>{{#link-to "index"}}{{t 'users.sign_out'}}{{/link-to}}</li>
+                  <li><a href="#" {{action "signOut"}}>{{t 'users.sign_out'}}</a></li>
                 {{/bs-dropdown-menu}}
               {{/bs-dropdown}}
             {{else}}

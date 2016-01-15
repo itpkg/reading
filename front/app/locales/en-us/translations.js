@@ -46,7 +46,8 @@ export default {
     sign_in:{
       google: "Sign in with Google account"
     },
-    sign_out: "Sign out"
+    sign_out: "Sign out",
+    welcome: "Welcome, {{name}}."
   }
   // "some.translation.key": "Text for some.translation.key",
   //

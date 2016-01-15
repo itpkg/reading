@@ -1,7 +1,4 @@
 import Ember from 'ember';
-//import Base64 from '/bower_components/js-base64/base64';
-
-//var Base64 = require('bower_components/js-base64/base64.js').Base64;
 
 export default Ember.Service.extend({
   ajax: Ember.inject.service(),
@@ -14,10 +11,18 @@ export default Ember.Service.extend({
     });
     this.refresh();
   },
+  sign_out(){
+    sessionStorage.removeItem('token');
+    this.set('current_user', null);
+  },
   refresh(){
     var tkn = sessionStorage.getItem('token');
-    console.log(tkn);
-    console.log(Base64.decode(tkn));
-    //this.set('token', user);
+    if(tkn){
+      try{
+        this.set("current_user", JSON.parse(Base64.decode(tkn.split('.')[1])));
+      }catch(e){
+        this.sign_out();
+      }
+    }
   }
 });
