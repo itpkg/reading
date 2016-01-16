@@ -13,8 +13,8 @@ I love reading.
 ### Install
     bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
     gvm install go1.4
-    GOROOT_BOOTSTRAP=/home/flamen/.gvm/gos/go1.4 gvm install go1.5.2
-    gvm use go1.5.2 --default
+    GOROOT_BOOTSTRAP=/home/flamen/.gvm/gos/go1.4 gvm install go1.5.3
+    gvm use go1.5.3 --default
     go get github.com/itpkg/reading/api
 
 
