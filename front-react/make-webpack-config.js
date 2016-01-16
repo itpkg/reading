@@ -4,7 +4,23 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function (options) {
     var entry = {
-        main: path.join(__dirname, 'app', options.env)
+        main: path.join(__dirname, 'app', options.env),
+        vendor: [
+            'bootstrap/dist/css/bootstrap.css',
+            'bootstrap/dist/css/bootstrap-theme.css',
+            'jquery',
+            'react',
+            'react-dom',
+            'react-bootstrap',
+            'react-router',
+            'redux',
+            'react-redux',
+            'redux-simple-router',
+            'url-parse',
+            'i18next/lib',
+            'i18next-xhr-backend/lib',
+            'i18next-browser-languagedetector/lib'
+        ]
     };
 
     var loaders = [
@@ -62,6 +78,7 @@ module.exports = function (options) {
         API_HOST: JSON.stringify(options.apiHost),
         'process.env.NODE_ENV': JSON.stringify(options.env)
     }));
+    plugins.push(new webpack.optimize.CommonsChunkPlugin({name: 'vendor'}));
 
     var output = {
         path: path.join(__dirname, 'dist'),
