@@ -17,14 +17,15 @@ module.exports = function (options) {
             }
         },
         {test: /\.css$/, loader: "style!css"},
+        {test: /\.json$/, loader: "json"},
         {test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2|eot)$/, loader: "file-loader"}
     ];
 
     var plugins = [
         new webpack.ProvidePlugin({
             //fix 'jQuery is not defined' bug
-            $: "jquery",
-            jQuery: "jquery"
+            //$: "jquery",
+            //jQuery: "jquery"
         })
     ];
 

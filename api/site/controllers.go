@@ -48,13 +48,6 @@ func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 }
 
 func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-	/*
-		lang := p.Locale(r)
-		p.Render.JSON(w, http.StatusOK, map[string]string{
-			"locale": lang,
-			"key":    p.Dao.GetSiteInfo(ps.ByName("key"), lang),
-		})
-	*/
 
 	p.Cache.Page(w, r, "application/json", 6*60, func() ([]byte, error) {
 		lang := p.Locale(r)
@@ -128,7 +121,7 @@ func (p *SiteEngine) locales(w http.ResponseWriter, r *http.Request, ps httprout
 
 func (p *SiteEngine) Mount(rt core.Router) {
 	//just for i18next
-	//rt.GET("/locales/:lang", p.locales)
+	rt.GET("/locales/:lang", p.locales)
 
 	rt.GET("/site/info", p.info)
 	rt.GET("/baidu_verify_:id", p.baidu)
