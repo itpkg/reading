@@ -1,4 +1,7 @@
+require('bootstrap/dist/css/bootstrap.css');
+require('bootstrap/dist/css/bootstrap-theme.css');
 require('./main.css');
+
 import React from 'react'
 import { render } from 'react-dom'
 import i18next from 'i18next/lib';

@@ -1,13 +1,12 @@
 var path = require("path");
 var webpack = require("webpack");
 var HtmlWebpackPlugin = require('html-webpack-plugin');
+var ExtractTextPlugin = require("extract-text-webpack-plugin");
 
 module.exports = function (options) {
     var entry = {
         main: path.join(__dirname, 'app', 'main'),
         vendor: [
-            'bootstrap/dist/css/bootstrap.css',
-            'bootstrap/dist/css/bootstrap-theme.css',
             'jquery',
             'react',
             'react-dom',
@@ -32,17 +31,24 @@ module.exports = function (options) {
                 presets: ['react', 'stage-0', 'es2015']
             }
         },
-        {test: /\.css$/, loader: "style!css"},
+        {
+            test: /\.css$/,
+            loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+        },
+        {
+            test: /\.less$/,
+            loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+        },
         {test: /\.json$/, loader: "json"},
         {test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2|eot)$/, loader: "file-loader"}
     ];
 
     var plugins = [
-        new webpack.ProvidePlugin({
-            //fix 'jQuery is not defined' bug
-            //$: "jquery",
-            //jQuery: "jquery"
-        })
+        //new webpack.ProvidePlugin({
+        //    //fix 'jQuery is not defined' bug
+        //    $: "jquery",
+        //    jQuery: "jquery"
+        //})
     ];
 
     var htmlOptions = {
@@ -59,10 +65,20 @@ module.exports = function (options) {
         };
 
         plugins.push(new webpack.optimize.UglifyJsPlugin({
+            compress: {
+                drop_console: true,
+                drop_debugger: true,
+                dead_code: true,
+                unused: true,
+
+                warnings: false
+            },
             output: {
                 comments: false
             }
         }));
+        plugins.push(new webpack.optimize.DedupePlugin());
+        plugins.push(new webpack.optimize.OccurrenceOrderPlugin(true));
 
         plugins.push(new webpack.DefinePlugin({
             "process.env": {
@@ -79,6 +95,7 @@ module.exports = function (options) {
         'process.env.NODE_ENV': JSON.stringify(options.env)
     }));
     plugins.push(new webpack.optimize.CommonsChunkPlugin({name: 'vendor'}));
+    plugins.push(new ExtractTextPlugin(options.prerender ? "[id]-[chunkhash].css":"[name].css"));
 
     var output = {
         publicPath: '/',
