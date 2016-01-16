@@ -23,7 +23,7 @@ export const NoMatch = React.createClass({
         return (<div className="col-md-offset-1 col-md-10">
             <br/>
             <Alert bsStyle="danger" onDismiss={this.handleAlertDismiss}>
-                <h4>{i18next.t("no_match")}</h4>
+                <strong>{i18next.t("no_match")}</strong>
             </Alert>
         </div>)
     }
@@ -36,12 +36,11 @@ export const Message = React.createClass({
         return {ok: query.ok == 'true', message: query.msg}
     },
     render(){
-        return (<div className="row">
-                <div className="col-md-offset-1 col-md-10">
-                    <Alert bsStyle={ this.state.ok? "success":"danger"}>
-                        <h4>{this.state.message}</h4>
-                    </Alert>
-                </div>
+        return (
+            <div className="col-md-offset-1 col-md-10">
+                <Alert bsStyle={ this.state.ok? "success":"danger"}>
+                    <strong>{this.state.message}</strong>
+                </Alert>
             </div>
         )
     }

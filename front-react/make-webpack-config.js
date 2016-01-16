@@ -4,7 +4,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function (options) {
     var entry = {
-        main: path.join(__dirname, 'app', options.env),
+        main: path.join(__dirname, 'app', 'main'),
         vendor: [
             'bootstrap/dist/css/bootstrap.css',
             'bootstrap/dist/css/bootstrap-theme.css',
@@ -81,8 +81,9 @@ module.exports = function (options) {
     plugins.push(new webpack.optimize.CommonsChunkPlugin({name: 'vendor'}));
 
     var output = {
+        publicPath: '/',
         path: path.join(__dirname, 'dist'),
-        filename: options.prerender ? "/[id]-[chunkhash].js" : '/[name].js'
+        filename: options.prerender ? "[id]-[chunkhash].js" : '[name].js'
     };
 
     return {

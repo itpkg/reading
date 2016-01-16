@@ -2,6 +2,10 @@ web:
   no_match: No match.
   back_to_top: Back to top
   build_using: Build using <a target='_blank' href='{{url}}'>{{url}}</a>.
+  messages:
+    success: Success.
+    failed: Failed!
+    waiting: Progressing, please waiting...
   locales:
     en_US: English
     zh_CN: 简体中文

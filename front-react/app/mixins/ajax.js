@@ -1,8 +1,13 @@
 import $ from 'jquery'
+import i18next from 'i18next/lib';
+
+function api(u) {
+    return API_HOST + u + (u.indexOf('?') == -1 ? '?' : '&') + 'locale=' + i18next.language;
+}
 
 export const AjaxMixin = {
     GET: function (url, success) {
-        $.get(API_HOST + url, success.bind(this));
+        $.get(api(url), success.bind(this));
     },
     POST: function () {
         console.log('todo post');
