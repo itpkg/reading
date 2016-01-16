@@ -1,5 +1,6 @@
 module.exports = require("./make-webpack-config")({
-    mode: 'prod',
+    env: 'production',
+    apiHost: '/api/v1',
     prerender: true,
     minimize: true
 });

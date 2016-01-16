@@ -4,9 +4,9 @@
   "description": "front of reading(react version)",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --config webpack-dev.config.js --hot --progress --colors --inline",
-    "build": "webpack --config webpack-prod.config.js --progress --profile --colors",
-    "watch": "webpack --config webpack-dev.config.js --progress --colors --watch"
+    "start": "webpack-dev-server --config webpack-development.config.js --hot --progress --colors --inline",
+    "build": "webpack --config webpack-production.config.js --progress --profile --colors",
+    "watch": "webpack --config webpack-development.config.js --progress --colors --watch"
   },
   "repository": {
     "type": "git",

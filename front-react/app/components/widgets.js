@@ -1,7 +1,10 @@
 import React from 'react';
 import {IndexLink, Link} from 'react-router';
+import {LinkContainer} from 'react-router-bootstrap';
 import {Input, ButtonInput,Navbar, Nav, NavItem, NavDropdown, MenuItem, Alert} from 'react-bootstrap'
 import i18next from 'i18next/lib';
+
+import {AjaxMixin} from '../mixins/ajax'
 
 export const Header = React.createClass({
     onSignOut: function () {
@@ -40,14 +43,33 @@ export const Header = React.createClass({
             <Navbar inverse fixedTop fluid>
                 <Navbar.Header>
                     <Navbar.Brand>
-                        <a href="/#/">TODO</a>
+                        <Link to="home">{this.props.title}</Link>
                     </Navbar.Brand>
                     <Navbar.Toggle />
                 </Navbar.Header>
                 <Navbar.Collapse>
                     <Nav>
-                        <NavItem eventKey={1} href="/home">{i18next.t("links.home")}</NavItem>
-                        <NavItem eventKey={2} href="/#/about-us">{i18next.t("links.about_us")}</NavItem>
+                        <LinkContainer to="/home">
+                            <NavItem eventKey={1}>{i18next.t("nav_bar.home")}</NavItem>
+                        </LinkContainer>
+                        <LinkContainer to={'/cms/articles'}>
+                            <NavItem eventKey={2}>{i18next.t("nav_bar.articles")}</NavItem>
+                        </LinkContainer>
+                        <LinkContainer to={'/books'}>
+                            <NavItem eventKey={2}>{i18next.t("nav_bar.books")}</NavItem>
+                        </LinkContainer>
+                        <LinkContainer to={'/video/items'}>
+                            <NavItem eventKey={2}>{i18next.t("nav_bar.videos")}</NavItem>
+                        </LinkContainer>
+                        <LinkContainer to={'/cms/articles/faq'}>
+                            <NavItem eventKey={2}>{i18next.t("nav_bar.faq")}</NavItem>
+                        </LinkContainer>
+                        <LinkContainer to={'/cms/articles/about'}>
+                            <NavItem eventKey={2}>{i18next.t("nav_bar.about")}</NavItem>
+                        </LinkContainer>
+                        <LinkContainer to={'/cms/articles/contact'}>
+                            <NavItem eventKey={2}>{i18next.t("nav_bar.contact")}</NavItem>
+                        </LinkContainer>
                         {this.personalBar()}
                     </Nav>
                     <Nav pullRight>
@@ -63,8 +85,15 @@ export const Header = React.createClass({
 });
 
 export const Footer = React.createClass({
-    render(){//todo
-        return (<p>footer</p>)
+    render(){
+        return (<footer>
+            <p>
+                {this.props.copyright}
+                &nbsp;
+                <span
+                    dangerouslySetInnerHTML={{__html: i18next.t('build_using', {url:'https://github.com/itpkg/reading'})}}/>
+            </p>
+        </footer>)
     }
 });
 
@@ -182,17 +211,31 @@ export const Form = React.createClass({
 
 
 export const Layout = React.createClass({
+    mixins: [AjaxMixin],
+    getInitialState(){
+        return {
+            subTitle: 'Reading',
+            title: 'IT-PACKAGE',
+            copyright: '©2016 Company, Inc.'
+        }
+    },
+    componentDidMount(){
+        document.title = this.state.subTitle + '-' + this.state.title;
+        this.GET('/site/info', function (rst) {
+            this.setState(rst);
+        });
+    },
     render(){
         return (
             <div>
-                <Header/>
+                <Header title={this.state.subTitle}/>
                 <div className="container-fluid">
                     <div className="row">
                         {this.props.children}
                     </div>
                     <hr/>
                     <div>
-                        <Footer/>
+                        <Footer copyright={this.state.copyright}/>
                     </div>
                 </div>
             </div>

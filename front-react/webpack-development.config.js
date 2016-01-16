@@ -1,3 +1,4 @@
 module.exports = require("./make-webpack-config")({
-    mode: 'dev'
+    env: 'development',
+    apiHost: ''
 });

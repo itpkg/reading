@@ -22,7 +22,7 @@ export const NoMatch = React.createClass({
     render(){
         return (<div className="col-md-offset-1 col-md-10">
             <br/>
-            <Alert bsStyle="danger">
+            <Alert bsStyle="danger" onDismiss={this.handleAlertDismiss}>
                 <h4>{i18next.t("no_match")}</h4>
             </Alert>
         </div>)

@@ -24,7 +24,7 @@ function main(options) {
         .init({
             fallbackLng: 'en-US',
             backend: {
-                loadPath: options.apiUrl + 'locales/{{lng}}'
+                loadPath: API_HOST + '/locales/{{lng}}'
             },
             detection: {
                 order: ['querystring', 'localStorage', 'cookie', 'navigator'],

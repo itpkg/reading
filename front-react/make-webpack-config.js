@@ -4,7 +4,7 @@ var HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = function (options) {
     var entry = {
-        main: path.join(__dirname, 'app', options.mode)
+        main: path.join(__dirname, 'app', options.env)
     };
 
     var loaders = [
@@ -13,7 +13,7 @@ module.exports = function (options) {
             exclude: /(node_modules)/,
             loader: 'babel',
             query: {
-                presets: ['react','stage-0', 'es2015']
+                presets: ['react', 'stage-0', 'es2015']
             }
         },
         {test: /\.css$/, loader: "style!css"},
@@ -57,6 +57,11 @@ module.exports = function (options) {
 
     }
     plugins.push(new HtmlWebpackPlugin(htmlOptions));
+    plugins.push(new webpack.DefinePlugin({
+        VERSION: JSON.stringify('v0.0.1'),
+        API_HOST: JSON.stringify(options.apiHost),
+        'process.env.NODE_ENV': JSON.stringify(options.env)
+    }));
 
     var output = {
         path: path.join(__dirname, 'dist'),
