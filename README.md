@@ -2,9 +2,11 @@ reading
 ---
 I love reading.
 
-## Documents
+## Resources
  * [https://developers.google.com/youtube/v3/getting-started](Youtube API)
  * [https://developers.google.com/identity/protocols/OAuth2](Google Oauth2)
+ * [https://addons.mozilla.org/en-US/firefox/addon/react-devtools/](React devtools for Firefox)
+ * [https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi](React devtools for Chrome)
 
 ## Development
 
