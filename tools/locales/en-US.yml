@@ -26,8 +26,9 @@ web:
     upgrade: Upgrade
     remove: Remove
   users:
-    sign_in: Sign In
+    welcome: Welcome, {{name}}.
     sign_out: Sign out
+    sign_up_or_in: Sign up/in
     sign_in_with:
-      google: Sign in with google account.
+        google: Sign in with google account.
 

@@ -26,8 +26,9 @@ web:
     upgrade: 升级
     remove: 删除
   users:
-    sign_in: 用户登录
+    welcome: 欢迎你, {{name}}。
     sign_out: 安全退出
+    sign_up_or_in: 注册/登录
     sign_in_with:
       google: 使用google账户登录
 

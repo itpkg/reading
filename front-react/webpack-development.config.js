@@ -1,4 +1,4 @@
 module.exports = require("./make-webpack-config")({
     env: 'development',
-    apiHost: ''
+    apiHost: 'http://localhost:3000'
 });

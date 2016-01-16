@@ -6,7 +6,7 @@ import React from 'react'
 import { render } from 'react-dom'
 import { compose, createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux'
-import { Router } from 'react-router'
+import { Router, browserHistory } from 'react-router'
 
 import { syncHistory, routeReducer } from 'redux-simple-router'
 import i18next from 'i18next/lib';
@@ -24,7 +24,8 @@ function main(options) {
         .init({
             fallbackLng: 'en-US',
             backend: {
-                loadPath: API_HOST + '/locales/{{lng}}'
+                loadPath: API_HOST + '/locales/{{lng}}',
+                crossDomain: options.crossDomain
             },
             detection: {
                 order: ['querystring', 'localStorage', 'cookie', 'navigator'],
@@ -37,14 +38,14 @@ function main(options) {
             const reducer = combineReducers(Object.assign({}, reducers, {
                 routing: routeReducer
             }));
-            const reduxRouterMiddleware = syncHistory(options.history);
+            const reduxRouterMiddleware = syncHistory(browserHistory);
             const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware)(createStore);
             const store = createStoreWithMiddleware(reducer);
 
 
             render(
                 <Provider store={store}>
-                    <Router history={options.history}>
+                    <Router history={browserHistory}>
                         {Route}
                     </Router>
                 </Provider>,

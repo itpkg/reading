@@ -13,7 +13,7 @@ import (
 )
 
 func (p *SiteEngine) sitemap(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	p.Cache.Page(w, r, "application/xml", 24*60, func() ([]byte, error) {
+	p.Cache.Page(w, r, core.XML, 24*60, func() ([]byte, error) {
 		var buf bytes.Buffer
 		var hds []sitemap.Handler
 		core.Loop(func(en core.Engine) error {
@@ -26,7 +26,7 @@ func (p *SiteEngine) sitemap(w http.ResponseWriter, r *http.Request, _ httproute
 }
 
 func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
-	p.Cache.Page(w, r, "application/xml", 6*60, func() ([]byte, error) {
+	p.Cache.Page(w, r, core.XML, 6*60, func() ([]byte, error) {
 		lang := p.Locale(r)
 		var buf bytes.Buffer
 		var hds []rss.Handler
@@ -49,7 +49,7 @@ func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 
 func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 
-	p.Cache.Page(w, r, "application/json", 6*60, func() ([]byte, error) {
+	p.Cache.Page(w, r, core.JSON, 6*60, func() ([]byte, error) {
 		lang := p.Locale(r)
 		ifo := map[string]interface{}{
 			"title":       p.Dao.GetSiteInfo("title", lang),
@@ -92,8 +92,7 @@ func (p *SiteEngine) google(w http.ResponseWriter, _ *http.Request, ps httproute
 }
 
 func (p *SiteEngine) locales(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
-
-	p.Cache.Page(w, r, "application/json", 6*60, func() ([]byte, error) {
+	p.Cache.Page(w, r, core.JSON, 6*60, func() ([]byte, error) {
 		lang := ps.ByName("lang")
 
 		var items []Locale

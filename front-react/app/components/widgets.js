@@ -7,6 +7,18 @@ import i18next from 'i18next/lib';
 import {AjaxMixin} from '../mixins/ajax'
 
 export const Header = React.createClass({
+    mixins: [AjaxMixin],
+    getInitialState(){
+        return {
+            google: null
+        }
+    },
+    componentDidMount(){
+        this.GET('/oauth/sign_in', function (rst) {
+            this.setState(rst);
+        });
+    },
+
     onSignOut: function () {
 //todo
     },
@@ -19,18 +31,15 @@ export const Header = React.createClass({
                     <MenuItem eventKey={3.1} href="/#/personal/profile">{i18next.t("users.titles.profile")}</MenuItem>
                     <MenuItem divider/>
                     <MenuItem eventKey={3.3} onclick={this.onSignOut}>{i18next.t("users.titles.sign_out")}</MenuItem>
-                </NavDropdown>)
+                </NavDropdown>
+            )
         } else {
-            return (<NavDropdown eventKey={3} title={i18next.t("users.titles.sign_in_or_up")} id="basic-nav-dropdown">
-                <MenuItem eventKey={3.1} href="/#/users/sign-in">{i18next.t("users.titles.sign_in")}</MenuItem>
-                <MenuItem eventKey={3.2} href="/#/users/sign-up">{i18next.t("users.titles.sign_up")}</MenuItem>
-                <MenuItem eventKey={3.3}
-                          href="/#/users/forgot-password">{i18next.t("users.titles.forgot_your_password")}</MenuItem>
-                <MenuItem eventKey={3.4}
-                          href="/#/users/confirm">{i18next.t("users.titles.did_not_receive_confirmation_instructions")}</MenuItem>
-                <MenuItem eventKey={3.5}
-                          href="/#/users/unlock">{i18next.t("users.titles.did_not_receive_unlock_instructions")}</MenuItem>
-            </NavDropdown>)
+            return (
+                <NavDropdown eventKey={3} title={i18next.t("users.sign_up_or_in")} id="basic-nav-dropdown">
+                    <MenuItem eventKey={3.1}
+                              href={this.state.google}>{i18next.t("users.sign_in_with.google")}</MenuItem>
+                </NavDropdown>
+            )
         }
     },
     switchLang: function (lang) {

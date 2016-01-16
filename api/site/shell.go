@@ -14,6 +14,7 @@ import (
 	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
 	"github.com/julienschmidt/httprouter"
+	"github.com/rs/cors"
 )
 
 func (p *SiteEngine) Shell() []cli.Command {
@@ -29,7 +30,13 @@ func (p *SiteEngine) Shell() []cli.Command {
 					en.Mount(rt)
 					return nil
 				})
-				return http.ListenAndServe(fmt.Sprintf(":%d", cfg.Http.Port), rt)
+				var hnd http.Handler
+				if cfg.IsProduction() {
+					hnd = rt
+				} else {
+					hnd = cors.Default().Handler(rt)
+				}
+				return http.ListenAndServe(fmt.Sprintf(":%d", cfg.Http.Port), hnd)
 			}),
 		},
 		{

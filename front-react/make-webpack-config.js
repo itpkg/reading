@@ -82,7 +82,7 @@ module.exports = function (options) {
 
     var output = {
         path: path.join(__dirname, 'dist'),
-        filename: options.prerender ? "[id]-[chunkhash].js" : '[name].js'
+        filename: options.prerender ? "/[id]-[chunkhash].js" : '/[name].js'
     };
 
     return {
@@ -93,11 +93,9 @@ module.exports = function (options) {
             loaders: loaders
         },
         devServer: {
+            historyApiFallback: true,
             inline: true,
-            port: 4200,
-            proxy: {
-                "*": "http://127.0.0.1:3000/"
-            }
+            port: 4200
         }
     }
 };
