@@ -29,7 +29,6 @@ type Article struct {
 	Aid     string `sql:"not null;type:varchar(36);unique"`
 	Title   string `sql:"not null"`
 	Summary string
-	Lang    string `sql:"not null;type:char(5);index"`
 	Body    string `sql:"not null;type:TEXT"`
 	Type    string `sql:"not null;type:varchar(8);default:'markdown';index"`
 
@@ -42,7 +41,8 @@ func (Article) TableName() string {
 
 type Tag struct {
 	core.Model
-	Name     string    `sql:"not null;unique"`
+	Name     string    `sql:"not null"`
+	Lang    string `sql:"not null;type:char(5);index;default:'en-US'"`
 	Articles []Article `gorm:"many2many:cms_article_tags;"`
 }
 
@@ -67,6 +67,7 @@ type User struct {
 	core.Model
 
 	Uid  string `sql:"not null;index"`
+	Lang    string `sql:"not null;type:char(5);index;default:'en-US'"`
 	Type string `sql:"not null;type:varchar(8);index"`
 }
 
@@ -147,6 +148,7 @@ func (p *CmsEngine) Migrate() {
 		&User{}, &Channel{}, &Playlist{}, &Video{},
 		&Book{},
 	)
+	p.Db.Model(&Tag{}).AddUniqueIndex("idx_cms_tags_lang_name", "lang", "name")
 	p.Db.Model(&User{}).AddUniqueIndex("idx_video_users_uid_type", "uid", "type")
 	p.Db.Model(&Channel{}).AddUniqueIndex("idx_video_channels_cid_type", "cid", "type")
 	p.Db.Model(&Playlist{}).AddUniqueIndex("idx_video_playlist_cid_type", "pid", "type")
