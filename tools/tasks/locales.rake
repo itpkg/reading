@@ -13,8 +13,8 @@ end
 
 desc 'build locales.sql'
 task :locales do
-  File.open('locales.sql', 'w') do |lf|
-    lf.puts 'DELETE FROM locales;'
+  File.open('../api/tmp/locales.txt', 'w') do |lf|
+    #lf.puts 'DELETE FROM locales;'
     Dir.glob('locales/**/*.yml').each do |fn|
       lang = fn[-9..-5]
       puts "Find language #{lang}."
@@ -24,7 +24,8 @@ task :locales do
       loop_hash rst,'', items
       puts "#{rst.length} items."
       rst.each do |k, v|
-        lf.puts "INSERT INTO locales(lang, code, message) VALUES('#{lang}', '#{k}', '#{escape_string v}');"
+        lf.puts "#{lang}.#{k}=#{v}"
+        #lf.puts "INSERT INTO locales(lang, code, message) VALUES('#{lang}', '#{k}', '#{escape_string v}');"
       end
     end
   end

@@ -2,7 +2,6 @@ package site
 
 import (
 	"fmt"
-	"strings"
 
 	"github.com/itpkg/reading/api/core"
 	"github.com/jinzhu/gorm"
@@ -13,9 +12,23 @@ type Dao struct {
 	Aes *core.Aes `inject:""`
 }
 
+func (p *Dao) Locale(lang, code, msg string) error {
+	var c int
+	var err error
+	l := Locale{Lang: lang, Code: code, Message: msg}
+	p.Db.Model(&Locale{}).Where("lang = ? AND code = ?", lang, code).Count(&c)
+	if c == 0 {
+		err = p.Db.Create(&l).Error
+	} else {
+		err = p.Db.Model(Locale{}).Where("lang = ? AND code = ?", lang, code).UpdateColumn("message", msg).Error
+	}
+	return err
+}
+
 func (p *Dao) SetSiteInfo(key, lang string, val interface{}, flag bool) error {
 	return p.Set(p.site_key(key, lang), val, flag)
 }
+
 func (p *Dao) GetSiteInfo(key, lang string) string {
 	var val string
 	p.Get(p.site_key(key, lang), &val)
@@ -71,7 +84,6 @@ func (p *Dao) Get(key string, val interface{}) error {
 }
 
 func (*Dao) site_key(key, lang string) string {
-	lang = strings.ToLower(lang)
 	if lang == "" {
 		return fmt.Sprintf("site://%s", key)
 	} else {

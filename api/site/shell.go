@@ -1,6 +1,7 @@
 package site
 
 import (
+	"bufio"
 	"errors"
 	"fmt"
 	"net/http"
@@ -13,6 +14,7 @@ import (
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
+	"github.com/jinzhu/gorm"
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/cors"
 )
@@ -100,6 +102,36 @@ func (p *SiteEngine) Shell() []cli.Command {
 					Name string
 					Port int
 				}{Name: name, Port: port})
+			}),
+		},
+
+		{
+			Name:    "locales:import",
+			Aliases: []string{"li"},
+			Usage:   "import data from tmp/locales.txt",
+			Flags:   []cli.Flag{core.ENV},
+			Action: config.DatabaseAction(func(db *gorm.DB, ctx *cli.Context) error {
+				dao := Dao{Db: db}
+				lf, err := os.Open("tmp/locales.txt")
+				if err != nil {
+					return err
+				}
+				san := bufio.NewScanner(lf)
+				for san.Scan() {
+					line := san.Text()
+					ldx := strings.Index(line, ".")
+					cdx := strings.Index(line, "=")
+					if ldx == -1 || cdx == -1 {
+						return errors.New(fmt.Sprintf("Bad line: %s", line))
+					}
+					lang := line[0:ldx]
+					code := line[ldx+1 : cdx]
+					msg := line[cdx+1 : len(line)]
+					if err := dao.Locale(lang, code, msg); err != nil {
+						return err
+					}
+				}
+				return san.Err()
 			}),
 		},
 		{

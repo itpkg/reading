@@ -5,7 +5,6 @@ import (
 	"encoding/gob"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/garyburd/redigo/redis"
 )
@@ -16,7 +15,7 @@ type RedisProvider struct {
 
 func (p *RedisProvider) Page(wrt http.ResponseWriter, req *http.Request, contentType string, minutes uint, callback func() ([]byte, error)) {
 	var body []byte
-	key := fmt.Sprintf("%s/%s", req.URL.Path, strings.ToLower(req.URL.Query().Get("locale")))
+	key := fmt.Sprintf("%s/%s", req.URL.Path, req.URL.Query().Get("locale"))
 	if err := p.Get(key, &body); err != nil {
 		if body, err = callback(); err != nil {
 			wrt.WriteHeader(http.StatusInternalServerError)
