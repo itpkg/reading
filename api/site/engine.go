@@ -1,6 +1,12 @@
 package site
 
 import (
+	"bufio"
+	"errors"
+	"fmt"
+	"os"
+	"strings"
+
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
@@ -25,7 +31,26 @@ type SiteEngine struct {
 
 //=========================================================
 func (p *SiteEngine) Seed() error {
-	return nil
+	lf, err := os.Open("tmp/locales.txt")
+	if err != nil {
+		return err
+	}
+	san := bufio.NewScanner(lf)
+	for san.Scan() {
+		line := san.Text()
+		ldx := strings.Index(line, ".")
+		cdx := strings.Index(line, "=")
+		if ldx == -1 || cdx == -1 {
+			return errors.New(fmt.Sprintf("Bad line: %s", line))
+		}
+		lang := line[0:ldx]
+		code := line[ldx+1 : cdx]
+		msg := line[cdx+1 : len(line)]
+		if err := p.Dao.Locale(lang, code, msg); err != nil {
+			return err
+		}
+	}
+	return san.Err()
 }
 
 func (p *SiteEngine) Migrate() {

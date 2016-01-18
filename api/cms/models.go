@@ -42,7 +42,7 @@ func (Article) TableName() string {
 type Tag struct {
 	core.Model
 	Name     string    `sql:"not null"`
-	Lang    string `sql:"not null;type:char(5);index;default:'en-US'"`
+	Lang     string    `sql:"not null;type:char(5);index;default:'en-US'"`
 	Articles []Article `gorm:"many2many:cms_article_tags;"`
 }
 
@@ -67,7 +67,7 @@ type User struct {
 	core.Model
 
 	Uid  string `sql:"not null;index"`
-	Lang    string `sql:"not null;type:char(5);index;default:'en-US'"`
+	Lang string `sql:"not null;type:char(5);index;default:'en-US'"`
 	Type string `sql:"not null;type:varchar(8);index"`
 }
 
