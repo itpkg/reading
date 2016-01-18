@@ -1,0 +1,30 @@
+<header>
+  <nav class='navbar navbar-default'>
+    <div class='container-fluid'>
+      <div class='navbar-header'>
+        <button type='button' class='navbar-toggle collapsed' data-toggle='collapse'
+                data-target='#navbar_collapse' aria-expanded='false'>
+          <span class='sr-only'>Toggle navigation</span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+          <span class='icon-bar'></span>
+        </button>
+        {{link-to 'Readings' 'index' class='navbar-brand'}}
+      </div>
+
+      <div class='collapse navbar-collapse' id='navbar_collapse'>
+        <ul class='nav navbar-nav'>
+          <li>{{link-to 'Books' 'books'}}</li>
+        </ul>
+        <ul class='nav navbar-nav navbar-right'>
+          {{# if session.isAuthenticated}}
+            <li>{{link-to 'Log Out' 'session.destroy'}}</li>
+          {{else}}
+            <li>{{link-to 'Sign In' 'session.new'}}</li>
+            <li>{{link-to 'Sign Up' 'users.new'}}</li>
+          {{/if}}
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
