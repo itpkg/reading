@@ -2,3 +2,20 @@
 .idea
 .*.swp
 .#*
+
+#front end
+# compiled output
+/front/dist
+/front/tmp
+
+# dependencies
+/front/node_modules
+/front/bower_components
+
+# misc
+/front/.sass-cache
+/front/connect.lock
+/front/coverage/*
+/front/libpeerconnection.log
+/front/npm-debug.log
+/front/testem.log
