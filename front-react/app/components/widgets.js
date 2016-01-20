@@ -2,6 +2,8 @@ import React from 'react';
 import {IndexLink, Link} from 'react-router';
 import {LinkContainer} from 'react-router-bootstrap';
 import {Input, ButtonInput,Navbar, Nav, NavItem, NavDropdown, MenuItem, Alert} from 'react-bootstrap'
+import { connect } from 'react-redux';
+import {routeActions} from 'redux-simple-router';
 import i18next from 'i18next/lib';
 
 import {AjaxMixin} from '../mixins/ajax'
@@ -219,7 +221,7 @@ export const Form = React.createClass({
 });
 
 
-export const Layout = React.createClass({
+const layout = React.createClass({
     mixins: [AjaxMixin],
     getInitialState(){
         return {
@@ -251,3 +253,8 @@ export const Layout = React.createClass({
         )
     }
 });
+
+export const Layout = connect(
+    null,
+    {push:routeActions.push}
+)(layout);

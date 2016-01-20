@@ -10,9 +10,12 @@ I love reading.
 
 ## Development
 
+### Install packages
+    curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+    sudo apt-get install -y nodejs golang-go
+    sudo sudo apt-get install redis-server postgresql nginx
 
-
-### Install
+### Install go
     bash < <(curl -s -S -L https://raw.githubusercontent.com/moovweb/gvm/master/binscripts/gvm-installer)
     gvm install go1.4
     GOROOT_BOOTSTRAP=/home/flamen/.gvm/gos/go1.4 gvm install go1.5.3

@@ -1,6 +1,15 @@
 import { combineReducers } from 'redux'
 
-import { SIGN_IN, SIGN_OUT } from './actions'
+import { SIGN_IN, SIGN_OUT, SITE_INFO } from './actions'
+
+function site_info(state={}, action){
+    switch (action.type){
+        case SITE_INFO:
+            return action.info;
+        default:
+            return state;
+    }
+}
 
 function session(state = {}, action) {
     switch (action.type) {
@@ -21,7 +30,8 @@ function session(state = {}, action) {
 
 
 const reducers = combineReducers({
-    session
+    session,
+    site_info
 });
 
 export default reducers
