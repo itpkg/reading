@@ -10,6 +10,7 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+//=============================================================================
 func (p *AuthEngine) postSignIn(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	r.ParseForm()
 
@@ -58,6 +59,7 @@ func (p *AuthEngine) googleCallback(code string) (string, error) {
 	if err != nil {
 		return "", err
 	}
+	p.Dao.Log(user.ID, "sign in")
 
 	return p.Token.New(map[string]interface{}{
 		"id":      user.Uid,
@@ -87,7 +89,22 @@ func (p *AuthEngine) googleConf() (*GoogleConf, error) {
 	return &cfg, err
 }
 
+//=============================================================================
+func (p *AuthEngine) getLogs(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	user, err := p.CurrentUser(p.Token, p.Db, r)
+	if err==nil{
+		var logs []Log
+		p.Db.Where("user_id = ?", user.ID).Limit(60).Order("id").Find(&logs)
+		p.Render.JSON(w, http.StatusOK, logs)
+	}else{
+		p.Abort(w, err)
+	}
+}
+
+//=============================================================================
+
 func (p *AuthEngine) Mount(rt core.Router) {
+	rt.GET("/users/logs", p.getLogs)
 	rt.GET("/oauth/sign_in", p.getSignIn)
 	rt.POST("/oauth/sign_in", p.postSignIn)
 }

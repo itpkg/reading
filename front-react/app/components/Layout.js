@@ -17,7 +17,7 @@ class Layout extends Component {
         const {children, siteInfo} = this.props;
         return (
             <div>
-                <Header title={siteInfo.subTitle} />
+                <Header title={siteInfo.subTitle}/>
                 <div className="container-fluid">
                     <div className="row">
                         {children}
@@ -37,7 +37,7 @@ Layout.propTypes = {
 
 
 export default connect(
-    state => ({siteInfo:state.site_info}),
+    state => ({siteInfo: state.site_info}),
     dispatch => ({
         onRefresh: function () {
             GET('/site/info', function (rst) {

@@ -29,7 +29,13 @@ web:
     update: Update
     upgrade: Upgrade
     remove: Remove
+  admin:
+    site:
+      info: Site info
+      seo: SEO
+    roles: Roles
   users:
+    logs: Logs
     welcome: Welcome, {{name}}.
     profile: Profile
     sign_out: Sign out

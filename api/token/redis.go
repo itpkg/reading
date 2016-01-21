@@ -4,6 +4,7 @@ import (
 	"crypto/rand"
 	"errors"
 	"fmt"
+	"net/http"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
@@ -15,20 +16,31 @@ type RedisProvider struct {
 	Redis *redis.Pool `inject:""`
 }
 
+func (p *RedisProvider) ParseFromRequest(req *http.Request) (map[string]interface{}, error) {
+	return p.parse(func(fn jwt.Keyfunc) (*jwt.Token, error) {
+		return jwt.ParseFromRequest(req, fn)
+	})
+}
+
 func (p *RedisProvider) Parse(str string) (map[string]interface{}, error) {
-	token, err := jwt.Parse(str, func(token *jwt.Token) (interface{}, error) {
+	return p.parse(func(fn jwt.Keyfunc) (*jwt.Token, error) {
+		return jwt.Parse(str, fn)
+	})
+}
+
+func (p *RedisProvider) parse(fn parseFunc) (map[string]interface{}, error) {
+	token, err := fn(func(token *jwt.Token) (interface{}, error) {
 		rc := p.Redis.Get()
 		defer rc.Close()
 		return redis.Bytes(rc.Do("GET", p.key(token.Header["kid"].(string))))
 	})
 	if err == nil {
 		if token.Valid {
-			delete(token.Claims, "exp")
+			//delete(token.Claims, "exp")
 			return token.Claims, nil
 		} else {
-			return nil, errors.New("bad token")
+			return nil, errors.New("token is not valid.")
 		}
-
 	} else {
 		return nil, err
 	}

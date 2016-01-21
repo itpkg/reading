@@ -7,7 +7,7 @@ import Home from './Home'
 import Notice from './Notice'
 import NoMatch from './NoMatch'
 import OauthGoogle from './oauth/google'
-import UsersProfile from './users/profile'
+import UsersProfile from './users/Profile'
 
 export default React.createClass({
     render: function () {

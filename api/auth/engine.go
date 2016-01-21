@@ -16,7 +16,7 @@ import (
 )
 
 type AuthEngine struct {
-	core.Controller
+	Controller
 
 	SiteDao *site.Dao      `inject:""`
 	Db      *gorm.DB       `inject:""`
