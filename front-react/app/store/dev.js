@@ -1,14 +1,13 @@
-import {createStore, compose, applyMiddleware} from 'redux'
+import {applyMiddleware, compose, createStore} from 'redux'
 
-import {reducer, reduxRouterMiddleware} from './vars'
-import DevTools from '../containers/DevTools';
+import DevTools from '../root/DevTools'
+import {middleware, reducer} from './vars'
 
-const createStoreWithMiddleware = compose(
-    applyMiddleware(reduxRouterMiddleware),
-    DevTools.instrument() //dev-tools
+const finalCreateStore = compose(
+    applyMiddleware(middleware),
+    DevTools.instrument() //dev
 )(createStore);
-
-const store = createStoreWithMiddleware(reducer);
-reduxRouterMiddleware.listenForReplays(store); //dev-tools
+const store = finalCreateStore(reducer);
+middleware.listenForReplays(store); //dev
 
 export default store;

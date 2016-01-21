@@ -52,6 +52,7 @@ func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, ps httprouter.
 	p.Cache.Page(w, r, core.JSON, 6*60, func() ([]byte, error) {
 		lang := p.Locale(r)
 		ifo := map[string]interface{}{
+			"locale":      lang,
 			"title":       p.Dao.GetSiteInfo("title", lang),
 			"subTitle":    p.Dao.GetSiteInfo("sub_title", lang),
 			"keywords":    p.Dao.GetSiteInfo("keywords", lang),

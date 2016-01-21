@@ -1,8 +1,10 @@
-import {createStore, applyMiddleware} from 'redux'
+import {applyMiddleware, compose, createStore} from 'redux'
 
-import {reducer, reduxRouterMiddleware} from './vars'
+import {middleware, reducer} from './vars'
 
-const createStoreWithMiddleware = applyMiddleware(reduxRouterMiddleware)(createStore);
-const store = createStoreWithMiddleware(reducer);
+const finalCreateStore = compose(
+    applyMiddleware(middleware)
+)(createStore);
+const store = finalCreateStore(reducer);
 
-export default store
+export default store;

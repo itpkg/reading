@@ -6,7 +6,8 @@
   "scripts": {
     "start": "webpack-dev-server --config webpack-development.config.js --hot --progress --colors --inline",
     "build": "webpack --config webpack-production.config.js --progress --profile --colors",
-    "watch": "webpack --config webpack-development.config.js --progress --colors --watch"
+    "watch": "webpack --config webpack-development.config.js --progress --colors --watch",
+    "upgrade": "ncu -u"
   },
   "repository": {
     "type": "git",
@@ -23,7 +24,7 @@
   "homepage": "https://github.com/itpkg/reading#readme",
   "dependencies": {
     "bootstrap": "^3.3.6",
-    "famfamfam-flags": "^0.4.1",
+    "famfamfam-flags": "^0.5.0",
     "famfamfam-mini": "^0.3.5",
     "famfamfam-silk": "^0.3.4",
     "history": "^2.0.0-rc2",
@@ -41,7 +42,7 @@
     "react-router": "^2.0.0-rc5",
     "react-router-bootstrap": "^0.20.1",
     "redux": "^3.0.5",
-    "redux-simple-router": "^2.0.3",
+    "redux-simple-router": "^2.0.4",
     "url-parse": "^1.0.5"
   },
   "devDependencies": {
@@ -53,8 +54,9 @@
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "file-loader": "^0.8.5",
-    "html-webpack-plugin": "^1.7.0",
+    "html-webpack-plugin": "^2.7.1",
     "json-loader": "^0.5.4",
+    "npm-check-updates": "^2.5.6",
     "redux-devtools": "^3.0.1",
     "redux-devtools-dock-monitor": "^1.0.1",
     "redux-devtools-log-monitor": "^1.0.2",

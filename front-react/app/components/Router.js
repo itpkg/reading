@@ -1,30 +1,22 @@
 import React from 'react';
-import {Router, Route, Link, IndexRoute,browserHistory} from 'react-router'
+import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 
-import {Layout} from './widgets'
-import {Index, NoMatch, Message} from './home'
-import {Article} from './cms'
-import {Google} from './oauth'
+import CmsArticle from './cms/Article'
+import Layout from './Layout'
+import Home from './Home'
+import Notice from './Notice'
+import NoMatch from './NoMatch'
 
+export default React.createClass({
+    render: function () {
+        return (<Router history={browserHistory}>
+            <Route path="/" component={Layout}>
+                <IndexRoute component={Home}/>
+                <Route path="notices/:id" component={Notice}/>
+                <Route path="cms/articles/:aid" component={CmsArticle}/>
 
-const router = React.createClass({
-    render(){
-        return (
-            <Router history={browserHistory}>
-                <Route path="/" component={Layout}>
-                    <IndexRoute component={Index}/>
-
-                    <Route path="home" component={Index}/>
-                    <Route path="oauth/google" component={Google}/>
-
-                    <Route path="message" component={Message}/>
-                    <Route path="cms/articles/:aid" component={Article}/>
-
-                    <Route path="*" component={NoMatch}/>
-                </Route>
-            </Router>
-        );
+                <Route path="*" component={NoMatch}/>
+            </Route>
+        </Router>);
     }
 });
-
-export default router

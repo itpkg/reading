@@ -2,16 +2,16 @@ require('bootstrap/dist/css/bootstrap.css');
 require('bootstrap/dist/css/bootstrap-theme.css');
 require('./main.css');
 
-import React from 'react'
-import { render } from 'react-dom'
 import i18next from 'i18next/lib';
 import XHR from 'i18next-xhr-backend/lib';
 import LanguageDetector from 'i18next-browser-languagedetector/lib';
 
 
-import store from './store';
-import Root from './containers/Root'
+import React from 'react'
+import ReactDOM from 'react-dom'
 
+import Root from './root'
+import Store from './store'
 
 i18next
     .use(XHR)
@@ -30,6 +30,8 @@ i18next
             caches: ['localStorage', 'cookie']
         }
     }, (err, t)=> {
-        render(<Root store={store}/>, document.getElementById('root'));
+        ReactDOM.render(<Root store={Store}/>, document.getElementById('root'));
     });
+
+
 
