@@ -19,13 +19,13 @@ function Header({title}) {
             </Navbar.Header>
             <Navbar.Collapse>
                 <Nav>
-                    <LinkContainer to="home">
+                    <LinkContainer to="/home">
                         <NavItem eventKey={1}>{i18next.t("nav_bar.home")}</NavItem>
                     </LinkContainer>
-                    <LinkContainer to={'cms/articles'}>
+                    <LinkContainer to={'/cms/articles'}>
                         <NavItem eventKey={2}>{i18next.t("nav_bar.articles")}</NavItem>
                     </LinkContainer>
-                    <LinkContainer to={'books'}>
+                    <LinkContainer to={'/books'}>
                         <NavItem eventKey={3}>{i18next.t("nav_bar.books")}</NavItem>
                     </LinkContainer>
                     <LinkContainer to={'/video/items'}>

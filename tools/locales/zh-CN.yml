@@ -1,11 +1,11 @@
 web:
-  no_match: 页面不存在。
   back_to_top: 返回顶部
   build_using: 使用 <a target='_blank' href='{{url}}'>{{url}}</a> 搭建。
   messages:
     success: 操作成功。
     failed: 操作失败！
     waiting: 正在处理中，请稍后。。。
+    no_match: 页面不存在。
   locales:
     en_US: English
     zh_CN: 简体中文

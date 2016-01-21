@@ -53,7 +53,7 @@ module.exports = function (options) {
 
     var htmlOptions = {
         title: 'reading',
-        favicon: 'favicon.ico',
+        favicon:'favicon.ico', //todo bugs
         inject: true,
         template: 'app/index.html'
     };

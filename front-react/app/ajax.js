@@ -14,7 +14,7 @@ export function GET(url, success) {
 export function POST(url, data, success) {
     data.locale = i18next.language;
     $.ajax({
-        method: 'GET',
+        method: 'POST',
         url: API_HOST + url,
         data: data,
         dataType: 'json',

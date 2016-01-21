@@ -6,12 +6,15 @@ import Layout from './Layout'
 import Home from './Home'
 import Notice from './Notice'
 import NoMatch from './NoMatch'
+import OauthGoogle from './oauth/google'
 
 export default React.createClass({
     render: function () {
         return (<Router history={browserHistory}>
             <Route path="/" component={Layout}>
                 <IndexRoute component={Home}/>
+                <Route path="oauth/google" component={OauthGoogle}/>
+
                 <Route path="notices/:id" component={Notice}/>
                 <Route path="cms/articles/:aid" component={CmsArticle}/>
 
