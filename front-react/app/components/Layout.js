@@ -14,16 +14,16 @@ class Layout extends Component {
     }
 
     render() {
-        const {children} = this.props;
+        const {children, siteInfo} = this.props;
         return (
             <div>
-                <Header />
+                <Header title={siteInfo.subTitle} />
                 <div className="container-fluid">
                     <div className="row">
                         {children}
                     </div>
                     <hr/>
-                    <Footer/>
+                    <Footer copyright={siteInfo.copyright}/>
                 </div>
             </div>
         );
@@ -31,12 +31,13 @@ class Layout extends Component {
 }
 
 Layout.propTypes = {
+    siteInfo: PropTypes.object.isRequired,
     onRefresh: PropTypes.func.isRequired
 };
 
 
 export default connect(
-    state => ({}),
+    state => ({siteInfo:state.site_info}),
     dispatch => ({
         onRefresh: function () {
             GET('/site/info', function (rst) {

@@ -57,6 +57,23 @@ func (p *Dao) SaveUser(pty, pid, email, name, home, logo string) (*User, error) 
 	return &user, err
 }
 
+func (p *Dao) Is(user uint, name string) bool {
+	return p.Has(user, name, "-", 0)
+}
+
+func (p *Dao) Has(user uint, name string, resource_type string, resource_id uint) bool {
+	var r Role
+	if p.Db.Where("name = ? AND resource_type = ? AND resource_id = ?", name, resource_type, resource_id).First(&r).RecordNotFound() {
+		return false
+	}
+	var pm Permission
+	if p.Db.Where("user_id = ? AND role_id = ?", user, r.ID).First(&pm).RecordNotFound() {
+		return false
+	}
+	now := time.Now()
+	return now.Before(pm.End) && now.After(pm.Begin)
+}
+
 func (p *Dao) Role(name string, resource_type string, resource_id uint) (*Role, error) {
 	var e error
 	r := Role{}

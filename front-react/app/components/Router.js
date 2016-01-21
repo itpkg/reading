@@ -7,6 +7,7 @@ import Home from './Home'
 import Notice from './Notice'
 import NoMatch from './NoMatch'
 import OauthGoogle from './oauth/google'
+import UsersProfile from './users/profile'
 
 export default React.createClass({
     render: function () {
@@ -14,6 +15,7 @@ export default React.createClass({
             <Route path="/" component={Layout}>
                 <IndexRoute component={Home}/>
                 <Route path="oauth/google" component={OauthGoogle}/>
+                <Route path="users/profile" component={UsersProfile}/>
 
                 <Route path="notices/:id" component={Notice}/>
                 <Route path="cms/articles/:aid" component={CmsArticle}/>

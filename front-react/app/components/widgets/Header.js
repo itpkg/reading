@@ -53,10 +53,4 @@ Header.propTypes = {
     title: PropTypes.string.isRequired
 };
 
-
-export default connect(
-    state => ({
-        title: state.site_info.subTitle
-    }),
-    dispatch => ({})
-)(Header);
+export default Header

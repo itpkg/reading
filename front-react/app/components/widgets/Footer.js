@@ -21,9 +21,4 @@ Footer.propTypes = {
     copyright: PropTypes.string.isRequired
 };
 
-export default connect(
-    state => ({
-        copyright: state.site_info.copyright
-    }),
-    dispatch => ({})
-)(Footer);
+export default Footer
