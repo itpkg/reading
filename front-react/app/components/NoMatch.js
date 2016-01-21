@@ -7,7 +7,7 @@ export default React.createClass({
         return (<div className="col-md-offset-1 col-md-10">
             <br/>
             <Alert bsStyle="danger" onDismiss={this.handleAlertDismiss}>
-                <strong>{i18next.t("no_match")}</strong>
+                <strong>{i18next.t("no_match")}</strong>{new Date().toLocaleString()}
             </Alert>
         </div>)
     }
