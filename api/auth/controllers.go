@@ -75,6 +75,7 @@ func (p *AuthEngine) getSignIn(w http.ResponseWriter, r *http.Request, _ httprou
 		p.Abort(w, e)
 		return
 	}
+
 	g := NewGoogle(c)
 
 	p.Render.JSON(w, http.StatusOK, map[string]string{
@@ -92,11 +93,11 @@ func (p *AuthEngine) googleConf() (*GoogleConf, error) {
 //=============================================================================
 func (p *AuthEngine) getLogs(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	user, err := p.CurrentUser(p.Token, p.Db, r)
-	if err==nil{
+	if err == nil {
 		var logs []Log
 		p.Db.Where("user_id = ?", user.ID).Limit(60).Order("id").Find(&logs)
 		p.Render.JSON(w, http.StatusOK, logs)
-	}else{
+	} else {
 		p.Abort(w, err)
 	}
 }

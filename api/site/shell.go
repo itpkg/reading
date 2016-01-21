@@ -34,7 +34,11 @@ func (p *SiteEngine) Shell() []cli.Command {
 				if cfg.IsProduction() {
 					hnd = rt
 				} else {
-					hnd = cors.Default().Handler(rt)
+					//hnd = cors.Default().Handler(rt)
+					hnd = cors.New(cors.Options{
+						AllowedMethods: []string{"GET", "POST", "DELETE"},
+						AllowedHeaders: []string{"Authorization"},
+					}).Handler(rt)
 				}
 				return http.ListenAndServe(fmt.Sprintf(":%d", cfg.Http.Port), hnd)
 			}),

@@ -6,8 +6,16 @@ export function GET(url, done, fail) {
         method: 'GET',
         url: API_HOST + url,
         data: {locale: i18next.language},
+        crossDomain: true,
         beforeSend: function (xhr) {
-            xhr.setRequestHeader("token", 'Bearer ' + sessionStorage.getItem('token'));
+            var token = sessionStorage.getItem('token');
+            if (token) {
+                //xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
+                //xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+                //xhr.setRequestHeader('Access-Control-Allow-Headers', 'Authorization');
+                xhr.setRequestHeader('Authorization', 'Bearer ' + token);
+            }
+
         },
         dataType: 'json'
     }).done(done).fail(fail);

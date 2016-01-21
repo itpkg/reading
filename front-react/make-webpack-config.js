@@ -112,6 +112,28 @@ module.exports = function (options) {
         },
         devServer: {
             historyApiFallback: true,
+
+            //proxy: {
+            //    '/api/path*': {
+            //        target: 'http://localhost:3000',
+            //        secure: false
+            //    }
+            //},
+            //proxy:{
+            //    '*':'http://localhost:3000'
+            //},
+            //proxy: {
+            //    '*': {
+            //        target: 'http://localhost:3000',
+            //        secure: false,
+            //        bypass: function(req, res, proxyOptions) {
+            //            if (req.headers.accept.indexOf('html') !== -1) {
+            //                return '/index.html';
+            //            }
+            //        }
+            //    }
+            //},
+
             inline: true,
             port: 4200
         }

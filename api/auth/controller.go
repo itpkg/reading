@@ -1,4 +1,5 @@
 package auth
+
 import (
 	"net/http"
 
@@ -9,11 +10,11 @@ import (
 
 type Controller struct {
 	core.Controller
-
 }
+
 func (p *Controller) CurrentUser(token token.Provider, db *gorm.DB, req *http.Request) (*User, error) {
 	d, e := token.ParseFromRequest(req)
-	if e!=nil{
+	if e != nil {
 		return nil, e
 	}
 	var u User
