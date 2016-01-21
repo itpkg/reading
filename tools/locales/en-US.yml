@@ -31,6 +31,7 @@ web:
     remove: Remove
   users:
     welcome: Welcome, {{name}}.
+    profile: Profile
     sign_out: Sign out
     sign_up_or_in: Sign up/in
     sign_in_with:

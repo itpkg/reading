@@ -31,6 +31,7 @@ web:
     remove: 删除
   users:
     welcome: 欢迎你, {{name}}。
+    profile: 控制面板
     sign_out: 安全退出
     sign_up_or_in: 注册/登录
     sign_in_with:

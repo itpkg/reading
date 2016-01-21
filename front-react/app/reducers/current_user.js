@@ -3,16 +3,15 @@ import {SIGN_IN,SIGN_OUT} from '../constants'
 
 const key = 'token';
 
-function parse(tkn){
-    try{
+function parse(tkn) {
+    try {
         return jwtDecode(tkn);
-    }catch (e){
-        console.log(e);
+    } catch (e) {
         return {}
     }
 }
 
-const initState =parse(sessionStorage.getItem(key));
+const initState = parse(sessionStorage.getItem(key));
 
 export function current_user(state = initState, action) {
     switch (action.type) {
