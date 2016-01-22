@@ -71,22 +71,27 @@ const Profile = React.createClass({
                     return <br/>
                 }
             };
+            var tabs = [(
+                <Tab key="users.logs" eventKey={'users.logs'} title={i18next.t('users.logs')}>
+                    <Logs logs={this.state.logs}/>
+                </Tab>
+            )];
+            if (user.isAdmin) {
+                tabs.push(<Tab key="admin.roles" eventKey={'admin.roles'} title={i18next.t('admin.roles')}>
+                    <Roles />
+                </Tab>);
+                tabs.push(<Tab key="admin.site.info" eventKey={'admin.site.info'} title={i18next.t('admin.site.info')}>
+                    <SiteInfo />
+                </Tab>);
+                tabs.push(<Tab key="admin.site.seo" eventKey={'admin.site.seo'} title={i18next.t('admin.site.seo')}>
+                    <SiteSeo />
+                </Tab>);
+            }
             return (
                 <div className="col-md-offset-1 col-md-10">
                     {alert(this.state.alert)}
                     <Tabs activeKey={this.state.key} onSelect={this.handleSelect}>
-                        <Tab eventKey={'users.logs'} title={i18next.t('users.logs')}>
-                            <Logs logs={this.state.logs}/>
-                        </Tab>
-                        <Tab eventKey={'roles'} title={i18next.t('admin.roles')}>
-                            <Roles />
-                        </Tab>
-                        <Tab eventKey={'site.info'} title={i18next.t('admin.site.info')}>
-                            <SiteInfo />
-                        </Tab>
-                        <Tab eventKey={'site.seo'} title={i18next.t('admin.site.seo')}>
-                            <SiteSeo />
-                        </Tab>
+                        {tabs}
                     </Tabs>
                 </div>
             )

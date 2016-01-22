@@ -28,11 +28,11 @@ func (p *User) SetGravatar() {
 }
 
 type Log struct {
-	ID        uint `gorm:"primary_key"`
-	UserID    uint `sql:"not null"`
-	User      User
-	Message   string    `sql:"not null"`
-	CreatedAt time.Time `sql:"not null;default:current_timestamp"`
+	ID        uint      `gorm:"primary_key" json:"id"`
+	UserID    uint      `sql:"not null" json:"-"`
+	User      User      `json:"-"`
+	Message   string    `sql:"not null" json:"message"`
+	CreatedAt time.Time `sql:"not null;default:current_timestamp" json:"created_at"`
 }
 
 type Role struct {
