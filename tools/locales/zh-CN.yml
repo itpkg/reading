@@ -21,8 +21,8 @@ web:
     permission:
       user: 用户
       role: 角色
-      begin: 起始
-      end: 截至
+      begin: 起始日期
+      end: 截至日期
   buttons:
     ok: 确定
     cancel: 取消
@@ -39,6 +39,7 @@ web:
     site:
       info: 站点信息
       seo: 搜索引擎
+      secrets: 密钥管理
     roles: 角色管理
   users:
     logs: 日志列表

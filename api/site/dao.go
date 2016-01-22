@@ -65,6 +65,15 @@ func (p *Dao) Set(key string, val interface{}, flag bool) error {
 
 }
 
+func (p *Dao) GetString(key string) string {
+	var s string
+	if e := p.Get(key, s); e == nil {
+		return s
+	} else {
+		return e.Error()
+	}
+}
+
 func (p *Dao) Get(key string, val interface{}) error {
 	var s Setting
 	err := p.Db.Where("key = ?", key).First(&s).Error

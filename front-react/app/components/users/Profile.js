@@ -6,6 +6,7 @@ import $ from 'jquery';
 
 import SiteInfo from '../admin/site/Info'
 import SiteSeo from '../admin/site/Seo'
+import SiteSecrets from '../admin/site/Secrets'
 import Roles from '../admin/Roles'
 import Logs from './Logs'
 
@@ -20,6 +21,9 @@ const Profile = React.createClass({
             key: 'users.logs',
             logs: [],
             roles: [],
+            site_seo: {},
+            site_info: {},
+            site_secrets: {},
             alert: {
                 style: 'success',
                 message: '',
@@ -31,6 +35,33 @@ const Profile = React.createClass({
         this.setState({alert: {show: false}});
         this.setState({key});
         switch (key) {
+            case 'admin.site.seo':
+                GET(
+                    '/admin/site/seo',
+                    function (rst) {
+                        this.setState({site_seo: rst});
+                    }.bind(this),
+                    this.handleFail
+                );
+                break;
+            case 'admin.site.secrets':
+                GET(
+                    '/admin/site/secrets',
+                    function (rst) {
+                        this.setState({site_secrets: rst});
+                    }.bind(this),
+                    this.handleFail
+                );
+                break;
+            case 'admin.site.info':
+                GET(
+                    '/admin/site/info',
+                    function (rst) {
+                        this.setState({site_info: rst});
+                    }.bind(this),
+                    this.handleFail
+                );
+                break;
             case 'admin.roles':
                 GET(
                     '/admin/roles',
@@ -92,10 +123,14 @@ const Profile = React.createClass({
                     <Roles items={this.state.roles}/>
                 </Tab>);
                 tabs.push(<Tab key="admin.site.info" eventKey={'admin.site.info'} title={i18next.t('admin.site.info')}>
-                    <SiteInfo />
+                    <SiteInfo item={this.state.site_info}/>
                 </Tab>);
                 tabs.push(<Tab key="admin.site.seo" eventKey={'admin.site.seo'} title={i18next.t('admin.site.seo')}>
-                    <SiteSeo />
+                    <SiteSeo item={this.state.site_seo}/>
+                </Tab>);
+                tabs.push(<Tab key="admin.site.secrets" eventKey={'admin.site.secrets'}
+                               title={i18next.t('admin.site.secrets')}>
+                    <SiteSecrets item={this.state.site_secrets}/>
                 </Tab>);
             }
             return (

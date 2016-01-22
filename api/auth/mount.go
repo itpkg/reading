@@ -11,6 +11,8 @@ func (p *AuthEngine) Mount(rt core.Router) {
 	rt.POST("/admin/site/info", p.postAdminSiteInfo)
 	rt.GET("/admin/site/seo", p.getAdminSiteSeo)
 	rt.POST("/admin/site/seo", p.postAdminSiteSeo)
+	rt.GET("/admin/site/secrets", p.getAdminSiteSecrets)
+	rt.POST("/admin/site/secrets", p.postAdminSiteSecrets)
 
 	rt.GET("/users/logs", p.getUsersLogs)
 

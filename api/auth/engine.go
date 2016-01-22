@@ -46,10 +46,7 @@ func (p *AuthEngine) Seed() error {
 		if err := p.SiteDao.Set("google.oauth", gcf, true); err != nil {
 			return err
 		}
-	} else {
-		return err
 	}
-
 	return nil
 }
 

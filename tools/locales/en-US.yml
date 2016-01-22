@@ -39,6 +39,7 @@ web:
     site:
       info: Site info
       seo: SEO
+      secrets: Secrets
     roles: Roles
   users:
     logs: Logs

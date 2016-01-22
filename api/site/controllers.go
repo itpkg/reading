@@ -54,7 +54,7 @@ func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, ps httprouter.
 		ifo := map[string]interface{}{
 			"locale":      lang,
 			"title":       p.Dao.GetSiteInfo("title", lang),
-			"subTitle":    p.Dao.GetSiteInfo("sub_title", lang),
+			"subTitle":    p.Dao.GetSiteInfo("subTitle", lang),
 			"keywords":    p.Dao.GetSiteInfo("keywords", lang),
 			"description": p.Dao.GetSiteInfo("description", lang),
 			"author": map[string]string{
