@@ -27,6 +27,10 @@ func (p *User) SetGravatar() {
 	p.Logo = fmt.Sprintf("https://gravatar.com/avatar/%s.png", core.Md5([]byte(strings.ToLower(p.Email))))
 }
 
+func (p User) String() string {
+	return fmt.Sprintf("%s<%s>", p.Name, p.Email)
+}
+
 type Log struct {
 	ID        uint      `gorm:"primary_key" json:"id"`
 	UserID    uint      `sql:"not null" json:"-"`
@@ -42,6 +46,10 @@ type Role struct {
 	ResourceId   uint   `sql:"not null;default:0"`
 }
 
+func (p Role) String() string {
+	return fmt.Sprintf("%s@%s://%d", p.Name, p.ResourceType, p.ResourceId)
+}
+
 type Permission struct {
 	ID     uint `gorm:"primary_key"`
 	User   User
@@ -50,4 +58,16 @@ type Permission struct {
 	RoleID uint      `sql:"not null"`
 	Begin  time.Time `sql:"not null;default:current_date;type:date"`
 	End    time.Time `sql:"not null;default:'1000-1-1';type:date"`
+}
+
+func (p *Permission) EndS() string {
+	return p.End.Format("2006-01-02")
+}
+func (p *Permission) BeginS() string {
+	return p.Begin.Format("2006-01-02")
+}
+
+func (p *Permission) Enable() bool {
+	now := time.Now()
+	return now.After(p.Begin) && now.Before(p.End)
 }

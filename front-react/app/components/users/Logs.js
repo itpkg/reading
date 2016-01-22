@@ -10,7 +10,7 @@ const Widget = React.createClass({
             <div>
                 <br/>
                 <ListGroup>
-                    {this.props.logs.map(function (item) {
+                    {this.props.items.map(function (item) {
                         return (<ListGroupItem key={item.id}>
                             <TimeAgo date={item.created_at}/>: {item.message}
                         </ListGroupItem>)

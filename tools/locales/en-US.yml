@@ -29,6 +29,12 @@ web:
     update: Update
     upgrade: Upgrade
     remove: Remove
+  models:
+    permission:
+      user: User
+      role: Role
+      begin: Start up
+      end: Shut down
   admin:
     site:
       info: Site info

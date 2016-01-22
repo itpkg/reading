@@ -17,6 +17,12 @@ web:
     faq: 常见问题
     about: 关于我们
     contact: 联系我们
+  models:
+    permission:
+      user: 用户
+      role: 角色
+      begin: 起始
+      end: 截至
   buttons:
     ok: 确定
     cancel: 取消

@@ -19,6 +19,7 @@ const Profile = React.createClass({
             user: user,
             key: 'users.logs',
             logs: [],
+            roles: [],
             alert: {
                 style: 'success',
                 message: '',
@@ -30,6 +31,15 @@ const Profile = React.createClass({
         this.setState({alert: {show: false}});
         this.setState({key});
         switch (key) {
+            case 'admin.roles':
+                GET(
+                    '/admin/roles',
+                    function (rst) {
+                        this.setState({roles: rst});
+                    }.bind(this),
+                    this.handleFail
+                );
+                break;
             case 'users.logs':
                 GET(
                     '/users/logs',
@@ -38,6 +48,7 @@ const Profile = React.createClass({
                     }.bind(this),
                     this.handleFail
                 );
+                break;
         }
     },
     handleFail(data){
@@ -73,12 +84,12 @@ const Profile = React.createClass({
             };
             var tabs = [(
                 <Tab key="users.logs" eventKey={'users.logs'} title={i18next.t('users.logs')}>
-                    <Logs logs={this.state.logs}/>
+                    <Logs items={this.state.logs}/>
                 </Tab>
             )];
             if (user.isAdmin) {
                 tabs.push(<Tab key="admin.roles" eventKey={'admin.roles'} title={i18next.t('admin.roles')}>
-                    <Roles />
+                    <Roles items={this.state.roles}/>
                 </Tab>);
                 tabs.push(<Tab key="admin.site.info" eventKey={'admin.site.info'} title={i18next.t('admin.site.info')}>
                     <SiteInfo />

@@ -16,7 +16,7 @@ import (
 )
 
 type AuthEngine struct {
-	Controller
+	core.Controller
 
 	SiteDao *site.Dao      `inject:""`
 	Db      *gorm.DB       `inject:""`
@@ -24,6 +24,7 @@ type AuthEngine struct {
 	Cfg     *config.Model  `inject:""`
 	Token   token.Provider `inject:""`
 	Render  *render.Render `inject:""`
+	Session *Session       `inject:""`
 }
 
 func (p *AuthEngine) loadGoogleOauthConf() (*GoogleConf, error) {
