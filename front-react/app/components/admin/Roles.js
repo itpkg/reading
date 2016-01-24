@@ -3,7 +3,20 @@ import {Table} from 'react-bootstrap'
 import {connect} from 'react-redux';
 import i18next from 'i18next/lib';
 
+import {GET} from '../../ajax'
+
 const Widget = React.createClass({
+    getInitialState() {
+        return {items: []}
+    },
+    componentDidMount() {
+        GET(
+            '/admin/roles',
+            function (rst) {
+                this.setState({items: rst});
+            }.bind(this)
+        );
+    },
     render(){
         return (
             <div>
@@ -18,7 +31,7 @@ const Widget = React.createClass({
                     </tr>
                     </thead>
                     <tbody>
-                    {this.props.items.map(function (item, idx) {
+                    {this.state.items.map(function (item, idx) {
                         return (
                             <tr key={idx}>
                                 <td>{item.user}</td>

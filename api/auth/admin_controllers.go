@@ -2,7 +2,9 @@ package auth
 
 import (
 	"net/http"
+	"strings"
 
+	"github.com/itpkg/reading/api/web"
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -41,17 +43,16 @@ func (p *AuthEngine) getAdminSiteInfo(w http.ResponseWriter, r *http.Request, _ 
 	}
 
 	lang := p.Locale(r)
-	p.Render.JSON(w, http.StatusOK, map[string]interface{}{
-		"title":       p.SiteDao.GetSiteInfo("title", lang),
-		"subTitle":    p.SiteDao.GetSiteInfo("subTitle", lang),
-		"copyright":   p.SiteDao.GetSiteInfo("copyright", lang),
-		"keywords":    p.SiteDao.GetSiteInfo("keywords", lang),
-		"description": p.SiteDao.GetSiteInfo("description", lang),
-		"author": map[string]string{
-			"user":  p.SiteDao.GetSiteInfo("author.user", lang),
-			"email": p.SiteDao.GetSiteInfo("author.email", lang),
-		},
-	})
+	fm := web.NewForm("siteInfo", "/admin/site/info")
+	fm.Text("title", p.SiteDao.GetSiteInfo("title", lang))
+	fm.Text("subTitle", p.SiteDao.GetSiteInfo("subTitle", lang))
+	fm.Text("keywords", p.SiteDao.GetSiteInfo("keywords", lang))
+	fm.Text("authorName", p.SiteDao.GetSiteInfo("author.name", lang))
+	fm.Text("authorEmail", p.SiteDao.GetSiteInfo("author.email", lang))
+	fm.TextArea("description", p.SiteDao.GetSiteInfo("description", lang))
+	fm.Text("copyright", p.SiteDao.GetSiteInfo("copyright", lang))
+
+	p.Render.JSON(w, http.StatusOK, fm)
 
 }
 func (p *AuthEngine) postAdminSiteInfo(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -64,15 +65,12 @@ func (p *AuthEngine) getAdminSiteSeo(w http.ResponseWriter, r *http.Request, _ h
 		return
 	}
 
-	p.Render.JSON(w, http.StatusOK, map[string]interface{}{
-		"robots": p.SiteDao.GetString("robots.txt"),
-		"google": map[string]string{
-			"verify": p.SiteDao.GetString("google.verify"),
-		},
-		"baidu": map[string]string{
-			"baidu": p.SiteDao.GetString("baidu.verify"),
-		},
-	})
+	fm := web.NewForm("siteSeo", "/admin/site/seo")
+	fm.Text("robots", p.SiteDao.GetString("robots.txt"))
+	fm.Text("googleVerify", p.SiteDao.GetString("google.verify"))
+	fm.Text("baiduVerify", p.SiteDao.GetString("baidu.verify"))
+
+	p.Render.JSON(w, http.StatusOK, fm)
 }
 func (p *AuthEngine) postAdminSiteSeo(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	//todo
@@ -87,14 +85,12 @@ func (p *AuthEngine) getAdminSiteSecrets(w http.ResponseWriter, r *http.Request,
 	var gcf GoogleConf
 	p.SiteDao.Get("google.oauth", &gcf)
 
-	p.Render.JSON(w, http.StatusOK, map[string]interface{}{
-		"youtube": map[string]string{
-			"key": p.SiteDao.GetString("youtube.key"),
-		},
-		"google": map[string]interface{}{
-			"oauth": gcf,
-		},
-	})
+	fm := web.NewForm("siteSecrets", "/admin/site/secrets")
+	fm.Text("youtubeServerKey", p.SiteDao.GetString("youtube.serverKey"))
+	fm.Text("googleWebClientId", gcf.Web.ClientId)
+	fm.Text("googleWebClientSecret", gcf.Web.ClientSecret)
+	fm.TextArea("googleWebRedirectURLS", strings.Join(gcf.Web.RedirectURLS, "\n"))
+	p.Render.JSON(w, http.StatusOK, fm)
 }
 func (p *AuthEngine) postAdminSiteSecrets(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	//todo

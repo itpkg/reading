@@ -35,6 +35,24 @@ web:
       role: Role
       begin: Start up
       end: Shut down
+  forms:
+    siteSeo:
+      robots: robots.txt
+      googleVerify: Google verify code
+      baiduVerify: Baodu verify code
+    siteSecrets:
+      youtubeServerKey: Youtube server key
+      googleWebClientId: Google web client id
+      googleWebClientSecret: Google web client secret
+      googleWebRedirectURLS: Google web redirect urls
+    siteInfo:
+      title: Title
+      subTitle: SubTitle
+      authoName: Author's name
+      authoEmail: Author's email
+      keywords: Keywords
+      description: Description
+      copyright: Copyright
   admin:
     site:
       info: Site info

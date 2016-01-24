@@ -46,8 +46,13 @@ func (p *SiteEngine) Seed() error {
 		lang := line[0:ldx]
 		code := line[ldx+1 : cdx]
 		msg := line[cdx+1 : len(line)]
-		if err := p.Dao.Locale(lang, code, msg); err != nil {
-			return err
+
+		var c int
+		p.Db.Model(&Locale{}).Where("lang = ? AND code = ?", lang, code).Count(&c)
+		if c == 0 {
+			if err = p.Db.Create(&Locale{Lang: lang, Code: code, Message: msg}).Error; err != nil {
+				return err
+			}
 		}
 	}
 	return san.Err()
