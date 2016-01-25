@@ -20,16 +20,13 @@ const Widget = React.createClass({
     },
     render(){
         return (
-            <div>
-                <br/>
-                <ListGroup>
-                    {this.state.items.map(function (item) {
-                        return (<ListGroupItem key={item.id}>
-                            <TimeAgo date={item.created_at}/>: {item.message}
-                        </ListGroupItem>)
-                    })}
-                </ListGroup>
-            </div>
+            <ListGroup>
+                {this.state.items.map(function (item) {
+                    return (<ListGroupItem key={item.id}>
+                        <TimeAgo date={item.created_at}/>: {item.message}
+                    </ListGroupItem>)
+                })}
+            </ListGroup>
         )
     }
 });

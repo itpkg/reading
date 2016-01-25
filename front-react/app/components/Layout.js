@@ -19,9 +19,7 @@ class Layout extends Component {
             <div>
                 <Header title={siteInfo.subTitle}/>
                 <div className="container-fluid">
-                    <div className="row">
-                        {children}
-                    </div>
+                    {children}
                     <hr/>
                     <Footer copyright={siteInfo.copyright}/>
                 </div>

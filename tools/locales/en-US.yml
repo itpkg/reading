@@ -53,16 +53,19 @@ web:
       keywords: Keywords
       description: Description
       copyright: Copyright
-  admin:
-    site:
-      info: Site info
-      seo: SEO
-      secrets: Secrets
-    roles: Roles
+  dashboard:
+    index: Profile
+    admin:
+      site:
+        index: Site
+        info: Base info
+        seo: SEO
+        secrets: Secrets
+      roles: Roles
+    users:
+      logs: Logs
   users:
-    logs: Logs
     welcome: Welcome, {{name}}.
-    profile: Profile
     sign_out: Sign out
     sign_up_or_in: Sign up/in
     sign_in_with:

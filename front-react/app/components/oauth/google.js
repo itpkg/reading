@@ -16,12 +16,16 @@ class Google extends Component {
     }
 
     render() {
-        return (<div className="col-md-offset-1 col-md-10">
-            <br/>
-            <Alert bsStyle="success">
-                <strong>{i18next.t("messages.waiting")}</strong>{new Date().toLocaleString()}
-            </Alert>
-        </div>)
+        return (
+            <div className="row">
+                <div className="col-md-offset-1 col-md-10">
+                    <br/>
+                    <Alert bsStyle="success">
+                        <strong>{i18next.t("messages.waiting")}</strong>{new Date().toLocaleString()}
+                    </Alert>
+                </div>
+            </div>
+        )
     }
 }
 

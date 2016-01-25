@@ -32,8 +32,8 @@ class PersonalBar extends Component {
             return (
                 <NavDropdown eventKey={3} title={i18next.t("users.welcome", {name:user.name})}
                              id="basic-nav-dropdown">
-                    <LinkContainer to={'/users/profile'}>
-                        <MenuItem eventKey={3.1}>{i18next.t("users.profile")}</MenuItem>
+                    <LinkContainer to={'/dashboard/users/logs'}>
+                        <MenuItem eventKey={3.1}>{i18next.t("dashboard.index")}</MenuItem>
                     </LinkContainer>
                     <MenuItem divider/>
                     <MenuItem eventKey={3.3} onClick={() => onSignOut()}>{i18next.t("users.sign_out")}</MenuItem>

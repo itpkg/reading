@@ -53,16 +53,19 @@ web:
     update: 更新
     upgrade: 升级
     remove: 删除
-  admin:
-    site:
-      info: 站点信息
-      seo: 搜索引擎
-      secrets: 密钥管理
-    roles: 角色管理
+  dashboard:
+    index: 控制面板
+    admin:
+      site:
+        index: 站点设置
+        info: 基本信息
+        seo: 搜索引擎
+        secrets: 密钥管理
+      roles: 角色管理
+    users:
+      logs: 日志列表
   users:
-    logs: 日志列表
     welcome: 欢迎你, {{name}}。
-    profile: 控制面板
     sign_out: 安全退出
     sign_up_or_in: 注册/登录
     sign_in_with:

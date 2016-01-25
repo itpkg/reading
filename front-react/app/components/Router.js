@@ -7,21 +7,24 @@ import Home from './Home'
 import Notice from './Notice'
 import NoMatch from './NoMatch'
 import OauthGoogle from './oauth/google'
-import UsersProfile from './users/Profile'
+
+import Dashboard from './dashboard/Router'
 
 export default React.createClass({
     render: function () {
-        return (<Router history={browserHistory}>
-            <Route path="/" component={Layout}>
-                <IndexRoute component={Home}/>
-                <Route path="oauth/google" component={OauthGoogle}/>
-                <Route path="users/profile" component={UsersProfile}/>
+        return (
+            <Router history={browserHistory}>
+                <Route path="/" component={Layout}>
 
-                <Route path="notices/:id" component={Notice}/>
-                <Route path="cms/articles/:aid" component={CmsArticle}/>
+                    <Route path="notices/:id" component={Notice}/>
+                    <Route path="cms/articles/:aid" component={CmsArticle}/>
 
-                <Route path="*" component={NoMatch}/>
-            </Route>
-        </Router>);
+                    {Dashboard}
+                    <Route path="oauth/google" component={OauthGoogle}/>
+                    <Route path="*" component={NoMatch}/>
+                    <IndexRoute component={Home}/>
+                </Route>
+            </Router>
+        );
     }
 });

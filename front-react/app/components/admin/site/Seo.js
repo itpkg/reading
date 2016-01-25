@@ -2,12 +2,11 @@ import React, {PropTypes} from 'react';
 import {connect} from 'react-redux';
 import i18next from 'i18next/lib';
 
-function Widget({}) {
-    return (
-        <p>
-            seo
-        </p>
-    )
+import AjaxForm from '../../widgets/AjaxForm'
 
-}
-export default Widget
+const Widget = React.createClass({
+    render(){
+        return (<AjaxForm url="/admin/site/seo"/>)
+    }
+});
+export default Widget;
