@@ -31,16 +31,9 @@ module.exports = function (options) {
                 presets: ['react', 'stage-0', 'es2015']
             }
         },
-        {
-            test: /\.css$/,
-            loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-        },
-        {
-            test: /\.less$/,
-            loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
-        },
+
         {test: /\.json$/, loader: "json"},
-        {test: /\.(png|jpg|jpeg|gif|svg|ttf|woff|woff2|eot)$/, loader: "file-loader"}
+        {test: /\.(png|jpg|jpeg|gif|ico|svg|ttf|woff|woff2|eot)$/, loader: "file-loader"}
     ];
 
     var plugins = [
@@ -53,7 +46,6 @@ module.exports = function (options) {
 
     var htmlOptions = {
         title: 'reading',
-        favicon:'favicon.ico', //todo bugs
         inject: true,
         template: 'app/index.html'
     };
@@ -95,7 +87,20 @@ module.exports = function (options) {
         'process.env.NODE_ENV': JSON.stringify(options.env)
     }));
     plugins.push(new webpack.optimize.CommonsChunkPlugin({name: 'vendor'}));
-    plugins.push(new ExtractTextPlugin(options.prerender ? "[id]-[chunkhash].css":"[name].css"));
+
+    if(options.css){
+        loaders.push({
+            test: /\.css$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader")
+        },
+        {
+            test: /\.less$/,
+                loader: ExtractTextPlugin.extract("style-loader", "css-loader!less-loader")
+        });
+        plugins.push(new ExtractTextPlugin(options.prerender ? "[id]-[chunkhash].css" : "[name].css"));
+    }else{
+        loaders.push({ test: /\.css$/, loader: "style-loader!css-loader" });
+    }
 
     var output = {
         publicPath: '/',
@@ -112,28 +117,6 @@ module.exports = function (options) {
         },
         devServer: {
             historyApiFallback: true,
-
-            //proxy: {
-            //    '/api/path*': {
-            //        target: 'http://localhost:3000',
-            //        secure: false
-            //    }
-            //},
-            //proxy:{
-            //    '*':'http://localhost:3000'
-            //},
-            //proxy: {
-            //    '*': {
-            //        target: 'http://localhost:3000',
-            //        secure: false,
-            //        bypass: function(req, res, proxyOptions) {
-            //            if (req.headers.accept.indexOf('html') !== -1) {
-            //                return '/index.html';
-            //            }
-            //        }
-            //    }
-            //},
-
             inline: true,
             port: 4200
         }
