@@ -1,11 +1,11 @@
 import React,{PropTypes} from 'react';
 import {Route} from 'react-router';
 
-import UsersLogs from '../users/Logs'
+import PersonalLogs from '../personal/Logs'
 import SiteInfo from '../admin/site/Info'
 import SiteSeo from '../admin/site/Seo'
 import SiteSecrets from '../admin/site/Secrets'
-import Roles from '../admin/Roles'
+import Users from '../admin/Users'
 import Layout from './Layout'
 
 const Router = (
@@ -13,8 +13,8 @@ const Router = (
         <Route path="admin/site/info" component={SiteInfo}/>
         <Route path="admin/site/seo" component={SiteSeo}/>
         <Route path="admin/site/secrets" component={SiteSecrets}/>
-        <Route path="admin/roles" component={Roles}/>
-        <Route path="users/logs" component={UsersLogs}/>
+        <Route path="admin/users" component={Users}/>
+        <Route path="personal/logs" component={PersonalLogs}/>
     </Route>
 );
 

@@ -21,3 +21,10 @@ clean:
 
 format:
 	for f in `find . -type f -iname '*.go'`; do gofmt -w $$f; done
+
+
+locales:
+	cd tools && rake locales
+	cd api && go run main.go db s && go run main.go c c
+
+

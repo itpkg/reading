@@ -60,14 +60,14 @@ func (p *Dao) Set(key string, val interface{}, flag bool) error {
 	if c == 0 {
 		return p.Db.Create(&s).Error
 	} else {
-		return p.Db.Model(&Setting{}).Where("key = ?", key).UpdateColumns(map[string]interface{}{"val": s.Val}).Error
+		return p.Db.Model(&Setting{}).Where("key = ?", key).UpdateColumns(map[string]interface{}{"val": s.Val, "flag": flag}).Error
 	}
 
 }
 
 func (p *Dao) GetString(key string) string {
 	var s string
-	if e := p.Get(key, s); e == nil {
+	if e := p.Get(key, &s); e == nil {
 		return s
 	} else {
 		return e.Error()

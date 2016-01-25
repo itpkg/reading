@@ -21,6 +21,8 @@ type User struct {
 
 	LastSignIn  time.Time `sql:"not null"`
 	SignInCount uint      `sql:"not null;default:0"`
+
+	Permissions []Permission
 }
 
 func (p *User) SetGravatar() {

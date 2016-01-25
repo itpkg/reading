@@ -5,8 +5,7 @@ import (
 )
 
 func (p *AuthEngine) Mount(rt core.Router) {
-	rt.GET("/admin/roles", p.getAdminRoles)
-	rt.POST("/admin/roles", p.postAdminRoles)
+	rt.GET("/admin/users", p.getAdminUsers)
 	rt.GET("/admin/site/info", p.getAdminSiteInfo)
 	rt.POST("/admin/site/info", p.postAdminSiteInfo)
 	rt.GET("/admin/site/seo", p.getAdminSiteSeo)

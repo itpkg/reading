@@ -39,8 +39,8 @@ func (p *SiteEngine) rss(w http.ResponseWriter, r *http.Request, _ httprouter.Pa
 			lang,
 			p.Dao.GetSiteInfo("title", lang),
 			p.Cfg.Home(),
-			p.Dao.GetSiteInfo("author.name", ""),
-			p.Dao.GetSiteInfo("author.email", ""),
+			p.Dao.GetSiteInfo("authorName", ""),
+			p.Dao.GetSiteInfo("authorEmail", ""),
 			hds...,
 		)
 		return buf.Bytes(), err
@@ -51,17 +51,18 @@ func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, ps httprouter.
 
 	p.Cache.Page(w, r, core.JSON, 6*60, func() ([]byte, error) {
 		lang := p.Locale(r)
+
 		ifo := map[string]interface{}{
-			"locale":      lang,
-			"title":       p.Dao.GetSiteInfo("title", lang),
-			"subTitle":    p.Dao.GetSiteInfo("subTitle", lang),
-			"keywords":    p.Dao.GetSiteInfo("keywords", lang),
-			"description": p.Dao.GetSiteInfo("description", lang),
-			"author": map[string]string{
-				"email": p.Dao.GetSiteInfo("author.email", lang),
-				"name":  p.Dao.GetSiteInfo("author.name", lang),
-			},
-			"copyright": p.Dao.GetSiteInfo("copyright", lang),
+			"locale": lang,
+		}
+		for _, k := range []string{
+			"title",
+			"subTitle",
+			"keywords",
+			"copyright",
+			"authorName", "authorEmail",
+		} {
+			ifo[k] = p.Dao.GetSiteInfo(k, lang)
 		}
 		return core.ToJson(ifo)
 	})

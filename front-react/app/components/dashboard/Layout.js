@@ -15,8 +15,8 @@ const Layout = React.createClass({
         } else {
             var items = [];
             items.push(
-                <LinkContainer key="users" to="/dashboard/users/logs">
-                    <NavItem eventKey={1}>{i18next.t('dashboard.users.logs')}</NavItem>
+                <LinkContainer key="personal" to="/dashboard/personal/logs">
+                    <NavItem eventKey={1}>{i18next.t('dashboard.personal.logs')}</NavItem>
                 </LinkContainer>
             );
             if (user.isAdmin) {
@@ -31,11 +31,12 @@ const Layout = React.createClass({
                         <LinkContainer to="/dashboard/admin/site/secrets">
                             <MenuItem>{i18next.t('dashboard.admin.site.secrets')}</MenuItem>
                         </LinkContainer>
-                        <MenuItem divider/>
-                        <LinkContainer to="/dashboard/admin/roles">
-                            <MenuItem>{i18next.t('dashboard.admin.roles')}</MenuItem>
-                        </LinkContainer>
                     </NavDropdown>
+                );
+                items.push(
+                    <LinkContainer key="users" to="/dashboard/admin/users">
+                        <NavItem eventKey={1}>{i18next.t('dashboard.admin.users')}</NavItem>
+                    </LinkContainer>
                 );
             }
             return (

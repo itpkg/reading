@@ -10,9 +10,6 @@ export function GET(url, done, fail) {
         beforeSend: function (xhr) {
             var token = sessionStorage.getItem('token');
             if (token) {
-                //xhr.setRequestHeader('Access-Control-Allow-Origin', '*');
-                //xhr.setRequestHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-                //xhr.setRequestHeader('Access-Control-Allow-Headers', 'Authorization');
                 xhr.setRequestHeader('Authorization', 'Bearer ' + token);
             }
 
@@ -22,10 +19,9 @@ export function GET(url, done, fail) {
 
 }
 export function POST(url, data, done, fail) {
-    data.locale = i18next.language;
     $.ajax({
         method: 'POST',
-        url: API_HOST + url,
+        url: API_HOST + url + (url.indexOf('?') === -1 ? '?' : '&') + 'locale=' + i18next.language,
         data: data,
         dataType: 'json'
     }).done(done).fail(fail);

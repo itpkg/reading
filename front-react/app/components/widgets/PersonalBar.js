@@ -32,7 +32,7 @@ class PersonalBar extends Component {
             return (
                 <NavDropdown eventKey={3} title={i18next.t("users.welcome", {name:user.name})}
                              id="basic-nav-dropdown">
-                    <LinkContainer to={'/dashboard/users/logs'}>
+                    <LinkContainer to={'/dashboard/personal/logs'}>
                         <MenuItem eventKey={3.1}>{i18next.t("dashboard.index")}</MenuItem>
                     </LinkContainer>
                     <MenuItem divider/>
