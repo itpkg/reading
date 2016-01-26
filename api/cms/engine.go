@@ -6,6 +6,7 @@ import (
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/sitemap"
+	"github.com/itpkg/reading/api/storage"
 	"github.com/jinzhu/gorm"
 	"github.com/op/go-logging"
 	"github.com/unrolled/render"
@@ -15,12 +16,13 @@ import (
 type CmsEngine struct {
 	core.Controller
 
-	Render  *render.Render  `inject:""`
-	Db      *gorm.DB        `inject:""`
-	Logger  *logging.Logger `inject:""`
-	Cache   cache.Provider  `inject:""`
-	Session *auth.Session   `inject:""`
-	AuthDao *auth.Dao       `inject:""`
+	Render  *render.Render   `inject:""`
+	Db      *gorm.DB         `inject:""`
+	Logger  *logging.Logger  `inject:""`
+	Cache   cache.Provider   `inject:""`
+	Session *auth.Session    `inject:""`
+	AuthDao *auth.Dao        `inject:""`
+	Storage storage.Provider `inject:""`
 }
 
 func (p *CmsEngine) Seed() error {

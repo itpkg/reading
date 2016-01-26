@@ -2,6 +2,7 @@ package storage
 
 import (
 	"fmt"
+	"io"
 	"io/ioutil"
 	"os"
 	"path"
@@ -19,9 +20,14 @@ func (p *LocalProvider) Delete(url string) error {
 	return os.Remove(p.realPath(url[len(p.Url)+1:]))
 }
 
-func (p *LocalProvider) Store(name string, body []byte) (string, error) {
-	name = fmt.Sprintf("%s%s", time.Now().Format("2006-01-02-15-04-05-999999"), strings.ToLower(filepath.Ext(name)))
-	return fmt.Sprintf("%s/%s", p.Url, name), ioutil.WriteFile(p.realPath(name), body, 0600)
+func (p *LocalProvider) Store(name string, reader io.Reader) (string, uint, error) {
+	buf, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return "", 0, err
+	}
+
+	name = fmt.Sprintf("%d%s", time.Now().UnixNano(), strings.ToLower(filepath.Ext(name)))
+	return fmt.Sprintf("%s/%s", p.Url, name), uint(len(buf)), ioutil.WriteFile(p.realPath(name), buf, 0644)
 }
 
 func (p *LocalProvider) realPath(name string) string {
