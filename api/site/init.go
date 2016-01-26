@@ -19,6 +19,12 @@ func Init(env string) error {
 		return err
 	}
 
+	//---------storage
+	stg, err := cfg.OpenStorage()
+	if err != nil {
+		return err
+	}
+
 	//-----------------aes
 	cip, err := cfg.AesCipher()
 	if err != nil {
@@ -57,6 +63,7 @@ func Init(env string) error {
 		cp,
 		//		esc,
 		&token.RedisProvider{},
+		stg,
 		render.New(render.Options{
 			IsDevelopment: !cfg.IsProduction(),
 		}),

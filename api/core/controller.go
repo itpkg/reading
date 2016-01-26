@@ -27,6 +27,10 @@ func (p *Controller) NotFound(w http.ResponseWriter) {
 	w.WriteHeader(http.StatusNotFound)
 }
 
+func (p *Controller) Forbidden(w http.ResponseWriter) {
+	w.WriteHeader(http.StatusForbidden)
+}
+
 func (p *Controller) Locale(r *http.Request) string {
 	l := r.URL.Query().Get("locale")
 	if l == "" {

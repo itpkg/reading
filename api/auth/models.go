@@ -12,7 +12,7 @@ type User struct {
 	core.Model
 
 	Email        string `sql:"not null;index:idx_users_email"`
-	Uid          string `sql:"not null;unique;type:char(36)"`
+	Uid          string `sql:"not null;unique_index;type:char(36)"`
 	Home         string `sql:"not null"`
 	Logo         string `sql:"not null"`
 	Name         string `sql:"not null"`

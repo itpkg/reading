@@ -18,6 +18,8 @@ web:
     faq: 常见问题
     about: 关于我们
     contact: 联系我们
+  placeholders:
+    upload: 拖动文件到此处或点击文件上传。
   forms:
     notice:
       content: 内容
@@ -62,8 +64,10 @@ web:
     update: 更新
     upgrade: 升级
     remove: 删除
+    upload: 上传
   dashboard:
     index: 控制面板
+    attachments: 附件管理
     admin:
       cms:
         index: 内容系统

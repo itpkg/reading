@@ -27,4 +27,9 @@ locales:
 	cd tools && rake locales
 	cd api && go run main.go db s && go run main.go c c
 
+reset:
+	cd tools && rake locales
+	cd api && go run main.go db d && go run main.go db n && go run main.go db m && go run main.go db s && go run main.go c c && go run main.go db c
+
+
 

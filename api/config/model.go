@@ -10,6 +10,7 @@ import (
 
 	"github.com/garyburd/redigo/redis"
 	"github.com/itpkg/reading/api/core"
+	"github.com/itpkg/reading/api/storage"
 	"github.com/jinzhu/gorm"
 	"gopkg.in/olivere/elastic.v3"
 )
@@ -19,6 +20,7 @@ type Model struct {
 	SecretsS      string         `toml:"secret"`
 	Secrets       []byte         `toml:"-"`
 	Http          *Http          `toml:"http"`
+	Storage       *Storage       `toml:"storage"`
 	Database      *Database      `toml:"database"`
 	Redis         *Redis         `toml:"redis"`
 	ElasticSearch *ElasticSearch `toml:"elastic_search"`
@@ -39,7 +41,13 @@ func (p *Model) Home() string {
 		return fmt.Sprintf("http://localhost:%s", p.Http.Port)
 	}
 }
-
+func (p *Model) OpenStorage() (storage.Provider, error) {
+	s := p.Storage
+	switch s.Type {
+	default:
+		return &storage.LocalProvider{Url: s.Extra["url"], Root: s.Extra["root"]}, nil
+	}
+}
 func (p *Model) OpenElastic() (*elastic.Client, error) {
 	var err error
 	var client *elastic.Client

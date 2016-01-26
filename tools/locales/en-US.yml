@@ -33,12 +33,15 @@ web:
     update: Update
     upgrade: Upgrade
     remove: Remove
+    upload: Upload
   models:
     permission:
       user: User
       role: Role
       begin: Start up
       end: Shut down
+  placeholders:
+    upload: Try dropping some files here, or click to select files to upload.
   forms:
     notice:
       content: Content
@@ -64,6 +67,7 @@ web:
       copyright: Copyright
   dashboard:
     index: Profile
+    attachments: Attachments
     admin:
       cms:
         index: Cms

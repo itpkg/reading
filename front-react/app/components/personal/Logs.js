@@ -1,6 +1,5 @@
 import React, {PropTypes} from 'react';
 import {ListGroup, ListGroupItem} from 'react-bootstrap'
-import {connect} from 'react-redux';
 import i18next from 'i18next/lib';
 import TimeAgo from 'react-timeago';
 

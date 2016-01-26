@@ -2,6 +2,8 @@ package cms
 
 import (
 	"fmt"
+	"path/filepath"
+	"strings"
 
 	"github.com/itpkg/reading/api/auth"
 	"github.com/itpkg/reading/api/core"
@@ -9,16 +11,31 @@ import (
 
 type Attachment struct {
 	core.Model
-	UserID uint `sql:"not null"`
-	User   auth.User
-
-	Title       string `sql:"not null"`
-	ContentType string `sql:"not null;type:varchar(16);index"`
-	Body        []byte `sql:"not null"`
+	UserID uint   `sql:"not null" json:"-"`
+	User   User   `json:"-"`
+	Url    string `sql:"not null;unique_index" json:"url"`
+	Title  string `sql:"not null;index" json:"title"`
+	Size   uint   `sql:"not null" json:"size"`
+	Type   string `sql:"not null;index" json:"type"`
 }
 
-func (Attachment) TableName() string {
-	return "attachments"
+func (p *Attachment) IsPicture() bool {
+	return strings.HasPrefix(p.Type, "image/")
+}
+
+func (p *Attachment) Ext() string {
+	return filepath.Ext(p.Title)
+}
+
+func (p *Attachment) SizeS() string {
+	switch {
+	case p.Size < 1000:
+		return fmt.Sprintf("%dB", p.Size)
+	case p.Size < 1000*1000:
+		return fmt.Sprintf("%dK", p.Size/1000)
+	default:
+		return fmt.Sprintf("%dM", p.Size/1000/1000)
+	}
 }
 
 type Article struct {
@@ -26,7 +43,7 @@ type Article struct {
 	UserID uint `sql:"not null"`
 	User   auth.User
 
-	Aid     string `sql:"not null;type:varchar(36);unique"`
+	Aid     string `sql:"not null;type:varchar(36);unique_index"`
 	Title   string `sql:"not null"`
 	Summary string
 	Body    string `sql:"not null;type:TEXT"`
@@ -122,7 +139,7 @@ func (Video) TableName() string {
 type Book struct {
 	core.Model
 	Type      string `sql:"not null;index" json:"type"`
-	Name      string `sql:"not null;unique" json:"name"`
+	Name      string `sql:"not null;unique_index" json:"name"`
 	IndexHref string `json:"index_href"`
 	IndexType string `json:"index_type"`
 	CoverHref string `json:"cover_href"`

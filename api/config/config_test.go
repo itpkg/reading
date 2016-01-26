@@ -1,5 +1,17 @@
 package config_test
 
+/*
+
+/etc/nginx/sites-enabled/development.conf:
+server {
+  listen 80;
+
+  server_name localhost;
+  root /var/www;
+}
+
+*/
+
 import (
 	"testing"
 
@@ -33,6 +45,13 @@ func TestHttp(t *testing.T) {
 				Domain: "localhost",
 				Port:   3000,
 			},
+			Storage: &config.Storage{
+				Type: "local",
+				Extra: map[string]string{
+					"url":  "http://localhost/attachments",
+					"root": "/var/www/attachments",
+				},
+			},
 		},
 		"production": &config.Model{
 			SecretsS: random(),
@@ -58,6 +77,13 @@ func TestHttp(t *testing.T) {
 				Domain: "change-me",
 				Port:   3000,
 			},
+			Storage: &config.Storage{
+				Type: "local",
+				Extra: map[string]string{
+					"url":  "http://localhost/attachments",
+					"root": "/var/www/attachments",
+				},
+			},
 		},
 		"test": &config.Model{
 			SecretsS: random(),
@@ -82,6 +108,13 @@ func TestHttp(t *testing.T) {
 			Http: &config.Http{
 				Domain: "localhost",
 				Port:   3000,
+			},
+			Storage: &config.Storage{
+				Type: "local",
+				Extra: map[string]string{
+					"url":  "http://localhost/attachments",
+					"root": "/var/www/attachments",
+				},
 			},
 		},
 	}

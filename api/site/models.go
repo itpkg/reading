@@ -6,7 +6,7 @@ import (
 
 type Setting struct {
 	core.Model
-	Key  string `sql:"not null;unique"`
+	Key  string `sql:"not null;unique_index"`
 	Val  []byte `sql:"not null"`
 	Flag bool   `sql:"not null;default:false"`
 }

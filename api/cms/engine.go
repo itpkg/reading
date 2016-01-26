@@ -1,6 +1,7 @@
 package cms
 
 import (
+	"github.com/itpkg/reading/api/auth"
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
@@ -14,10 +15,12 @@ import (
 type CmsEngine struct {
 	core.Controller
 
-	Render *render.Render  `inject:""`
-	Db     *gorm.DB        `inject:""`
-	Logger *logging.Logger `inject:""`
-	Cache  cache.Provider  `inject:""`
+	Render  *render.Render  `inject:""`
+	Db      *gorm.DB        `inject:""`
+	Logger  *logging.Logger `inject:""`
+	Cache   cache.Provider  `inject:""`
+	Session *auth.Session   `inject:""`
+	AuthDao *auth.Dao       `inject:""`
 }
 
 func (p *CmsEngine) Seed() error {

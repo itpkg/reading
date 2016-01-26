@@ -42,6 +42,7 @@ export function GET(url, done, fail) {
     }).done(done).fail(fail);
 
 }
+
 export function POST(url, data, done, fail) {
     $.ajax({
         method: 'POST',
@@ -52,9 +53,11 @@ export function POST(url, data, done, fail) {
     }).done(done).fail(fail);
 
 }
+
 function PATCH() {
     console.log('todo')
 }
+
 export function DELETE(url, done, fail) {
     $.ajax({
         method: 'DELETE',
@@ -62,4 +65,17 @@ export function DELETE(url, done, fail) {
         beforeSend: setToken,
         dataType: 'json'
     }).done(done).fail(fail);
+}
+
+export function UPLOAD(url, data, done, fail) {
+    $.ajax({
+        method: 'POST',
+        url: appendLocale(url),
+        data: data,
+        beforeSend: setToken,
+        dataType: 'json',
+        processData: false,
+        contentType: false
+    }).done(done).fail(fail);
+
 }

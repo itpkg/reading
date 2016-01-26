@@ -15,10 +15,16 @@ const Layout = React.createClass({
         } else {
             var items = [];
             items.push(
-                <LinkContainer key="personal" to="/dashboard/personal/logs">
-                    <NavItem eventKey={1}>{i18next.t('dashboard.personal.logs')}</NavItem>
+                <LinkContainer key="logs" to="/dashboard/personal/logs">
+                    <NavItem eventKey='logs'>{i18next.t('dashboard.personal.logs')}</NavItem>
                 </LinkContainer>
             );
+            items.push(
+                <LinkContainer key="attachments" to="/dashboard/attachments">
+                    <NavItem eventKey='attachments'>{i18next.t('dashboard.attachments')}</NavItem>
+                </LinkContainer>
+            );
+
             if (user.isAdmin) {
                 items.push(
                     <NavDropdown key="admin.site" title={i18next.t('dashboard.admin.site.index')} id="dashboard-admin">
@@ -43,7 +49,7 @@ const Layout = React.createClass({
                 );
                 items.push(
                     <LinkContainer key="users" to="/dashboard/admin/users">
-                        <NavItem eventKey={1}>{i18next.t('dashboard.admin.users')}</NavItem>
+                        <NavItem eventKey='users'>{i18next.t('dashboard.admin.users')}</NavItem>
                     </LinkContainer>
                 );
             }

@@ -1,6 +1,8 @@
 package core
 
 import (
+	"net/http"
+
 	"github.com/julienschmidt/httprouter"
 )
 
@@ -10,4 +12,5 @@ type Router interface {
 	DELETE(string, httprouter.Handle)
 	PUT(string, httprouter.Handle)
 	PATCH(string, httprouter.Handle)
+	ServeFiles(string, http.FileSystem)
 }
