@@ -2,6 +2,7 @@ web:
   back_to_top: 返回顶部
   build_using: 使用 <a target='_blank' href='{{url}}'>{{url}}</a> 搭建。
   messages:
+    are_you_sure: 你确定要进行此操作么？
     success: 操作成功。
     failed: 操作失败！
     waiting: 正在处理中，请稍后。。。
@@ -50,6 +51,9 @@ web:
     view: 显示
     show: 查看
     edit: 编辑
+    new: 新建
+    create: 创建
+    save: 保存
     update: 更新
     upgrade: 升级
     remove: 删除
@@ -61,6 +65,7 @@ web:
         info: 基本信息
         seo: 搜索引擎
         secrets: 密钥管理
+        notices: 通知列表
       users: 用户列表
     personal:
       logs: 日志列表

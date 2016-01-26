@@ -4,9 +4,31 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/itpkg/reading/api/site"
 	"github.com/itpkg/reading/api/web"
 	"github.com/julienschmidt/httprouter"
 )
+
+func (p *AuthEngine) createNotice(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+	r.ParseForm()
+	p.Db.Create(&site.Notice{Content: r.FormValue("content"), Lang: p.Locale(r)})
+	p.Render.JSON(w, http.StatusOK, web.NewResponse(true, nil))
+}
+func (p *AuthEngine) destroyNotice(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+
+	p.Db.Where("id = ?", ps.ByName("id")).Delete(site.Notice{})
+	p.Render.JSON(w, http.StatusOK, web.NewResponse(true, nil))
+}
 
 func (p *AuthEngine) getAdminUsers(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	_, err := p.Session.Admin(r)
@@ -61,6 +83,12 @@ func (p *AuthEngine) getAdminSiteInfo(w http.ResponseWriter, r *http.Request, _ 
 	p.Render.JSON(w, http.StatusOK, fm)
 }
 func (p *AuthEngine) postAdminSiteInfo(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+
 	lang := p.Locale(r)
 	r.ParseForm()
 	for _, k := range []string{
@@ -91,6 +119,12 @@ func (p *AuthEngine) getAdminSiteSeo(w http.ResponseWriter, r *http.Request, _ h
 	p.Render.JSON(w, http.StatusOK, fm)
 }
 func (p *AuthEngine) postAdminSiteSeo(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+
 	r.ParseForm()
 	for _, k := range []string{
 		"robotsTxt",
@@ -119,6 +153,11 @@ func (p *AuthEngine) getAdminSiteSecrets(w http.ResponseWriter, r *http.Request,
 	p.Render.JSON(w, http.StatusOK, fm)
 }
 func (p *AuthEngine) postAdminSiteSecrets(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
 	r.ParseForm()
 	gcf := GoogleConf{
 		Web: GoogleWeb{

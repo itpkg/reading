@@ -60,7 +60,7 @@ func (p *SiteEngine) Seed() error {
 
 func (p *SiteEngine) Migrate() {
 	db := p.Db
-	db.AutoMigrate(&Locale{}, &Setting{})
+	db.AutoMigrate(&Locale{}, &Setting{}, &Notice{})
 	db.Model(&Locale{}).AddUniqueIndex("idx_locales_code_lang", "code", "lang")
 }
 

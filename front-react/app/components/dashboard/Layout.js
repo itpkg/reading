@@ -31,6 +31,10 @@ const Layout = React.createClass({
                         <LinkContainer to="/dashboard/admin/site/secrets">
                             <MenuItem>{i18next.t('dashboard.admin.site.secrets')}</MenuItem>
                         </LinkContainer>
+                        <MenuItem divider/>
+                        <LinkContainer to="/dashboard/admin/site/notices">
+                            <MenuItem>{i18next.t('dashboard.admin.site.notices')}</MenuItem>
+                        </LinkContainer>
                     </NavDropdown>
                 );
                 items.push(

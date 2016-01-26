@@ -23,7 +23,7 @@ const Widget = React.createClass({
 
         var fm = this.state._form_;
         switch (fm.method) {
-            case "POST":
+            default:
                 POST(
                     fm.action,
                     data, function (rst) {
@@ -48,9 +48,6 @@ const Widget = React.createClass({
                     }.bind(this)
                 );
                 break;
-            default:
-                console.log('Unsupported method ' + fm.method);
-
         }
 
     },

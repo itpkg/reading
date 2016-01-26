@@ -4,7 +4,7 @@ import {Router, Route, IndexRoute, browserHistory} from 'react-router';
 import CmsArticle from './cms/Article'
 import Layout from './Layout'
 import Home from './Home'
-import Notice from './Notice'
+import {Index as Notices} from './Notice'
 import NoMatch from './NoMatch'
 import OauthGoogle from './oauth/google'
 
@@ -16,9 +16,11 @@ export default React.createClass({
             <Router history={browserHistory}>
                 <Route path="/" component={Layout}>
 
-                    <Route path="notices/:id" component={Notice}/>
+
                     <Route path="cms/articles/:aid" component={CmsArticle}/>
 
+
+                    <Route path="notices" component={Notices}/>
                     {Dashboard}
                     <Route path="oauth/google" component={OauthGoogle}/>
                     <Route path="*" component={NoMatch}/>

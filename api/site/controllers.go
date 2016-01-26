@@ -12,6 +12,18 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
+func (p *SiteEngine) notices(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	pager := core.NewPager(24)
+	_, start, size := pager.Parse(r)
+	var total int
+	p.Db.Model(Notice{}).Count(&total)
+	pager.SetTotal(total)
+
+	var items []Notice
+	p.Db.Where("lang = ?", p.Locale(r)).Offset(start).Limit(size).Order("id desc").Find(&items)
+	p.Pager(p.Render, w, pager, items)
+}
+
 func (p *SiteEngine) sitemap(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	p.Cache.Page(w, r, core.XML, 24*60, func() ([]byte, error) {
 		var buf bytes.Buffer
@@ -121,7 +133,8 @@ func (p *SiteEngine) locales(w http.ResponseWriter, r *http.Request, ps httprout
 }
 
 func (p *SiteEngine) Mount(rt core.Router) {
-	//just for i18next
+	rt.GET("/notices", p.notices)
+
 	rt.GET("/locales/:lang", p.locales)
 
 	rt.GET("/site/info", p.info)

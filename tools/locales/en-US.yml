@@ -2,6 +2,7 @@ web:
   back_to_top: Back to top
   build_using: Build using <a target='_blank' href='{{url}}'>{{url}}</a>.
   messages:
+    are_you_sure: Are you sure?
     success: Success.
     failed: Failed!
     waiting: Progressing, please waiting...
@@ -26,6 +27,9 @@ web:
     view: View
     show: Show
     edit: Edit
+    new: New
+    create: Create
+    save: Save
     update: Update
     upgrade: Upgrade
     remove: Remove
@@ -61,6 +65,7 @@ web:
         info: Base info
         seo: SEO
         secrets: Secrets
+        notices: Notices
       users: Users
     personal:
       logs: Logs
