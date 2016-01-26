@@ -20,7 +20,7 @@ func (p *Dao) Locale(lang, code, msg string) error {
 	if c == 0 {
 		err = p.Db.Create(&l).Error
 	} else {
-		err = p.Db.Model(Locale{}).Where("lang = ? AND code = ?", lang, code).UpdateColumn("message", msg).Error
+		err = p.Db.Model(&Locale{}).Where("lang = ? AND code = ?", lang, code).UpdateColumns(map[string]interface{}{"message": msg}).Error
 	}
 	return err
 }

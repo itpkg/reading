@@ -12,10 +12,10 @@ type Setting struct {
 }
 
 type Locale struct {
-	ID      uint   `gorm:"primary_key"`
-	Code    string `sql:"not null;index:idx_locales_code"`
-	Lang    string `sql:"not null;default:'en-US';type:char(5);index:idx_locales_lang"`
-	Message string `sql:"not null;type:text"`
+	core.Model
+	Code    string `sql:"not null;index:idx_locales_code" json:"code"`
+	Lang    string `sql:"not null;default:'en-US';type:char(5);index:idx_locales_lang" json:"lang"`
+	Message string `sql:"not null;type:text" json:"message"`
 }
 
 type Notice struct {

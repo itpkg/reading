@@ -9,15 +9,79 @@ import (
 	"github.com/julienschmidt/httprouter"
 )
 
-func (p *AuthEngine) createNotice(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+func (p *AuthEngine) locales(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+	var items []site.Locale
+	p.Db.Select([]string{"id", "code", "message"}).Where("lang = ?", p.Locale(r)).Order("code DESC").Find(&items)
+	p.Render.JSON(w, http.StatusOK, items)
+}
+
+func (p *AuthEngine) saveLocale(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	_, err := p.Session.Admin(r)
 	if err != nil {
 		p.Abort(w, err)
 		return
 	}
 	r.ParseForm()
-	p.Db.Create(&site.Notice{Content: r.FormValue("content"), Lang: p.Locale(r)})
+
+	id := r.FormValue("id")
+	lang := p.Locale(r)
+	code := r.FormValue("code")
+	message := r.FormValue("message")
+
+	if id == "" {
+		err = p.Db.Create(&site.Locale{Lang: lang, Code: code, Message: message}).Error
+	} else {
+		var lol site.Locale
+		p.Db.Where("id = ?", id).First(&lol)
+		lol.Code = code
+		lol.Message = message
+		err = p.Db.Save(&lol).Error
+	}
+	res := web.NewResponse(true, nil)
+	res.Check(err)
+
+	p.Render.JSON(w, http.StatusOK, res)
+
+}
+
+func (p *AuthEngine) destroyLocale(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+
+	p.Db.Where("id = ?", ps.ByName("id")).Delete(site.Locale{})
 	p.Render.JSON(w, http.StatusOK, web.NewResponse(true, nil))
+}
+
+func (p *AuthEngine) saveNotice(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+	r.ParseForm()
+	id := r.FormValue("id")
+	content := r.FormValue("content")
+	lang := p.Locale(r)
+	if id == "" {
+		err = p.Db.Create(&site.Notice{Content: content, Lang: lang}).Error
+	} else {
+		var n site.Notice
+		p.Db.Where("id = ?", id).First(&n)
+		n.Content = content
+		err = p.Db.Save(&n).Error
+	}
+
+	res := web.NewResponse(true, nil)
+	res.Check(err)
+	p.Render.JSON(w, http.StatusOK, res)
 }
 func (p *AuthEngine) destroyNotice(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	_, err := p.Session.Admin(r)

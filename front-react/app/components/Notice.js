@@ -1,50 +1,22 @@
-import React,{PropTypes} from 'react';
-import {connect} from 'react-redux';
+import React from 'react';
 import TimeAgo from 'react-timeago';
 
 import {GET} from  '../ajax'
 import RemoveButton from './widgets/RemoveButton'
 import Markdown from './widgets/Markdown'
 
-export const ShowW = React.createClass({
+export const Show = React.createClass({
     render(){
-        const {user, notice, onRefresh} = this.props;
+        const {notice} = this.props;
 
         return (<blockquote>
             <p>
                 <Markdown body={notice.content}/>
             </p>
             <footer>
-                {user.isAdmin ?
-                    <RemoveButton onRefresh={onRefresh} action={"/admin/notice/"+notice.id} size="xsmall"/> : ""}
-                &nbsp;
                 <cite><TimeAgo date={notice.created_at}/></cite>
             </footer>
         </blockquote>)
-    }
-});
-
-
-ShowW.propTypes = {
-    user: PropTypes.object.isRequired,
-    notice: PropTypes.object.isRequired
-};
-
-export const Show = connect(
-    state => ({user: state.current_user}),
-    dispatch => ({})
-)(ShowW);
-
-export const List = React.createClass({
-    render(){
-        const {notices, onRefresh} = this.props;
-        return (
-            <div>
-                {notices.map(function (n, i) {
-                    return <Show key={i} notice={n} onRefresh={onRefresh}/>
-                })}
-            </div>
-        )
     }
 });
 

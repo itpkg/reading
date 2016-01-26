@@ -11,6 +11,16 @@ type Response struct {
 	CreatedAt time.Time   `json:"created_at"`
 }
 
+func (p *Response) Check(err error) {
+	if err != nil {
+		p.Ok = false
+		p.AddMessages(err.Error())
+	}
+}
+func (p *Response) AddMessages(messages ...string) {
+	p.Messages = append(p.Messages, messages...)
+}
+
 func NewResponse(ok bool, payload interface{}, messages ...string) *Response {
 	return &Response{
 		Ok:        ok,

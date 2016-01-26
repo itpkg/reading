@@ -14,8 +14,12 @@ func (p *AuthEngine) Mount(rt core.Router) {
 	rt.GET("/admin/site/secrets", p.getAdminSiteSecrets)
 	rt.POST("/admin/site/secrets", p.postAdminSiteSecrets)
 
-	rt.POST("/admin/notices", p.createNotice)
+	rt.POST("/admin/notices", p.saveNotice)
 	rt.DELETE("/admin/notice/:id", p.destroyNotice)
+
+	rt.GET("/admin/locales", p.locales)
+	rt.POST("/admin/locales", p.saveLocale)
+	rt.DELETE("/admin/locale/:id", p.destroyLocale)
 
 	rt.GET("/users/logs", p.getUsersLogs)
 

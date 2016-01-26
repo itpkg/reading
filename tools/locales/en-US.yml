@@ -40,6 +40,11 @@ web:
       begin: Start up
       end: Shut down
   forms:
+    notice:
+      content: Content
+    locale:
+      code: Code
+      message: Message
     siteSeo:
       robotsTxt: robots.txt
       googleVerify: Google verify code
@@ -60,12 +65,15 @@ web:
   dashboard:
     index: Profile
     admin:
+      cms:
+        index: Cms
       site:
         index: Site
         info: Base info
         seo: SEO
         secrets: Secrets
-        notices: Notices
+      notices: Notices
+      locales: I18n
       users: Users
     personal:
       logs: Logs

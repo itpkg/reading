@@ -5,6 +5,7 @@ import LinkedStateMixin from 'react-addons-linked-state-mixin'
 
 import {POST} from  '../../ajax'
 
+
 const Widget = React.createClass({
     mixins: [LinkedStateMixin],
     getInitialState(){
@@ -89,7 +90,7 @@ const Widget = React.createClass({
                                 case "password":
                                 case "textarea":
                                     return <Input key={fld.id} id={fld.id}
-                                                  type={fld.type} label={fld.label}
+                                                  type={fld.type} label={i18next.t(fld.label)}
                                                   valueLink={link(fld.id)}
                                                   placeholder={fld.placeholder}/>;
                                 default:

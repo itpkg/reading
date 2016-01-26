@@ -13,6 +13,24 @@ function appendLocale(url) {
     return API_HOST + url + (url.indexOf('?') === -1 ? '?' : '&') + 'locale=' + i18next.language;
 }
 
+export function failed() {
+    alert(i18next.t('messages.failed'));
+}
+
+export function response(success) {
+    return function (rst) {
+        var msg = rst.messages ? '\n' + rst.messages.join('\n') : '';
+        if (rst.ok) {
+            alert(i18next.t('messages.success') + msg);
+            if (success) {
+                success();
+            }
+        } else {
+            alert(i18next.t('messages.failed') + msg);
+        }
+    };
+}
+
 export function GET(url, done, fail) {
     $.ajax({
         method: 'GET',

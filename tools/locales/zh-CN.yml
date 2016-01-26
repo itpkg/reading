@@ -19,6 +19,11 @@ web:
     about: 关于我们
     contact: 联系我们
   forms:
+    notice:
+      content: 内容
+    locale:
+      code: KEY
+      message: 内容
     siteSeo:
       robotsTxt: robots.txt
       googleVerify: Google verify code
@@ -60,12 +65,15 @@ web:
   dashboard:
     index: 控制面板
     admin:
+      cms:
+        index: 内容系统
       site:
         index: 站点设置
         info: 基本信息
         seo: 搜索引擎
         secrets: 密钥管理
-        notices: 通知列表
+      notices: 通知列表
+      locales: 国际化
       users: 用户列表
     personal:
       logs: 日志列表
