@@ -61,11 +61,11 @@ const Widget = React.createClass({
                 <form method='POST' onSubmit={this.handleSubmit}>
                     <Input type="hidden" id="id" valueLink={this.linkState('id')}/>
                     <Input id='code'
-                           type='text' label={i18next.t('forms.locale.code')}
+                           type='text' label={i18next.t('models.locale.code')}
                            valueLink={this.linkState('code')}
                     />
                     <Input id='message'
-                           type='textarea' label={i18next.t('forms.locale.message')}
+                           type='textarea' label={i18next.t('models.locale.message')}
                            valueLink={this.linkState('message')}
                     />
                     <Buttons onReset={this.handleReset} onDelete={this.handleDelete}/>

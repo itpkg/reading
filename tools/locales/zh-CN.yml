@@ -1,5 +1,5 @@
 web:
-  back_to_top: 返回顶部
+  back_to_home: 返回主页
   build_using: 使用 <a target='_blank' href='{{url}}'>{{url}}</a> 搭建。
   links:
     home: 主页
@@ -15,11 +15,6 @@ web:
   placeholders:
     upload: 拖动文件到此处或点击文件上传。
   forms:
-    notice:
-      content: 内容
-    locale:
-      code: KEY
-      message: 内容
     siteSeo:
       robotsTxt: robots.txt
       googleVerify: Google verify code
@@ -40,6 +35,20 @@ web:
     siteTop:
       content: 每行一个链接（如：/cms/articles/help）
   models:
+    notice:
+      content: 内容
+    locale:
+      code: KEY
+      message: 内容
+    cms:
+      article:
+        aid: ID(由字母、数字、下划线组成)
+        title: 标题
+        summary: 摘要
+        body: 内容
+        tags: 标签列表
+        comments: 评论列表
+        updated_at: 上次更新
     permission:
       user: 用户
       role: 角色

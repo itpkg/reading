@@ -1,5 +1,5 @@
 web:
-  back_to_top: Back to top
+  back_to_home: Back to home
   build_using: Build using <a target='_blank' href='{{url}}'>{{url}}</a>.
   links:
     home: Home
@@ -29,6 +29,20 @@ web:
     remove: Remove
     upload: Upload
   models:
+    notice:
+      content: Content
+    locale:
+      code: Code
+      message: Message
+    cms:
+      article:
+        aid: ID(only alphanumeric)
+        title: Title
+        summary: Summary
+        body: Body
+        tags: Tags
+        comments: Comments
+        updated_at: Updated at
     permission:
       user: User
       role: Role
@@ -37,11 +51,6 @@ web:
   placeholders:
     upload: Try dropping some files here, or click to select files to upload.
   forms:
-    notice:
-      content: Content
-    locale:
-      code: Code
-      message: Message
     siteSeo:
       robotsTxt: robots.txt
       googleVerify: Google verify code

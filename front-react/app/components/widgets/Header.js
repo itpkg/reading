@@ -23,7 +23,7 @@ function Header({title, topNavBar}) {
         <Navbar inverse fixedTop fluid>
             <Navbar.Header>
                 <Navbar.Brand>
-                    <Link to="home">{title}</Link>
+                    <Link to="/home">{title}</Link>
                 </Navbar.Brand>
                 <Navbar.Toggle />
             </Navbar.Header>

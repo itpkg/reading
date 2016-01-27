@@ -40,16 +40,16 @@ func (p *Attachment) SizeS() string {
 
 type Article struct {
 	core.Model
-	UserID uint `sql:"not null"`
-	User   auth.User
+	UserID uint      `sql:"not null"  json:"user_id"`
+	User   auth.User `json:"-"`
 
-	Aid     string `sql:"not null;type:varchar(36);unique_index"`
-	Title   string `sql:"not null"`
-	Summary string
-	Body    string `sql:"not null;type:TEXT"`
-	Type    string `sql:"not null;type:varchar(8);default:'markdown';index"`
+	Aid     string `sql:"not null;type:varchar(36);unique_index"  json:"aid"`
+	Title   string `sql:"not null"  json:"title"`
+	Summary string `json:"summary"`
+	Body    string `sql:"not null;type:TEXT"  json:"body"`
+	Type    string `sql:"not null;type:varchar(8);default:'markdown';index"  json:"type"`
 
-	Tags []Tag `gorm:"many2many:cms_article_tags;"`
+	Tags []Tag `gorm:"many2many:cms_article_tags;" json:"tags"`
 }
 
 func (Article) TableName() string {

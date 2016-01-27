@@ -17,6 +17,9 @@ export function failed() {
     alert(i18next.t('messages.failed'));
 }
 
+export function error(e) {
+    return alert(e.responseText);
+}
 export function response(success) {
     return function (rst) {
         var msg = rst.messages ? '\n' + rst.messages.join('\n') : '';

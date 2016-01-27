@@ -20,6 +20,7 @@ export default React.createClass({
                     {Dashboard}
                     <Route path="notices" component={Notices}/>
                     <Route path="oauth/google" component={OauthGoogle}/>
+                    <Route path="home" component={Home}/>
                     <Route path="*" component={NoMatch}/>
                     <IndexRoute component={Home}/>
                 </Route>

@@ -10,7 +10,7 @@ const Widget = React.createClass({
             <div className="form-group">
                 <ButtonToolbar>
                     <Button type="submit" bsStyle="primary">{i18next.t('buttons.submit')}</Button>
-                    <Button type="reset" onClick={onReset}>{i18next.t("buttons.reset")}</Button>
+                    <Button onClick={onReset}>{i18next.t("buttons.reset")}</Button>
                     {
                         onDelete ?
                             <Button bsStyle="danger" onClick={onDelete}>{i18next.t("buttons.remove")}</Button> :
