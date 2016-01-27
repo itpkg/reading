@@ -47,7 +47,7 @@ const EditW = React.createClass({
             response(function () {
                 const {aid} = this.props;
                 this.getArticle(aid);
-            }),
+            }.bind(this)),
             error
         );
     },
@@ -179,7 +179,7 @@ const ShowW = React.createClass({
                     {
                         this.isSignIn() ?
                             <Link className="btn btn-primary"
-                                  to={`/dashboard/cms/article/${aid}/edit`}>{i18next.t('dashboard.article')}</Link> :
+                                  to={`/dashboard/cms/article/${aid}/edit`}>{i18next.t('dashboard.article.new')}</Link> :
                             <Link className="btn btn-primary" to={`/`}>{i18next.t('links.back_to_home')}</Link>
                     }
                 </Alert>

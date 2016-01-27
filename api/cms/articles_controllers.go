@@ -75,9 +75,8 @@ func (p *CmsEngine) saveArticle(w http.ResponseWriter, r *http.Request, ps httpr
 	fmt.Printf("%+v", r.Form)
 	for _, tn := range r.Form["tags[]"] {
 		var t Tag
-		if p.Db.Where("name = ? AND lang = ?", tn, lang).First(&t).RecordNotFound() {
+		if p.Db.Where("name = ?", tn).First(&t).RecordNotFound() {
 			t.Name = tn
-			t.Lang = lang
 			p.Db.Create(&t)
 		}
 		tags = append(tags, t)
@@ -90,6 +89,7 @@ func (p *CmsEngine) saveArticle(w http.ResponseWriter, r *http.Request, ps httpr
 			Title:   title,
 			Summary: summary,
 			Body:    body,
+			Lang:    lang,
 			Tags:    tags,
 		}).Error
 	} else {

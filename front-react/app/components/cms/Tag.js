@@ -4,9 +4,42 @@ import React,{PropTypes} from 'react';
 import {connect} from 'react-redux';
 import SelectInput from 'react-select'
 import i18next from 'i18next/lib';
+import {TagCloud, DefaultRenderer} from "react-tagcloud";
+import { routeActions } from 'react-router-redux'
+import $ from 'jquery'
 
 import {GET} from '../../ajax'
 
+const renderer = new DefaultRenderer({
+    props: {
+        onClick: (e) => routeActions.push('/cms/tags/'+$(e.target).text())
+    }
+});
+
+export const Cloud = React.createClass({
+    getInitialState() {
+        return {
+                items: []
+        }
+    },
+    componentDidMount(){
+        GET('/cms/tags', function(tags){
+            var items = tags.items.map(function(t){
+                return {value:t.name}
+            });
+            this.setState({items:items})
+        }.bind(this))
+    },
+    render(){
+        return (
+            <div>
+                <h4>{i18next.t('models.cms.article.tags')}</h4>
+                <hr/>
+                <TagCloud tags={this.state.items} minSize={12} maxSize={35} renderer={renderer}/>
+            </div>
+        )
+    }
+});
 //todo
 export const Select = React.createClass({
     getInitialState() {

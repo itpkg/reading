@@ -14,7 +14,7 @@ module.exports = function (options) {
             'react-router',
             'redux',
             'react-redux',
-            'redux-simple-router',
+            'react-router-redux',
             'url-parse',
             'i18next/lib',
             'i18next-xhr-backend/lib',

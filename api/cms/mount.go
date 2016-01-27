@@ -19,12 +19,12 @@ func (p *CmsEngine) Mount(rt core.Router) {
 	rt.GET("/cms/articles", p.listArticle)
 	rt.GET("/cms/articles/self", p.listArticleBySelf)
 	rt.POST("/cms/articles", p.saveArticle)
-	rt.GET("/cms/tags/:id", p.showTag)
+	rt.GET("/cms/tags/:name", p.showTag)
 	rt.GET("/cms/tags", p.listTag)
 
 	rt.GET("/attachments", p.listAttachment)
 	rt.POST("/attachments", p.saveAttachment)
-	rt.DELETE("/attachment/:id", p.removeAttachment)
+	rt.DELETE("/attachment/:aid", p.removeAttachment)
 
 	rt.POST("/dict", p.dict)
 }

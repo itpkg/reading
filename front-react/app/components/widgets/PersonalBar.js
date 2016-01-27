@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {NavDropdown, MenuItem} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap';
 import {connect} from 'react-redux';
-import {routeActions} from 'redux-simple-router'
+import {routeActions} from 'react-router-redux'
 import i18next from 'i18next/lib';
 
 import {GET} from '../../ajax'

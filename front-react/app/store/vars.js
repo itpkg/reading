@@ -1,6 +1,6 @@
 import {combineReducers} from 'redux'
 import {browserHistory} from 'react-router'
-import {syncHistory, routeReducer} from 'redux-simple-router'
+import {syncHistory, routeReducer} from 'react-router-redux'
 
 import reducers from '../reducers'
 

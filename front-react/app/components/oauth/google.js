@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {connect} from 'react-redux';
 import {Alert} from 'react-bootstrap'
-import {routeActions} from 'redux-simple-router'
+import {routeActions} from 'react-router-redux'
 import i18next from 'i18next/lib';
 import parse from 'url-parse'
 

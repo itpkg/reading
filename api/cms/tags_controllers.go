@@ -9,7 +9,7 @@ import (
 
 func (p *CmsEngine) showTag(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	var item Tag
-	err := p.Db.First(&item, ps.ByName("id")).Error
+	err := p.Db.Where("name = ?", ps.ByName("name")).First(&item).Error
 	if err != nil {
 		p.Abort(w, err)
 	}
