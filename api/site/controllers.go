@@ -88,13 +88,11 @@ func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, ps httprouter.
 }
 
 func (p *SiteEngine) robots(w http.ResponseWriter, _ *http.Request, _ httprouter.Params) {
-	var tx string
-	p.Dao.Get("robots.txt", &tx)
-	p.Render.Text(w, http.StatusOK, tx)
+	p.Render.Text(w, http.StatusOK, p.Dao.GetString("robotsTxt"))
 }
 
 func (p *SiteEngine) baidu(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
-	c := p.Dao.GetSiteInfo("baidu.site.verify", "")
+	c := p.Dao.GetString("baiduVerify")
 	if fmt.Sprintf("%s.html", c) == ps.ByName("id") {
 		p.Render.HTML(w, http.StatusOK, "baidu_verify", c)
 	} else {
@@ -103,7 +101,7 @@ func (p *SiteEngine) baidu(w http.ResponseWriter, _ *http.Request, ps httprouter
 }
 
 func (p *SiteEngine) google(w http.ResponseWriter, _ *http.Request, ps httprouter.Params) {
-	c := p.Dao.GetSiteInfo("google.site.verify", "")
+	c := p.Dao.GetString("googleVerify")
 	if fmt.Sprintf("%s.html", c) == ps.ByName("id") {
 		p.Render.HTML(w, http.StatusOK, "google_verify", c)
 	} else {

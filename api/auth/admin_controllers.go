@@ -175,12 +175,18 @@ func (p *AuthEngine) getAdminSiteSeo(w http.ResponseWriter, r *http.Request, _ h
 		return
 	}
 
-	fm := web.NewForm("siteSeo", "/admin/site/seo")
-	fm.Text("googleVerify", p.SiteDao.GetString("googleVerify"))
-	fm.Text("baiduVerify", p.SiteDao.GetString("baiduVerify"))
-	fm.TextArea("robotsTxt", p.SiteDao.GetString("robotsTxt"))
+	ifo := make(map[string]string)
+	for _, k := range []string{"googleVerify", "baiduVerify", "robotsTxt"} {
+		ifo[k] = p.SiteDao.GetString(k)
+	}
+	p.Render.JSON(w, http.StatusOK, ifo)
 
-	p.Render.JSON(w, http.StatusOK, fm)
+	//	fm := web.NewForm("siteSeo", "/admin/site/seo")
+	//	fm.Text("googleVerify", p.SiteDao.GetString("googleVerify"))
+	//	fm.Text("baiduVerify", p.SiteDao.GetString("baiduVerify"))
+	//	fm.TextArea("robotsTxt", p.SiteDao.GetString("robotsTxt"))
+	//
+	//	p.Render.JSON(w, http.StatusOK, fm)
 }
 func (p *AuthEngine) postAdminSiteSeo(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
 	_, err := p.Session.Admin(r)
