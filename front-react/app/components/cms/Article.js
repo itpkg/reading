@@ -13,6 +13,7 @@ import {CurrentUser} from '../../mixins'
 import Markdown from '../widgets/Markdown'
 import NoMatch from '../NoMatch'
 import {Select} from './Tag'
+import {randomColor} from '../../utils'
 
 const EditW = React.createClass({
     mixins: [LinkedStateMixin, CurrentUser],
@@ -111,7 +112,7 @@ EditW.propTypes = {
 export const Edit = connect(
     (state, ownProps) => ({
         user: state.current_user,
-        aid: ownProps.params.id
+        aid: ownProps.params.aid
     }),
     dispatch => ({})
 )(EditW);
@@ -158,6 +159,17 @@ const ShowW = React.createClass({
                     <hr/>
                     <blockquote>
                         {i18next.t('models.cms.article.summary')}: {item.summary}
+                        <br/>
+                        {i18next.t('models.cms.article.tags')}:
+                        {item.tags.map(function (t, i) {
+                            return (<span key={i}>
+                                &nbsp;
+                                <Link to={"/cms/tag/"+t.name} style={randomColor()}>
+                                    {t.name}
+                                </Link>
+                                &nbsp;
+                                </span>)
+                        })}
                         <footer>
                             {i18next.t('models.cms.article.updated_at')}:
                             &nbsp;
@@ -197,7 +209,7 @@ ShowW.propTypes = {
 export const Show = connect(
     (state, ownProps) => ({
         user: state.current_user,
-        aid: ownProps.params.id
+        aid: ownProps.params.aid
     }),
     dispatch => ({})
 )(ShowW);

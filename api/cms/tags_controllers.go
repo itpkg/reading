@@ -14,7 +14,7 @@ func (p *CmsEngine) showTag(w http.ResponseWriter, r *http.Request, ps httproute
 		p.Abort(w, err)
 	}
 
-	if err = p.Db.Model(&item).Association("Articles").Error; err == nil {
+	if err = p.Db.Model(&item).Select([]string{"aid", "title", "summary"}).Association("Articles").Find(&item.Articles).Error; err == nil {
 		p.Render.JSON(w, http.StatusOK, item)
 	} else {
 		p.Abort(w, err)

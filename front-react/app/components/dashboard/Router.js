@@ -25,7 +25,7 @@ const Router = (
 
         <Route path="personal/logs" component={PersonalLogs}/>
 
-        <Route path="cms/article/:id/edit" component={EditArticle}/>
+        <Route path="cms/article/:aid/edit" component={EditArticle}/>
         <Route path="cms/articles" component={ListArticle}/>
 
         <Route path="attachments" component={Attachments}/>
