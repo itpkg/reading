@@ -1,0 +1,7 @@
+{{ define "root" }}
+{{ range .Payload }}
+<div class="col-md-2">
+    <a href="/cms/tag/{{ .Name }}" target="_blank">{{ .Name }}</a>
+</div>
+{{ end }}
+{{ end }}

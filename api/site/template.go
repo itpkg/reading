@@ -31,7 +31,7 @@ func writeHtml(tpl, dist, htm string, model interface{}, mode os.FileMode, min b
 	}
 	name := path.Join(dist, "assets", htm)
 	dir := path.Dir(name)
-	os.MkdirAll(dir, 0700)
+	os.MkdirAll(dir, 0755)
 	f, err := os.OpenFile(name+".html", os.O_WRONLY|os.O_CREATE|os.O_TRUNC, mode)
 	if err != nil {
 		return err

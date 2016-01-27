@@ -1,10 +1,13 @@
 package cms
 
 import (
+	"fmt"
+
 	"github.com/itpkg/reading/api/auth"
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/rss"
+	"github.com/itpkg/reading/api/site"
 	"github.com/itpkg/reading/api/sitemap"
 	"github.com/itpkg/reading/api/storage"
 	"github.com/jinzhu/gorm"
@@ -23,10 +26,33 @@ type CmsEngine struct {
 	Session *auth.Session    `inject:""`
 	AuthDao *auth.Dao        `inject:""`
 	Storage storage.Provider `inject:""`
+	SiteDao *site.Dao        `inject:""`
 }
 
 func (p *CmsEngine) Asserts() []*core.Template {
 	var tps []*core.Template
+	var tags []Tag
+	p.Db.Select("name").Order("updated_at DESC").Find(&tags)
+
+	for _, lang := range p.SiteDao.Languages() {
+		tps = append(tps, &core.Template{
+			Lang:    lang,
+			Tpl:     "cms_tags",
+			Htm:     fmt.Sprintf("cms/tags-%s", lang),
+			Payload: tags,
+		})
+	}
+	var articles []Article
+	p.Db.Find(&articles)
+	for _, a := range articles {
+		tps = append(tps, &core.Template{
+			Lang:    a.Lang,
+			Tpl:     "cms_article",
+			Htm:     fmt.Sprintf("cms/article/%d", a.ID),
+			Payload: a,
+		})
+	}
+
 	return tps
 }
 func (p *CmsEngine) Seed() error {

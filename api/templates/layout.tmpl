@@ -48,7 +48,7 @@
 </nav>
 <div class="container">
     <div class="row">
-        {{ template "root" .}}
+        {{ template "root" . }}
     </div>
     <hr>
     <footer>
@@ -56,8 +56,8 @@
     </footer>
 </div>
 <script>
-    $(function(){
-        $('.markdown').each(function(){
+    $(function () {
+        $('.markdown').each(function () {
             $(this).html(marked($(this).text()));
         });
     });
