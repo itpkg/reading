@@ -30,8 +30,21 @@ type SiteEngine struct {
 }
 
 //=========================================================
-func (p *SiteEngine) Asserts(fn core.TemplateFunc) error {
-	return nil
+func (p *SiteEngine) Asserts() []*core.Template {
+
+	var tps []*core.Template
+	for _, lang := range p.Dao.Languages() {
+
+		var notices []Notice
+		p.Db.Where("lang = ?", lang).Order("updated_at DESC").Find(&notices)
+		tps = append(tps, &core.Template{
+			Lang:    lang,
+			Tpl:     "notices",
+			Htm:     fmt.Sprintf("notices/%s", lang),
+			Payload: notices,
+		})
+	}
+	return tps
 }
 
 func (p *SiteEngine) Seed() error {

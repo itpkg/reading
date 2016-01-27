@@ -137,9 +137,11 @@ func (p *AuthEngine) getAdminSiteInfo(w http.ResponseWriter, r *http.Request, _ 
 		"subTitle",
 		"keywords",
 		"copyright",
-		"authorName", "authorEmail",
 	} {
 		fm.Text(k, p.SiteDao.GetSiteInfo(k, lang))
+	}
+	for _, k := range []string{"authorName", "authorEmail"} {
+		fm.Text(k, p.SiteDao.GetString(k))
 	}
 
 	fm.TextArea("description", p.SiteDao.GetSiteInfo("description", lang))
@@ -161,9 +163,13 @@ func (p *AuthEngine) postAdminSiteInfo(w http.ResponseWriter, r *http.Request, _
 		"keywords",
 		"description",
 		"copyright",
-		"authorName", "authorEmail",
 	} {
 		p.SiteDao.SetSiteInfo(k, lang, r.FormValue(k), false)
+	}
+	for _, k := range []string{
+		"authorName", "authorEmail",
+	} {
+		p.SiteDao.Set(k, r.FormValue(k), false)
 	}
 	p.Render.JSON(w, http.StatusOK, web.NewResponse(true, nil))
 }

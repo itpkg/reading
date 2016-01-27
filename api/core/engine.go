@@ -1,17 +1,20 @@
 package core
 
 import (
-	"os"
-
 	"github.com/codegangsta/cli"
 	"github.com/itpkg/reading/api/rss"
 	"github.com/itpkg/reading/api/sitemap"
 )
 
-type TemplateFunc func(dir, htm string, model interface{}, mode os.FileMode) error
+type Template struct {
+	Lang    string
+	Tpl     string
+	Htm     string
+	Payload interface{}
+}
 
 type Engine interface {
-	Asserts(TemplateFunc) error
+	Asserts() []*Template
 	Mount(Router)
 	Seed() error
 	Migrate()

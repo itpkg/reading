@@ -3,8 +3,8 @@ package site
 import (
 	"errors"
 	"fmt"
-	h_t "html/template"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"os"
 	"path"
@@ -16,11 +16,8 @@ import (
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
-	"github.com/jinzhu/gorm"
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/cors"
-	"github.com/tdewolff/minify"
-	"github.com/tdewolff/minify/html"
 )
 
 func writeRobotsTxt(dist string, mode os.FileMode, dao *Dao) error {
@@ -30,24 +27,7 @@ func writeRobotsTxt(dist string, mode os.FileMode, dao *Dao) error {
 		mode)
 
 }
-func writeHtml(dir, htm string, model interface{}, mode os.FileMode) error {
-	t, err := h_t.ParseFiles(path.Join("templates", "index.tmpl"))
-	if err != nil {
-		return err
-	}
-	os.MkdirAll(dir, 0700)
-	f, err := os.OpenFile(htm, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, mode)
-	if err != nil {
-		return err
-	}
-	defer f.Close()
 
-	m := minify.New()
-	m.AddFunc("text/html", html.Minify)
-	mw := m.Writer("text/html", f)
-
-	return t.Execute(mw, model)
-}
 func writeText(tpl, htm string, model interface{}, mode os.FileMode) error {
 	t, err := template.ParseFiles(path.Join("templates", tpl))
 	if err != nil {
@@ -66,13 +46,18 @@ func writeText(tpl, htm string, model interface{}, mode os.FileMode) error {
 func (p *SiteEngine) Shell() []cli.Command {
 	return []cli.Command{
 		{
-			Name:    "asserts",
+			Name:    "assets",
 			Aliases: []string{"as"},
 			Usage:   "compile all the assets",
 			Flags:   []cli.Flag{core.ENV},
-			Action: config.DatabaseAction(func(db *gorm.DB, _ *cli.Context) error {
-				dist := "public"
-				mode := os.FileMode(0644)
+			Action: IocAction(func(cfg *config.Model, _ *cli.Context) error {
+				db, err := cfg.OpenDatabase()
+				if err != nil {
+					return err
+				}
+
+				const dist = "public"
+				const mode = os.FileMode(0644)
 				dao := Dao{Db: db}
 
 				if err := writeRobotsTxt(dist, mode, &dao); err != nil {
@@ -95,8 +80,37 @@ func (p *SiteEngine) Shell() []cli.Command {
 					return err
 				}
 
+				ifo := make(map[string]*SiteModel)
+				for _, lang := range dao.Languages() {
+					ifo[lang] = &SiteModel{
+						Lang:        lang,
+						Title:       dao.GetSiteInfo("title", lang),
+						SubTitle:    dao.GetSiteInfo("subTitle", lang),
+						Keywords:    dao.GetSiteInfo("keywords", lang),
+						AuthorName:  dao.GetString("authorName"),
+						AuthorEmail: dao.GetString("authorEmail"),
+						Description: dao.GetSiteInfo("description", lang),
+						Copyright:   dao.GetSiteInfo("copyright", lang),
+					}
+
+				}
+
 				return core.Loop(func(en core.Engine) error {
-					return en.Asserts(writeHtml)
+					for _, t := range en.Asserts() {
+						log.Printf("Write file %s", t.Htm)
+						if err := writeHtml(
+							t.Tpl,
+							dist,
+							t.Htm,
+							struct {
+								Site    *SiteModel
+								Payload interface{}
+							}{Site: ifo[t.Lang], Payload: t.Payload},
+							mode, false); err != nil {
+							return err
+						}
+					}
+					return nil
 				})
 			}),
 		},

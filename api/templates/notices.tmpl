@@ -1,0 +1,8 @@
+{{ define "root" }}
+{{ range .Payload }}
+<blockquote>
+    {{ .Content }}
+    <footer>{{ .UpdatedAt }}</footer>
+</blockquote>
+{{ end }}
+{{ end }}

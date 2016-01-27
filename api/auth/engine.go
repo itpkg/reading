@@ -27,8 +27,9 @@ type AuthEngine struct {
 	Session *Session       `inject:""`
 }
 
-func (p *AuthEngine) Asserts(fn core.TemplateFunc) error {
-	return nil
+func (p *AuthEngine) Asserts() []*core.Template {
+	var tps []*core.Template
+	return tps
 }
 
 func (p *AuthEngine) loadGoogleOauthConf() (*GoogleConf, error) {

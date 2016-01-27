@@ -25,8 +25,9 @@ type CmsEngine struct {
 	Storage storage.Provider `inject:""`
 }
 
-func (p *CmsEngine) Asserts(fn core.TemplateFunc) error {
-	return nil
+func (p *CmsEngine) Asserts() []*core.Template {
+	var tps []*core.Template
+	return tps
 }
 func (p *CmsEngine) Seed() error {
 	return nil

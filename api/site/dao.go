@@ -29,6 +29,12 @@ func (p *Dao) SetSiteInfo(key, lang string, val interface{}, flag bool) error {
 	return p.Set(p.site_key(key, lang), val, flag)
 }
 
+func (p *Dao) Languages() []string {
+	var langs []string
+	p.Db.Model(&Locale{}).Pluck("DISTINCT lang", &langs)
+	return langs
+}
+
 func (p *Dao) GetSiteInfo(key, lang string) string {
 	var val string
 	p.Get(p.site_key(key, lang), &val)
