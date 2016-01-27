@@ -6,7 +6,7 @@ import SelectInput from 'react-select'
 import i18next from 'i18next/lib';
 import {TagCloud, DefaultRenderer} from "react-tagcloud";
 import {routeActions} from 'react-router-redux'
-import {Grid, Row, Col, Thumbnail} from 'react-bootstrap'
+import {Row, Col, Thumbnail} from 'react-bootstrap'
 import {LinkContainer} from 'react-router-bootstrap';
 import {Link} from 'react-router'
 import $ from 'jquery'

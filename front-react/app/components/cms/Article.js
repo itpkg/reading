@@ -1,6 +1,6 @@
 import React,{PropTypes} from 'react';
 import {Link} from 'react-router'
-import {Input, Alert, Button, ListGroup, ListGroupItem} from 'react-bootstrap'
+import {Input, Alert, Button, ListGroup, ListGroupItem, Row, Col, Thumbnail} from 'react-bootstrap'
 import i18next from 'i18next/lib';
 import LinkedStateMixin from 'react-addons-linked-state-mixin'
 import {connect} from 'react-redux';
@@ -215,10 +215,34 @@ export const Show = connect(
 )(ShowW);
 
 
-//todo
 export const Index = React.createClass({
+    getInitialState() {
+        return {
+            items: []
+        }
+    },
+    componentDidMount(){
+        GET('/cms/articles', function (rst) {
+            this.setState(rst)
+        }.bind(this))
+    },
     render(){
-        return <div>articles </div>;
+        return (<Row>
+            {this.state.items.map(function (a, i) {
+                return <Col key={i} md={4}>
+                    <Thumbnail>
+                        <h4>{a.title}</h4>
+                        <p>{a.summary}</p>
+                        <p>
+                            <Link to={"/cms/article/"+a.aid} className="btn btn-primary">
+                                {i18next.t('buttons.show')}
+                            </Link>
+                        </p>
+                    </Thumbnail>
+                </Col>
+
+            })}
+        </Row>);
     }
 });
 
