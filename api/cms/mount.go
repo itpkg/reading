@@ -17,6 +17,7 @@ func (p *CmsEngine) Mount(rt core.Router) {
 
 	rt.GET("/cms/article/:aid", p.showArticle)
 	rt.GET("/cms/articles", p.listArticle)
+	rt.GET("/cms/articles/self", p.listArticleBySelf)
 	rt.POST("/cms/articles", p.saveArticle)
 	rt.GET("/cms/tags/:id", p.showTag)
 	rt.GET("/cms/tags", p.listTag)

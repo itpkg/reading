@@ -11,6 +11,7 @@ import Locales from '../admin/Locales'
 import Users from '../admin/Users'
 import Attachments from '../Attachments'
 import Layout from './Layout'
+import {Edit as EditArticle, Manage as ListArticle} from '../cms/Article'
 
 const Router = (
     <Route path="dashboard" component={Layout}>
@@ -21,7 +22,12 @@ const Router = (
         <Route path="admin/notices" component={Notices}/>
         <Route path="admin/locales" component={Locales}/>
         <Route path="admin/users" component={Users}/>
+
         <Route path="personal/logs" component={PersonalLogs}/>
+
+        <Route path="cms/article/:id/edit" component={EditArticle}/>
+        <Route path="cms/articles" component={ListArticle}/>
+
         <Route path="attachments" component={Attachments}/>
     </Route>
 );

@@ -1,16 +1,18 @@
 import React,{PropTypes} from 'react';
 import {Link} from 'react-router'
-import {Input, Alert, Button} from 'react-bootstrap'
+import {Input, Alert, Button, ListGroup, ListGroupItem} from 'react-bootstrap'
 import i18next from 'i18next/lib';
 import LinkedStateMixin from 'react-addons-linked-state-mixin'
 import {connect} from 'react-redux';
 import TimeAgo from 'react-timeago';
+import {LinkContainer} from 'react-router-bootstrap';
 
 import {GET, POST, DELETE, response, failed, error} from '../../ajax';
 import Buttons from '../widgets/FormButtons';
 import {CurrentUser} from '../../mixins'
 import Markdown from '../widgets/Markdown'
 import NoMatch from '../NoMatch'
+import {Select} from './Tag'
 
 const EditW = React.createClass({
     mixins: [LinkedStateMixin, CurrentUser],
@@ -18,10 +20,14 @@ const EditW = React.createClass({
         const {aid} = this.props;
         return {aid: aid, tags: []}
     },
-    componentDidMount() {
-        this.getArticle();
+    componentWillReceiveProps(state){
+        this.getArticle(state.aid);
     },
-    handleReset(e){
+    componentDidMount() {
+        const {aid} = this.props;
+        this.getArticle(aid);
+    },
+    handleReset(){
         const {aid} = this.props;
         this.getArticle(aid);
     },
@@ -32,18 +38,26 @@ const EditW = React.createClass({
             failed();
             return
         }
+        data.tags = data.tags_.split(',').map(function (t) {
+            return t.trim()
+        });
         POST(
             "/cms/articles",
             data,
-            response(this.getArticle),
+            response(function () {
+                const {aid} = this.props;
+                this.getArticle(aid);
+            }),
             error
         );
     },
-    getArticle(){
-        var aid = this.state.aid;
+    getArticle(aid){
         GET(
             "/cms/article/" + aid,
             function (article) {
+                article.tags_ = article.tags.map(function (t) {
+                    return t.name
+                }).join(',');
                 this.setState(article);
             }.bind(this),
             function (e) {
@@ -53,7 +67,8 @@ const EditW = React.createClass({
                     title: e.responseText,
                     summary: '',
                     body: '',
-                    tags: []
+                    tags: [],
+                    tags_: ''
                 });
             }.bind(this)
         )
@@ -71,6 +86,11 @@ const EditW = React.createClass({
                 <Input id='summary'
                        type='textarea' label={i18next.t('models.cms.article.summary')}
                        valueLink={this.linkState('summary')}/>
+
+                <Input id='tags'
+                       type='text' label={i18next.t('models.cms.article.tags')}
+                       valueLink={this.linkState('tags_')}/>
+
                 <Input id='body'
                        type='textarea' label={i18next.t('models.cms.article.body')}
                        valueLink={this.linkState('body')}
@@ -140,6 +160,7 @@ const ShowW = React.createClass({
                         {i18next.t('models.cms.article.summary')}: {item.summary}
                         <footer>
                             {i18next.t('models.cms.article.updated_at')}:
+                            &nbsp;
                             <TimeAgo date={item.updated_at}/>
                         </footer>
                     </blockquote>
@@ -158,7 +179,7 @@ const ShowW = React.createClass({
                     {
                         this.isSignIn() ?
                             <Link className="btn btn-primary"
-                                  to={`/cms/article/${aid}/edit`}>{i18next.t('dashboard.article')}</Link> :
+                                  to={`/dashboard/cms/article/${aid}/edit`}>{i18next.t('dashboard.article')}</Link> :
                             <Link className="btn btn-primary" to={`/`}>{i18next.t('links.back_to_home')}</Link>
                     }
                 </Alert>
@@ -182,9 +203,39 @@ export const Show = connect(
 )(ShowW);
 
 
+//todo
 export const Index = React.createClass({
     render(){
         return <div>articles </div>;
+    }
+});
+
+
+export const Manage = React.createClass({
+    getInitialState() {
+        return {
+            items: []
+        }
+    },
+    componentDidMount(){
+        GET('/cms/articles/self', function (rst) {
+            this.setState(rst)
+        }.bind(this))
+    },
+    render(){
+        return (
+            <ListGroup>
+                {this.state.items.map(function (item, idx) {
+                    return (
+                        <LinkContainer key={idx} to={'/dashboard/cms/article/'+item.aid+'/edit'}>
+                            <ListGroupItem>
+                                {item.title}
+                            </ListGroupItem>
+                        </LinkContainer>
+                    )
+                })}
+            </ListGroup>
+        );
     }
 });
 

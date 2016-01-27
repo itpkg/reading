@@ -15,6 +15,18 @@ const Layout = React.createClass({
             return (<NoMatch/>)
         }
         var items = [];
+
+        items.push(
+            <LinkContainer key="article.new"
+                           to={'/dashboard/cms/article/'+Math.random().toString(36).substring(2)+"/edit"}>
+                <NavItem eventKey={'article.new'}>{i18next.t("dashboard.article.new")}</NavItem>
+            </LinkContainer>
+        );
+        items.push(
+            <LinkContainer key="article.list" to='/dashboard/cms/articles'>
+                <NavItem eventKey={'article.list'}>{i18next.t("dashboard.article.list")}</NavItem>
+            </LinkContainer>
+        );
         items.push(
             <LinkContainer key="logs" to="/dashboard/personal/logs">
                 <NavItem eventKey='logs'>{i18next.t('dashboard.personal.logs')}</NavItem>

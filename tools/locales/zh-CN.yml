@@ -73,7 +73,9 @@ web:
   dashboard:
     index: 控制面板
     attachments: 附件管理
-    article: 发表文章
+    article:
+      new: 发表文章
+      list: 文章列表
     admin:
       cms:
         index: 内容系统

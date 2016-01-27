@@ -22,9 +22,6 @@ const PersonalBar = React.createClass({
             return (
                 <NavDropdown eventKey={'welcome'} title={i18next.t("users.welcome", {name:user.name})}
                              id="basic-nav-dropdown">
-                    <LinkContainer to={'/cms/article/'+Math.random().toString(36).substring(2)+"/edit"}>
-                        <MenuItem eventKey={'article.new'}>{i18next.t("dashboard.article")}</MenuItem>
-                    </LinkContainer>
                     <LinkContainer to={'/dashboard/personal/logs'}>
                         <MenuItem eventKey={'dashboard'}>{i18next.t("dashboard.index")}</MenuItem>
                     </LinkContainer>

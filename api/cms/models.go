@@ -58,9 +58,9 @@ func (Article) TableName() string {
 
 type Tag struct {
 	core.Model
-	Name     string    `sql:"not null"`
-	Lang     string    `sql:"not null;type:char(5);index;default:'en-US'"`
-	Articles []Article `gorm:"many2many:cms_article_tags;"`
+	Name     string    `sql:"not null" json:"name"`
+	Lang     string    `sql:"not null;type:char(5);index;default:'en-US'" json:"lang"`
+	Articles []Article `gorm:"many2many:cms_article_tags;"  json:"articles"`
 }
 
 func (Tag) TableName() string {

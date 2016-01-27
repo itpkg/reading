@@ -3,6 +3,7 @@ package cms
 import (
 	"net/http"
 
+	"fmt"
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/web"
 	"github.com/julienschmidt/httprouter"
@@ -22,7 +23,29 @@ func (p *CmsEngine) showArticle(w http.ResponseWriter, r *http.Request, ps httpr
 		p.Abort(w, err)
 	}
 }
+func (p *CmsEngine) listArticleBySelf(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
+	user, err := p.Session.User(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
 
+	pager := core.NewPager(60)
+	_, start, size := pager.Parse(r)
+	var total int
+	count := p.Db.Model(Article{})
+	all := p.Db.Select([]string{"aid", "summary", "title"}).Order("updated_at DESC").Offset(start).Limit(size)
+	if !p.AuthDao.Is(user.ID, "admin") {
+		count = count.Where("user_id = ?", user.ID)
+		all = all.Where("user_id = ?", user.ID)
+	}
+	count.Count(&total)
+	pager.SetTotal(total)
+
+	var items []Article
+	all.Find(&items)
+	p.Pager(p.Render, w, pager, items)
+}
 func (p *CmsEngine) listArticle(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
 	pager := core.NewPager(60)
 	_, start, size := pager.Parse(r)
@@ -31,7 +54,7 @@ func (p *CmsEngine) listArticle(w http.ResponseWriter, r *http.Request, ps httpr
 	pager.SetTotal(total)
 
 	var items []Article
-	p.Db.Select([]string{"id", "summary", "title"}).Offset(start).Limit(size).Find(&items)
+	p.Db.Select([]string{"aid", "summary", "title"}).Offset(start).Limit(size).Find(&items)
 	p.Pager(p.Render, w, pager, items)
 }
 func (p *CmsEngine) saveArticle(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -47,6 +70,19 @@ func (p *CmsEngine) saveArticle(w http.ResponseWriter, r *http.Request, ps httpr
 	body := r.FormValue("body")
 	summary := r.FormValue("summary")
 
+	lang := p.Locale(r)
+	var tags []Tag
+	fmt.Printf("%+v", r.Form)
+	for _, tn := range r.Form["tags[]"] {
+		var t Tag
+		if p.Db.Where("name = ? AND lang = ?", tn, lang).First(&t).RecordNotFound() {
+			t.Name = tn
+			t.Lang = lang
+			p.Db.Create(&t)
+		}
+		tags = append(tags, t)
+	}
+
 	if id == "" {
 		err = p.Db.Create(&Article{
 			Aid:     aid,
@@ -54,6 +90,7 @@ func (p *CmsEngine) saveArticle(w http.ResponseWriter, r *http.Request, ps httpr
 			Title:   title,
 			Summary: summary,
 			Body:    body,
+			Tags:    tags,
 		}).Error
 	} else {
 		var a Article
@@ -62,10 +99,12 @@ func (p *CmsEngine) saveArticle(w http.ResponseWriter, r *http.Request, ps httpr
 			p.Forbidden(w)
 			return
 		}
+		p.Db.Model(&a).Association("Tags").Clear()
 		a.Aid = aid
 		a.Title = title
 		a.Summary = summary
 		a.Body = body
+		a.Tags = tags
 		err = p.Db.Save(&a).Error
 	}
 	rsp := web.NewResponse(true, nil)

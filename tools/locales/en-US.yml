@@ -73,7 +73,9 @@ web:
   dashboard:
     index: Profile
     attachments: Attachments
-    article: New article
+    article:
+      new: New article
+      list: Articles
     admin:
       cms:
         index: Cms
