@@ -54,7 +54,7 @@ func (p *CmsEngine) listArticle(w http.ResponseWriter, r *http.Request, ps httpr
 	pager.SetTotal(total)
 
 	var items []Article
-	p.Db.Select([]string{"aid", "summary", "title"}).Offset(start).Limit(size).Find(&items)
+	p.Db.Select([]string{"aid", "summary", "title"}).Order("updated_at DESC").Offset(start).Limit(size).Find(&items)
 	p.Pager(p.Render, w, pager, items)
 }
 func (p *CmsEngine) saveArticle(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {

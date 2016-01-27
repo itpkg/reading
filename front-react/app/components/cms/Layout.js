@@ -6,6 +6,8 @@ import i18next from 'i18next/lib';
 import {GET} from '../../ajax'
 
 import {Cloud as TagCloud} from './Tag'
+import {Bar as Notices} from '../Notice'
+import {LatestBar as LatestArticlesBar} from './Article'
 
 const Layout = React.createClass({
 
@@ -18,6 +20,10 @@ const Layout = React.createClass({
                     {children}
                 </div>
                 <div className="col-md-3">
+                    <Notices size={3}/>
+                    <br/>
+                    <LatestArticlesBar size={8}/>
+                    <br/>
                     <TagCloud/>
                 </div>
             </div>

@@ -222,6 +222,36 @@ export const Index = React.createClass({
     }
 });
 
+export const LatestBar = React.createClass({
+    getInitialState() {
+        return {
+            items: []
+        }
+    },
+    componentDidMount(){
+        const {size}=this.props;
+        GET('/cms/articles?size=' + size, function (rst) {
+            this.setState(rst)
+        }.bind(this))
+    },
+    render(){
+        return (<div>
+            <h4>{i18next.t('bars.latest_articles')}</h4>
+            <hr/>
+            <ul>
+                {this.state.items.map(function (a, i) {
+                    return (<li key={i}>
+                        <Link to={"/cms/article/"+a.aid}>{a.title}</Link>
+                    </li>)
+                })}
+            </ul>
+        </div>)
+    }
+});
+
+LatestBar.propTypes = {
+    size: PropTypes.number.isRequired
+};
 
 export const Manage = React.createClass({
     getInitialState() {

@@ -46,7 +46,7 @@ export const Cloud = React.createClass({
     render(){
         return (
             <div>
-                <h4>{i18next.t('models.cms.article.tags')}</h4>
+                <h4>{i18next.t('bars.hot_tags')}</h4>
                 <hr/>
                 <TagCloud tags={this.state.items} minSize={12} maxSize={35} renderer={renderer}/>
             </div>

@@ -1,9 +1,46 @@
-import React from 'react';
+import React,{PropTypes} from 'react';
 import TimeAgo from 'react-timeago';
+import i18next from 'i18next/lib';
+import {Link} from 'react-router'
 
 import {GET} from  '../ajax'
 import RemoveButton from './widgets/RemoveButton'
 import Markdown from './widgets/Markdown'
+
+export const Bar = React.createClass({
+    getInitialState() {
+        return {
+            items: []
+        }
+    },
+    componentDidMount(){
+        const {size} = this.props;
+        GET("/notices?size=" + size, function (notices) {
+            this.setState(notices);
+        }.bind(this))
+    },
+    render(){
+        return (
+            <div>
+                <h4><Link to={'/notices'}>{i18next.t('bars.notices')}</Link></h4>
+                <hr/>
+
+                {
+                    this.state.items.map(function (n, i) {
+                        return <Show notice={n} key={i}/>
+                    })
+                }
+
+            </div>
+        )
+    }
+
+});
+
+Bar.propTypes = {
+    size: PropTypes.number.isRequired
+};
+
 
 export const Show = React.createClass({
     render(){
