@@ -28,6 +28,10 @@ const Layout = React.createClass({
             if (user.isAdmin) {
                 items.push(
                     <NavDropdown key="admin.site" title={i18next.t('dashboard.admin.site.index')} id="dashboard-admin">
+                        <LinkContainer to="/dashboard/admin/site/top">
+                            <MenuItem>{i18next.t('dashboard.admin.site.top')}</MenuItem>
+                        </LinkContainer>
+                        <MenuItem divider/>
                         <LinkContainer to="/dashboard/admin/site/info">
                             <MenuItem>{i18next.t('dashboard.admin.site.info')}</MenuItem>
                         </LinkContainer>

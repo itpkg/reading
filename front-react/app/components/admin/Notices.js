@@ -64,7 +64,7 @@ const Widget = React.createClass({
                 <form method='POST' onSubmit={this.handleSubmit}>
                     <Input type="hidden" id="id" valueLink={this.linkState('id')}/>
                     <Input id='content'
-                           type='textarea' label='forms.notice.content'
+                           type='textarea' label={i18next.t('forms.notice.content')}
                            valueLink={this.linkState('content')}
                     />
                     <Buttons onReset={this.handleReset} onDelete={this.handleDelete}/>

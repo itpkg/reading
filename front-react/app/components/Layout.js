@@ -17,7 +17,7 @@ class Layout extends Component {
         const {children, siteInfo} = this.props;
         return (
             <div>
-                <Header title={siteInfo.subTitle}/>
+                <Header title={siteInfo.subTitle} topNavBar={siteInfo.topNavBar}/>
                 <div className="container-fluid">
                     {children}
                     <hr/>

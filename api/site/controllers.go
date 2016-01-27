@@ -76,6 +76,12 @@ func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, ps httprouter.
 		} {
 			ifo[k] = p.Dao.GetSiteInfo(k, lang)
 		}
+		for _, k := range []string{
+			"topNavBar",
+		} {
+			ifo[k] = p.Dao.GetString(k)
+		}
+
 		return core.ToJson(ifo)
 	})
 

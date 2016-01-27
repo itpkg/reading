@@ -5,6 +5,7 @@ import PersonalLogs from '../personal/Logs'
 import SiteInfo from '../admin/site/Info'
 import SiteSeo from '../admin/site/Seo'
 import SiteSecrets from '../admin/site/Secrets'
+import SiteTop from '../admin/site/Top'
 import Notices from '../admin/Notices'
 import Locales from '../admin/Locales'
 import Users from '../admin/Users'
@@ -13,6 +14,7 @@ import Layout from './Layout'
 
 const Router = (
     <Route path="dashboard" component={Layout}>
+        <Route path="admin/site/top" component={SiteTop}/>
         <Route path="admin/site/info" component={SiteInfo}/>
         <Route path="admin/site/seo" component={SiteSeo}/>
         <Route path="admin/site/secrets" component={SiteSecrets}/>

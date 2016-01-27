@@ -234,3 +234,27 @@ func (p *AuthEngine) postAdminSiteSecrets(w http.ResponseWriter, r *http.Request
 	p.SiteDao.Set("google.oauth", &gcf, true)
 	p.Render.JSON(w, http.StatusOK, web.NewResponse(true, nil))
 }
+
+func (p *AuthEngine) getAdminSiteTop(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+
+	fm := web.NewForm("siteTop", "/admin/site/top")
+	fm.TextArea("content", p.SiteDao.GetString("topNavBar"))
+	p.Render.JSON(w, http.StatusOK, fm)
+}
+func (p *AuthEngine) postAdminSiteTop(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
+	_, err := p.Session.Admin(r)
+	if err != nil {
+		p.Abort(w, err)
+		return
+	}
+
+	r.ParseForm()
+	p.SiteDao.Set("topNavBar", r.FormValue("content"), false)
+
+	p.Render.JSON(w, http.StatusOK, web.NewResponse(true, nil))
+}
