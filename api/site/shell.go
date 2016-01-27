@@ -67,7 +67,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 			Flags: []cli.Flag{
 				cli.IntFlag{
 					Name:  "port, p",
-					Value: 8080,
+					Value: 3000,
 					Usage: "port of server to listen",
 				},
 				cli.StringFlag{

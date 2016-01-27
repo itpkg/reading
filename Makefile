@@ -7,12 +7,12 @@ build:
 	cp -a api/config/development.toml $(target)/config
 	cp -a api/templates .env $(target)/
 	@echo '====== Build front ====='
-	cd front-react && npm run build
+	cd front-react && rm -rf dist && npm run build
 	cp -a front-react/dist $(target)/public
 	@echo '====== Build locales ====='
 	cd tools && rake locales 
 	mkdir -p $(target)/tmp
-	cp tools/locales.sql $(target)/tmp
+	cp tmp/locales.toml $(target)/tmp
 
 
 clean:
