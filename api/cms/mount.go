@@ -24,7 +24,7 @@ func (p *CmsEngine) Mount(rt core.Router) {
 
 	rt.GET("/attachments", p.listAttachment)
 	rt.POST("/attachments", p.saveAttachment)
-	rt.DELETE("/attachment/:aid", p.removeAttachment)
+	rt.DELETE("/attachment/:id", p.removeAttachment)
 
 	rt.POST("/dict", p.dict)
 }

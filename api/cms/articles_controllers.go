@@ -3,7 +3,6 @@ package cms
 import (
 	"net/http"
 
-	"fmt"
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/web"
 	"github.com/julienschmidt/httprouter"
@@ -72,7 +71,6 @@ func (p *CmsEngine) saveArticle(w http.ResponseWriter, r *http.Request, ps httpr
 
 	lang := p.Locale(r)
 	var tags []Tag
-	fmt.Printf("%+v", r.Form)
 	for _, tn := range r.Form["tags[]"] {
 		var t Tag
 		if p.Db.Where("name = ?", tn).First(&t).RecordNotFound() {

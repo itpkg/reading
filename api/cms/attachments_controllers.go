@@ -77,6 +77,10 @@ func (p *CmsEngine) removeAttachment(w http.ResponseWriter, r *http.Request, ps 
 	}
 
 	if p.AuthDao.Is(user.ID, "admin") || user.ID == a.UserID {
+		if err := p.Storage.Delete(a.Url); err != nil {
+			p.Abort(w, err)
+			return
+		}
 		p.Db.Where("id = ?", ps.ByName("id")).Delete(Attachment{})
 		p.Render.JSON(w, http.StatusOK, web.NewResponse(true, nil))
 	} else {
