@@ -64,6 +64,7 @@ web:
   dashboard:
     index: Profile
     attachments: Attachments
+    article: New article
     admin:
       cms:
         index: Cms

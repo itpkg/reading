@@ -1,4 +1,4 @@
-import React,{PropTypes} from 'react';
+import React from 'react';
 import {Route} from 'react-router';
 
 import PersonalLogs from '../personal/Logs'
