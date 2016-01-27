@@ -48,7 +48,7 @@ func (p *CmsEngine) Asserts() []*core.Template {
 		tps = append(tps, &core.Template{
 			Lang:    a.Lang,
 			Tpl:     "cms_article",
-			Htm:     fmt.Sprintf("cms/article/%d", a.ID),
+			Htm:     fmt.Sprintf("cms/article-%02d/%s", a.ID%100, a.Aid),
 			Payload: a,
 		})
 	}

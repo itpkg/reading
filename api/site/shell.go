@@ -95,10 +95,20 @@ func (p *SiteEngine) Shell() []cli.Command {
 
 				}
 
+				tpl, err := getHtmlTemplate(
+					"layout",
+					"notices",
+					"cms_article", "cms_tags",
+				)
+				if err != nil {
+					return err
+				}
+
 				return core.Loop(func(en core.Engine) error {
 					for _, t := range en.Asserts() {
 						log.Printf("Write file %s", t.Htm)
 						if err := writeHtml(
+							tpl,
 							t.Tpl,
 							dist,
 							t.Htm,

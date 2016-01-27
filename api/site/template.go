@@ -21,14 +21,16 @@ type SiteModel struct {
 	Copyright   string
 }
 
-func writeHtml(tpl, dist, htm string, model interface{}, mode os.FileMode, min bool) error {
-
-	t, err := template.ParseFiles(
-		path.Join("templates", "layout.tmpl"),
-		path.Join("templates", tpl+".tmpl"))
-	if err != nil {
-		return err
+func getHtmlTemplate(names ...string) (*template.Template, error) {
+	var files []string
+	for _, f := range names {
+		files = append(files, path.Join("templates", f+".tmpl"))
 	}
+	return template.ParseFiles(files...)
+}
+
+func writeHtml(tpl *template.Template, id, dist, htm string, model interface{}, mode os.FileMode, min bool) error {
+
 	name := path.Join(dist, "assets", htm)
 	dir := path.Dir(name)
 	os.MkdirAll(dir, 0755)
@@ -44,8 +46,8 @@ func writeHtml(tpl, dist, htm string, model interface{}, mode os.FileMode, min b
 		m.AddFunc("text/javascript", js.Minify)
 		mw := m.Writer("text/html", f)
 
-		return t.Execute(mw, model)
+		return tpl.ExecuteTemplate(mw, id, model)
 	} else {
-		return t.Execute(f, model)
+		return tpl.ExecuteTemplate(f, id, model)
 	}
 }

@@ -1,4 +1,5 @@
-{{ define "root" }}
+{{ define "notices" }}
+{{ template "header" . }}
 {{ range .Payload }}
 <blockquote>
     <p class="markdown">
@@ -7,4 +8,5 @@
     <footer>{{ .UpdatedAt }}</footer>
 </blockquote>
 {{ end }}
+{{ template "footer" . }}
 {{ end }}

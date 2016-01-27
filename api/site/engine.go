@@ -40,7 +40,7 @@ func (p *SiteEngine) Asserts() []*core.Template {
 		tps = append(tps, &core.Template{
 			Lang:    lang,
 			Tpl:     "notices",
-			Htm:     fmt.Sprintf("notices/%s", lang),
+			Htm:     fmt.Sprintf("notices-%s", lang),
 			Payload: notices,
 		})
 	}

@@ -1,4 +1,5 @@
-{{ define "root" }}
+{{ define "cms_article" }}
+{{ template "header" . }}
 <h3>
     <a href="/cms/article/{{ .Payload.Aid }}" target="_blank">
         {{ .Payload.Title }}
@@ -10,4 +11,5 @@
     <footer> {{ .Payload.UpdatedAt }}</footer>
 </blockquote>
 <div class="markdown">{{ .Payload.Body }}</div>
+{{ template "footer" . }}
 {{ end }}

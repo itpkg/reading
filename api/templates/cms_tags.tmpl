@@ -1,7 +1,9 @@
-{{ define "root" }}
+{{ define "cms_tags" }}
+{{ template "header" . }}
 {{ range .Payload }}
-<div class="col-md-2">
-    <a href="/cms/tag/{{ .Name }}" target="_blank">{{ .Name }}</a>
+<div class="col-md-1">
+    <a href="/cms/tag/{{ .Name }}" class="thumbnail" target="_blank">{{ .Name }}</a>
 </div>
 {{ end }}
+{{ template "footer" . }}
 {{ end }}
