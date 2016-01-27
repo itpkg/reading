@@ -7,6 +7,7 @@ import (
 
 	"github.com/tdewolff/minify"
 	"github.com/tdewolff/minify/html"
+	"github.com/tdewolff/minify/js"
 )
 
 type SiteModel struct {
@@ -40,6 +41,7 @@ func writeHtml(tpl, dist, htm string, model interface{}, mode os.FileMode, min b
 	if min {
 		m := minify.New()
 		m.AddFunc("text/html", html.Minify)
+		m.AddFunc("text/javascript", js.Minify)
 		mw := m.Writer("text/html", f)
 
 		return t.Execute(mw, model)

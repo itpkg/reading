@@ -106,7 +106,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 								Site    *SiteModel
 								Payload interface{}
 							}{Site: ifo[t.Lang], Payload: t.Payload},
-							mode, false); err != nil {
+							mode, true); err != nil {
 							return err
 						}
 					}

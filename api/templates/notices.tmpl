@@ -1,7 +1,9 @@
 {{ define "root" }}
 {{ range .Payload }}
 <blockquote>
-    {{ .Content }}
+    <p class="markdown">
+        {{ .Content }}
+    </p>
     <footer>{{ .UpdatedAt }}</footer>
 </blockquote>
 {{ end }}
