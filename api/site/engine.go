@@ -30,6 +30,10 @@ type SiteEngine struct {
 }
 
 //=========================================================
+func (p *SiteEngine) Asserts(fn core.TemplateFunc) error {
+	return nil
+}
+
 func (p *SiteEngine) Seed() error {
 	lf, err := os.Open("tmp/locales.txt")
 	if err != nil {

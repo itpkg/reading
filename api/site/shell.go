@@ -3,8 +3,11 @@ package site
 import (
 	"errors"
 	"fmt"
+	h_t "html/template"
+	"io/ioutil"
 	"net/http"
 	"os"
+	"path"
 	"strings"
 	"text/template"
 
@@ -13,12 +16,90 @@ import (
 	"github.com/itpkg/reading/api/cache"
 	"github.com/itpkg/reading/api/config"
 	"github.com/itpkg/reading/api/core"
+	"github.com/jinzhu/gorm"
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/cors"
+	"github.com/tdewolff/minify"
+	"github.com/tdewolff/minify/html"
 )
+
+func writeRobotsTxt(dist string, mode os.FileMode, dao *Dao) error {
+	return ioutil.WriteFile(
+		path.Join(dist, "robots.txt"),
+		[]byte(dao.GetString("robotsTxt")),
+		mode)
+
+}
+func writeHtml(dir, htm string, model interface{}, mode os.FileMode) error {
+	t, err := h_t.ParseFiles(path.Join("templates", "index.tmpl"))
+	if err != nil {
+		return err
+	}
+	os.MkdirAll(dir, 0700)
+	f, err := os.OpenFile(htm, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, mode)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	m := minify.New()
+	m.AddFunc("text/html", html.Minify)
+	mw := m.Writer("text/html", f)
+
+	return t.Execute(mw, model)
+}
+func writeText(tpl, htm string, model interface{}, mode os.FileMode) error {
+	t, err := template.ParseFiles(path.Join("templates", tpl))
+	if err != nil {
+		return err
+	}
+
+	f, err := os.OpenFile(htm, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, mode)
+	if err != nil {
+		return err
+	}
+	defer f.Close()
+
+	return t.Execute(f, model)
+}
 
 func (p *SiteEngine) Shell() []cli.Command {
 	return []cli.Command{
+		{
+			Name:    "asserts",
+			Aliases: []string{"as"},
+			Usage:   "compile all the assets",
+			Flags:   []cli.Flag{core.ENV},
+			Action: config.DatabaseAction(func(db *gorm.DB, _ *cli.Context) error {
+				dist := "public"
+				mode := os.FileMode(0644)
+				dao := Dao{Db: db}
+
+				if err := writeRobotsTxt(dist, mode, &dao); err != nil {
+					return err
+				}
+				googleVerify := dao.GetString("googleVerify")
+				if err := writeText(
+					"google_verify.tmpl",
+					path.Join(dist, fmt.Sprintf("google%s.html", googleVerify)),
+					googleVerify,
+					mode); err != nil {
+					return err
+				}
+				baiduVerify := dao.GetString("baiduVerify")
+				if err := writeText(
+					"baidu_verify.tmpl",
+					path.Join(dist, fmt.Sprintf("baidu_verify_%s.html", baiduVerify)),
+					baiduVerify,
+					mode); err != nil {
+					return err
+				}
+
+				return core.Loop(func(en core.Engine) error {
+					return en.Asserts(writeHtml)
+				})
+			}),
+		},
 		{
 			Name:    "server",
 			Aliases: []string{"s"},

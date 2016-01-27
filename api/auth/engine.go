@@ -27,6 +27,10 @@ type AuthEngine struct {
 	Session *Session       `inject:""`
 }
 
+func (p *AuthEngine) Asserts(fn core.TemplateFunc) error {
+	return nil
+}
+
 func (p *AuthEngine) loadGoogleOauthConf() (*GoogleConf, error) {
 	cf, err := os.Open("config/google.oauth.json")
 	if err != nil {

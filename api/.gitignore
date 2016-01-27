@@ -1,4 +1,6 @@
 tmp/*
 dict/*
+public/*
 !tmp/.keep
 !dict/.keep
+!public/.keep
