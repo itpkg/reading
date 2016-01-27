@@ -34,9 +34,13 @@ func (p *CmsEngine) listArticleBySelf(w http.ResponseWriter, r *http.Request, ps
 	var total int
 	count := p.Db.Model(Article{})
 	all := p.Db.Select([]string{"aid", "summary", "title"}).Order("updated_at DESC").Offset(start).Limit(size)
-	if !p.AuthDao.Is(user.ID, "admin") {
-		count = count.Where("user_id = ?", user.ID)
-		all = all.Where("user_id = ?", user.ID)
+	lang := p.Locale(r)
+	if p.AuthDao.Is(user.ID, "admin") {
+		count = count.Where("lang = ?", lang)
+		all = all.Where("lang = ?", lang)
+	} else {
+		count = count.Where("user_id = ? AND lang = ?", user.ID, lang)
+		all = all.Where("user_id = ? AND lang = ?", user.ID, lang)
 	}
 	count.Count(&total)
 	pager.SetTotal(total)

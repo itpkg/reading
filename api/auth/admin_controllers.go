@@ -249,7 +249,7 @@ func (p *AuthEngine) getAdminSiteTop(w http.ResponseWriter, r *http.Request, _ h
 	}
 
 	fm := web.NewForm("siteTop", "/admin/site/top")
-	fm.TextArea("content", p.SiteDao.GetString("topNavBar"))
+	fm.TextArea("content", p.SiteDao.GetSiteInfo("topNavBar", p.Locale(r)))
 	p.Render.JSON(w, http.StatusOK, fm)
 }
 func (p *AuthEngine) postAdminSiteTop(w http.ResponseWriter, r *http.Request, _ httprouter.Params) {
@@ -260,7 +260,7 @@ func (p *AuthEngine) postAdminSiteTop(w http.ResponseWriter, r *http.Request, _ 
 	}
 
 	r.ParseForm()
-	p.SiteDao.Set("topNavBar", r.FormValue("content"), false)
+	p.SiteDao.SetSiteInfo("topNavBar", p.Locale(r), r.FormValue("content"), false)
 
 	p.Render.JSON(w, http.StatusOK, web.NewResponse(true, nil))
 }
