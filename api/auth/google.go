@@ -13,6 +13,14 @@ import (
 	"golang.org/x/oauth2/google"
 )
 
+type GoogleUserInfo struct {
+	Id      string `json:"id"`
+	Email   string `json:"email"`
+	Name    string `json:"name"`
+	Link    string `json:"link"`
+	Picture string `json:"picture"`
+}
+
 type GoogleConf struct {
 	Web GoogleWeb `json:"web"`
 }

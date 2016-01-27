@@ -41,18 +41,18 @@ func (p *AuthEngine) googleCallback(code string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	info := make(map[string]interface{})
+	var info GoogleUserInfo
 	if err := json.Unmarshal(buf, &info); err != nil {
 		return "", err
 	}
 
 	user, err := p.Dao.SaveUser(
 		"google",
-		info["id"].(string),
-		info["email"].(string),
-		info["name"].(string),
-		info["link"].(string),
-		info["picture"].(string),
+		info.Id,
+		info.Email,
+		info.Name,
+		info.Link,
+		info.Picture,
 	)
 	if err != nil {
 		return "", err
