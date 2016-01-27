@@ -8,7 +8,9 @@
 <hr/>
 <blockquote>
     <p>{{ .Payload.Summary }}</p>
-    <footer> {{ .Payload.UpdatedAt }}</footer>
+    <footer>
+        <time class="timeago" datetime="{{ .Payload.UpdatedAt }}"></time>
+    </footer>
 </blockquote>
 <div class="markdown">{{ .Payload.Body }}</div>
 {{ template "footer" . }}

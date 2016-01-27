@@ -95,11 +95,7 @@ func (p *SiteEngine) Shell() []cli.Command {
 
 				}
 
-				tpl, err := getHtmlTemplate(
-					"layout",
-					"notices",
-					"cms_article", "cms_tags",
-				)
+				tpl, err := getHtmlTemplate("templates")
 				if err != nil {
 					return err
 				}

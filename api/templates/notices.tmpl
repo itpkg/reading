@@ -5,7 +5,9 @@
     <p class="markdown">
         {{ .Content }}
     </p>
-    <footer>{{ .UpdatedAt }}</footer>
+    <footer>
+        <time class="timeago" datetime="{{ .UpdatedAt }}"></time>
+    </footer>
 </blockquote>
 {{ end }}
 {{ template "footer" . }}

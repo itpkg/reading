@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"os"
 	"path"
+	"path/filepath"
 
 	"github.com/tdewolff/minify"
 	"github.com/tdewolff/minify/html"
@@ -21,12 +22,23 @@ type SiteModel struct {
 	Copyright   string
 }
 
-func getHtmlTemplate(names ...string) (*template.Template, error) {
-	var files []string
-	for _, f := range names {
-		files = append(files, path.Join("templates", f+".tmpl"))
+func getHtmlTemplate(views string) (*template.Template, error) {
+	tpl, err :=os.Open(views)
+	if err !=nil{
+		return nil, err
 	}
-	return template.ParseFiles(files...)
+	defer tpl.Close()
+	files, err := tpl.Readdir(-1)
+	var names []string
+	for _, f := range files {
+		if f.Mode().IsRegular(){
+			if filepath.Ext(f.Name()) == ".tmpl"{
+				names = append(names, path.Join(views, f.Name()))
+			}
+		}
+	}
+
+	return template.ParseFiles(names...)
 }
 
 func writeHtml(tpl *template.Template, id, dist, htm string, model interface{}, mode os.FileMode, min bool) error {
