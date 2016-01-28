@@ -1,6 +1,10 @@
 target=release
 
 build: 
+	@echo '====== Build locales ====='
+	cd tools && rake locales 
+	mkdir -p $(target)/tmp
+	cp api/tmp/locales.txt $(target)/tmp
 	@echo '====== Build api ====='
 	go build -ldflags "-s" -o $(target)/itpkg api/main.go
 	mkdir -p $(target)/config
@@ -9,10 +13,6 @@ build:
 	@echo '====== Build front ====='
 	cd front-react && rm -rf dist && npm run build
 	cp -a front-react/dist $(target)/public
-	@echo '====== Build locales ====='
-	cd tools && rake locales 
-	mkdir -p $(target)/tmp
-	cp tmp/locales.toml $(target)/tmp
 
 
 clean:

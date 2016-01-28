@@ -72,11 +72,11 @@ func (p *SiteEngine) info(w http.ResponseWriter, r *http.Request, ps httprouter.
 			"subTitle",
 			"keywords",
 			"copyright",
+			"topNavBar",
 		} {
 			ifo[k] = p.Dao.GetSiteInfo(k, lang)
 		}
 		for _, k := range []string{
-			"topNavBar",
 			"authorName", "authorEmail",
 		} {
 			ifo[k] = p.Dao.GetString(k)
