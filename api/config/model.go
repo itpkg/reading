@@ -38,7 +38,7 @@ func (p *Model) Home() string {
 			return fmt.Sprintf("http://www.%s", p.Http.Domain)
 		}
 	} else {
-		return fmt.Sprintf("http://localhost:%s", p.Http.Port)
+		return fmt.Sprintf("http://localhost:%d", p.Http.Port)
 	}
 }
 func (p *Model) OpenStorage() (storage.Provider, error) {

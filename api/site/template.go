@@ -23,16 +23,16 @@ type SiteModel struct {
 }
 
 func getHtmlTemplate(views string) (*template.Template, error) {
-	tpl, err :=os.Open(views)
-	if err !=nil{
+	tpl, err := os.Open(views)
+	if err != nil {
 		return nil, err
 	}
 	defer tpl.Close()
 	files, err := tpl.Readdir(-1)
 	var names []string
 	for _, f := range files {
-		if f.Mode().IsRegular(){
-			if filepath.Ext(f.Name()) == ".tmpl"{
+		if f.Mode().IsRegular() {
+			if filepath.Ext(f.Name()) == ".tmpl" {
 				names = append(names, path.Join(views, f.Name()))
 			}
 		}

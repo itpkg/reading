@@ -17,7 +17,7 @@ i18next
     .use(XHR)
     .use(LanguageDetector)
     .init({
-        fallbackLng: 'en-US',
+        fallbackLng: 'zh-CN',
         backend: {
             loadPath: API_HOST + '/locales/{{lng}}',
             crossDomain: process.env.NODE_ENV !== 'production'

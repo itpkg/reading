@@ -18,15 +18,9 @@ import (
 	"github.com/itpkg/reading/api/core"
 	"github.com/julienschmidt/httprouter"
 	"github.com/rs/cors"
+	"path/filepath"
+	"time"
 )
-
-func writeRobotsTxt(dist string, mode os.FileMode, dao *Dao) error {
-	return ioutil.WriteFile(
-		path.Join(dist, "robots.txt"),
-		[]byte(dao.GetString("robotsTxt")),
-		mode)
-
-}
 
 func writeText(tpl, htm string, model interface{}, mode os.FileMode) error {
 	t, err := template.ParseFiles(path.Join("templates", tpl))
@@ -41,6 +35,116 @@ func writeText(tpl, htm string, model interface{}, mode os.FileMode) error {
 	defer f.Close()
 
 	return t.Execute(f, model)
+}
+
+func writeAssets(dao *Dao, dist string, mode os.FileMode) error {
+	ifo := make(map[string]*SiteModel)
+	for _, lang := range dao.Languages() {
+		ifo[lang] = &SiteModel{
+			Lang:        lang,
+			Title:       dao.GetSiteInfo("title", lang),
+			SubTitle:    dao.GetSiteInfo("subTitle", lang),
+			Keywords:    dao.GetSiteInfo("keywords", lang),
+			AuthorName:  dao.GetString("authorName"),
+			AuthorEmail: dao.GetString("authorEmail"),
+			Description: dao.GetSiteInfo("description", lang),
+			Copyright:   dao.GetSiteInfo("copyright", lang),
+		}
+
+	}
+
+	tpl, err := getHtmlTemplate("templates")
+	if err != nil {
+		return err
+	}
+
+	return core.Loop(func(en core.Engine) error {
+		for _, t := range en.Asserts() {
+			log.Printf("Write file %s", t.Htm)
+			if err := writeHtml(
+				tpl,
+				t.Tpl,
+				dist,
+				t.Htm,
+				struct {
+					Site    *SiteModel
+					Payload interface{}
+				}{Site: ifo[t.Lang], Payload: t.Payload},
+				mode, true); err != nil {
+				return err
+			}
+		}
+		return nil
+	})
+}
+
+func writeSeo(cfg *config.Model, dao *Dao, dist string, mode os.FileMode) error {
+
+	googleVerify := dao.GetString("googleVerify")
+	if err := writeText(
+		"google_verify.tmpl",
+		path.Join(dist, fmt.Sprintf("google%s.html", googleVerify)),
+		googleVerify,
+		mode); err != nil {
+		return err
+	}
+	baiduVerify := dao.GetString("baiduVerify")
+	if err := writeText(
+		"baidu_verify.tmpl",
+		path.Join(dist, fmt.Sprintf("baidu_verify_%s.html", baiduVerify)),
+		baiduVerify,
+		mode); err != nil {
+		return err
+	}
+	return ioutil.WriteFile(
+		path.Join(dist, "robots.txt"),
+		[]byte(fmt.Sprintf("Sitemap: %s/sitemap.xml\n%s", cfg.Home(), dao.GetString("robotsTxt"))),
+		mode)
+}
+
+func writeSitemap(cfg *config.Model, dist string, mode os.FileMode) error {
+	root := path.Join(dist, "assets")
+	home := cfg.Home()
+	const header = `<?xml version="1.0" encoding="utf-8"?>`
+
+	fd1, err := os.OpenFile(path.Join(root, "sitemap.xml"), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, mode)
+	if err != nil {
+		return err
+	}
+	defer fd1.Close()
+	fd1.WriteString(header)
+	fd1.WriteString("\n")
+	fd1.WriteString(`<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"`)
+	if err := filepath.Walk(root, func(path string, f os.FileInfo, err error) error {
+		if f.Mode().IsRegular() {
+			if filepath.Ext(f.Name()) == ".html" {
+				fmt.Fprintf(fd1, "<url><loc>%s%s</loc></url>", home, path[len(dist):])
+			}
+		}
+		return nil
+	}); err != nil {
+		return err
+	}
+
+	fd1.WriteString("</urlset>")
+	fd1.Sync()
+
+	fd2, err := os.OpenFile(path.Join(dist, "sitemap.xml"), os.O_WRONLY|os.O_CREATE|os.O_TRUNC, mode)
+	if err != nil {
+		return err
+	}
+	fd2.WriteString(header)
+	fd2.WriteString("\n")
+	fd2.WriteString(`<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`)
+	now := time.Now()
+	for _, u := range []string{"/assets", "/api/v1"} {
+		fmt.Fprintf(fd2, "<sitemap><loc>%s%s/sitemap.xml</loc><lastmod>%v</lastmod></sitemap>", home, u, now)
+	}
+	fd2.WriteString("</sitemapindex>")
+	defer fd2.Close()
+	fd2.Sync()
+
+	return nil
 }
 
 func (p *SiteEngine) Shell() []cli.Command {
@@ -59,65 +163,14 @@ func (p *SiteEngine) Shell() []cli.Command {
 				const dist = "public"
 				const mode = os.FileMode(0644)
 				dao := Dao{Db: db}
-
-				if err := writeRobotsTxt(dist, mode, &dao); err != nil {
+				if err := writeAssets(&dao, dist, mode); err != nil {
 					return err
 				}
-				googleVerify := dao.GetString("googleVerify")
-				if err := writeText(
-					"google_verify.tmpl",
-					path.Join(dist, fmt.Sprintf("google%s.html", googleVerify)),
-					googleVerify,
-					mode); err != nil {
-					return err
-				}
-				baiduVerify := dao.GetString("baiduVerify")
-				if err := writeText(
-					"baidu_verify.tmpl",
-					path.Join(dist, fmt.Sprintf("baidu_verify_%s.html", baiduVerify)),
-					baiduVerify,
-					mode); err != nil {
+				if err := writeSeo(cfg, &dao, dist, mode); err != nil {
 					return err
 				}
 
-				ifo := make(map[string]*SiteModel)
-				for _, lang := range dao.Languages() {
-					ifo[lang] = &SiteModel{
-						Lang:        lang,
-						Title:       dao.GetSiteInfo("title", lang),
-						SubTitle:    dao.GetSiteInfo("subTitle", lang),
-						Keywords:    dao.GetSiteInfo("keywords", lang),
-						AuthorName:  dao.GetString("authorName"),
-						AuthorEmail: dao.GetString("authorEmail"),
-						Description: dao.GetSiteInfo("description", lang),
-						Copyright:   dao.GetSiteInfo("copyright", lang),
-					}
-
-				}
-
-				tpl, err := getHtmlTemplate("templates")
-				if err != nil {
-					return err
-				}
-
-				return core.Loop(func(en core.Engine) error {
-					for _, t := range en.Asserts() {
-						log.Printf("Write file %s", t.Htm)
-						if err := writeHtml(
-							tpl,
-							t.Tpl,
-							dist,
-							t.Htm,
-							struct {
-								Site    *SiteModel
-								Payload interface{}
-							}{Site: ifo[t.Lang], Payload: t.Payload},
-							mode, true); err != nil {
-							return err
-						}
-					}
-					return nil
-				})
+				return writeSitemap(cfg, dist, mode)
 			}),
 		},
 		{
