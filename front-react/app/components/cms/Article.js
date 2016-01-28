@@ -35,7 +35,7 @@ const EditW = React.createClass({
     handleSubmit(e){
         e.preventDefault();
         var data = this.state;
-        if (data.body === '' || data.aid === '' || data.title === '') {
+        if (data.body === '' || data.summary === '' || data.aid === '' || data.title === '') {
             failed();
             return
         }

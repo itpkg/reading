@@ -6,6 +6,7 @@ import (
 	"github.com/itpkg/reading/api/core"
 	"github.com/itpkg/reading/api/web"
 	"github.com/julienschmidt/httprouter"
+	"strings"
 )
 
 func (p *CmsEngine) showArticle(w http.ResponseWriter, r *http.Request, ps httprouter.Params) {
@@ -76,6 +77,10 @@ func (p *CmsEngine) saveArticle(w http.ResponseWriter, r *http.Request, ps httpr
 	lang := p.Locale(r)
 	var tags []Tag
 	for _, tn := range r.Form["tags[]"] {
+		tn = strings.TrimSpace(tn)
+		if tn == ""{
+			continue
+		}
 		var t Tag
 		if p.Db.Where("name = ?", tn).First(&t).RecordNotFound() {
 			t.Name = tn

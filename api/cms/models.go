@@ -44,8 +44,8 @@ type Article struct {
 	User   auth.User `json:"-"`
 
 	Aid     string `sql:"not null;type:varchar(36);unique_index"  json:"aid"`
-	Title   string `sql:"not null"  json:"title"`
-	Summary string `json:"summary"`
+	Title   string `sql:"not null" json:"title"`
+	Summary string `sql:"not null" json:"summary"`
 	Body    string `sql:"not null;type:TEXT"  json:"body"`
 	Type    string `sql:"not null;type:varchar(8);default:'markdown';index"  json:"type"`
 	Lang    string `sql:"not null;type:char(5);index;default:'en-US'" json:"lang"`
