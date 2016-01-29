@@ -29,6 +29,13 @@ type Setting struct {
 	Created time.Time `orm:"auto_now_add;type(datetime)"`
 }
 
+type Notice struct {
+	Id      uint
+	Body    string    `orm:"type(500)"`
+	Updated time.Time `orm:"auto_now;type(datetime)"`
+	Created time.Time `orm:"auto_now_add;type(datetime)"`
+}
+
 func init() {
-	orm.RegisterModel(new(Locale), new(Setting))
+	orm.RegisterModel(new(Locale), new(Setting), new(Notice))
 }
