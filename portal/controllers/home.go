@@ -1,9 +1,5 @@
 package controllers
 
-import (
-	"github.com/astaxie/beego"
-)
-
 type Author struct {
 	Name  string
 	Email string
@@ -20,14 +16,9 @@ type Site struct {
 }
 
 type MainController struct {
-	beego.Controller
+	BaseController
 }
 
 func (this *MainController) Get() {
-	//todo
-	this.Data["site"] = &Site{
-		Lang: "en-US",
-	}
-	this.Layout = "layout.tpl"
 	this.TplName = "home.tpl"
 }

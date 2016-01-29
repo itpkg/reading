@@ -23,7 +23,8 @@ func (p *Locale) TableUnique() [][]string {
 
 type Setting struct {
 	Id      uint
-	Key     string    `orm:"unique"`
+	Key     string `orm:"unique"`
+	Flag    bool
 	Val     string    `orm:"type(text)"`
 	Updated time.Time `orm:"auto_now;type(datetime)"`
 	Created time.Time `orm:"auto_now_add;type(datetime)"`

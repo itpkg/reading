@@ -9,6 +9,7 @@ import (
 
 	"fmt"
 	"github.com/astaxie/beego"
+	"github.com/itpkg/reading/portal/env"
 	"github.com/itpkg/reading/portal/utils"
 )
 
@@ -23,7 +24,7 @@ func (p *NotesController) Prepare() {
 
 	var notes map[string]string
 	const key = "cache://notes"
-	obj := utils.BM.Get(key)
+	obj := env.CACHE.Get(key)
 	var err error
 	if obj == nil {
 		notes = make(map[string]string)
@@ -37,7 +38,7 @@ func (p *NotesController) Prepare() {
 		})
 		var buf []byte
 		if buf, err = utils.ToJson(notes); err == nil {
-			err = utils.BM.Put(key, buf, time.Hour*24)
+			err = env.CACHE.Put(key, buf, time.Hour*24)
 		}
 	} else {
 		err = utils.FromJson(obj.([]byte), &notes)
@@ -65,14 +66,14 @@ func (p *NotesController) Show() {
 	var buf []byte
 	var err error
 
-	obj := utils.BM.Get(key)
+	obj := env.CACHE.Get(key)
 	if obj == nil {
 		if buf, err = ioutil.ReadFile(path.Join(
 			notesRoot,
 			p.Lang,
 			name+".md"),
 		); err == nil {
-			err = utils.BM.Put(key, buf, time.Hour*24)
+			err = env.CACHE.Put(key, buf, time.Hour*24)
 		}
 	} else {
 		buf = obj.([]byte)
@@ -80,6 +81,7 @@ func (p *NotesController) Show() {
 
 	if err == nil {
 		p.Data["body"] = string(buf)
+		p.Data["title"] = name
 		p.TplName = "notes/show.tpl"
 	} else {
 		beego.Error(err)

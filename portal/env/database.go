@@ -1,4 +1,4 @@
-package utils
+package env
 
 import (
 	"github.com/astaxie/beego"
@@ -25,6 +25,12 @@ func init() {
 		beego.AppConfig.String("databaseUrl"),
 		maxIdle, maxOpen,
 	)
+
+	if beego.BConfig.RunMode == "prod" {
+		beego.SetLevel(beego.LevelInformational)
+	} else {
+		orm.Debug = true
+	}
 
 	orm.RunCommand()
 }

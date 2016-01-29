@@ -1,4 +1,4 @@
-package utils
+package env
 
 import (
 	"fmt"
@@ -8,7 +8,7 @@ import (
 	_ "github.com/astaxie/beego/cache/redis"
 )
 
-var BM cache.Cache
+var CACHE cache.Cache
 
 func init() {
 	port, err := beego.AppConfig.Int("redisPort")
@@ -19,7 +19,7 @@ func init() {
 	if err != nil {
 		db = 0
 	}
-	BM, err = cache.NewCache(
+	CACHE, err = cache.NewCache(
 		"redis",
 		fmt.Sprintf(
 			`{"conn":"%s:%d","dbNum":"%d"}`,
