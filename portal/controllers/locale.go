@@ -16,7 +16,6 @@ type LocaleController struct {
 }
 
 func (p *LocaleController) Prepare() {
-	beego.Trace("========== GET LANGUAGE =========")
 	// 1. Check URL arguments.
 	lang := p.Input().Get(langKey)
 
@@ -44,6 +43,7 @@ func (p *LocaleController) Prepare() {
 	}
 
 	// Set language properties.
+	beego.Trace("GET LANGUAGE: ", lang)
 	p.Lang = lang
 	p.Data["Lang"] = lang
 	p.Data["Languages"] = i18n.ListLangs()
