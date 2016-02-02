@@ -18,18 +18,23 @@
           <li>{{link-to 'Books' 'books'}}</li>
         </ul>
         <ul class='nav navbar-nav navbar-right'>
-          {{# if session.isAuthenticated}}
-            <li>{{link-to 'Log Out' 'session.destroy'}}</li>
-          {{else}}
-            <li class="dropdown">
+          <li class="dropdown">
+            {{# if session.isAuthenticated}}
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                 aria-haspopup="true" aria-expanded="false">Welcome Sen! <span class="caret"></span></a>
+              <ul class="dropdown-menu">
+                <li>{{link-to 'Profile' 'dashboard.personal.logs'}}</li>
+                <li>{{link-to 'Log Out' 'session.destroy'}}</li>
+              </ul>
+            {{else}}
               <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
                  aria-haspopup="true" aria-expanded="false">Sign up/in <span class="caret"></span></a>
               <ul class="dropdown-menu">
                 <li>{{link-to 'Sign In' 'session.new'}}</li>
                 <li>{{link-to 'Sign Up' 'users.new'}}</li>
               </ul>
-            </li>
-          {{/if}}
+            {{/if}}
+          </li>
         </ul>
       </div>
     </div>

@@ -1,0 +1,14 @@
+<ul class="nav nav-pills nav-stacked">
+  <li role="presentation" class="{{if (eq activeItem 1) "active"}}">
+    {{link-to 'New Article' 'dashboard.cms.articles.new'}}
+  </li>
+  <li role="presentation" class="{{if (eq activeItem 2) "active"}}">
+    {{link-to 'Articles' 'dashboard.cms.articles'}}
+  </li>
+  <li role="presentation" class="{{if (eq activeItem 3) "active"}}">
+    {{link-to 'Logs' 'dashboard.personal.logs'}}
+  </li>
+  <li role="presentation" class="{{if (eq activeItem 4) "active"}}">
+    {{link-to 'Attachments' 'dashboard.attachments'}}
+  </li>
+</ul>
