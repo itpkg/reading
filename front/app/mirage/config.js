@@ -12,4 +12,35 @@ export default function () {
       return new Mirage.Response(401, {}, {});
     }
   });
+
+  this.get('/notices', function () {
+    let notices = [
+      {
+        type: 'notice',
+        id: 1,
+        attributes: {
+          'content': 'Online Reading',
+          'created-at': (new Date()).toISOString()
+        }
+      },
+      {
+        type: 'notice',
+        id: 2,
+        attributes: {
+          'content': 'Update username',
+          'created-at': (new Date(new Date().setDate(new Date().getDate() - 1))).toISOString()
+        }
+      },
+      {
+        type: 'notice',
+        id: 3,
+        attributes: {
+          'content': 'Change password',
+          'created-at': (new Date(new Date().setDate(new Date().getDate() - 6))).toISOString()
+        }
+      }
+    ];
+
+    return {data: notices};
+  })
 }

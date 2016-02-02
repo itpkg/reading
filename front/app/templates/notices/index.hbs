@@ -1,0 +1,13 @@
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-offset-1 col-md-11">
+      <h3>Notices</h3>
+    </div>
+
+    {{#each model as |notice|}}
+      <div class="col-md-offset-1 col-md-11">
+        {{notice-summary-item notice=notice}}
+      </div>
+    {{/each}}
+  </div>
+</div>

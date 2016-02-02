@@ -16,6 +16,8 @@ Router.map(function () {
   this.route('users', function () {
     this.route('new', {path: '/sign_up'});
   });
+  this.route('notices', function () {
+  })
 });
 
 export default Router;
