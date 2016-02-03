@@ -42,5 +42,36 @@ export default function () {
     ];
 
     return {data: notices};
+  });
+
+  this.get('/logs', function () {
+    let logs = [
+      {
+        type: 'log',
+        id: 1,
+        attributes: {
+          'content': 'Sign in',
+          'created-at': (new Date()).toISOString()
+        }
+      },
+      {
+        type: 'log',
+        id: 2,
+        attributes: {
+          'content': 'Read a book',
+          'created-at': (new Date(new Date().setDate(new Date().getDate() - 1))).toISOString()
+        }
+      },
+      {
+        type: 'log',
+        id: 3,
+        attributes: {
+          'content': 'Add a new book',
+          'created-at': (new Date(new Date().setDate(new Date().getDate() - 6))).toISOString()
+        }
+      }
+    ];
+
+    return {data: logs};
   })
 }

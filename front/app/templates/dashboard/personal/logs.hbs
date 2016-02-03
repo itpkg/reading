@@ -2,5 +2,12 @@
   {{dashboard-nav activeItem=3}}
 </div>
 <div class="col-md-10">
-  <h2>logs</h2>
+  <ul class="list-group">
+    {{#each model as |log|}}
+      <li class="list-group-item">
+        <span>{{time-ago log.createdAt}}:</span>
+        <span>{{log.content}}</span>
+      </li>
+    {{/each}}
+  </ul>
 </div>
