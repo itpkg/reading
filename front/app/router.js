@@ -28,7 +28,10 @@ Router.map(function () {
     this.route('personal', function () {
       this.route('logs');
     });
-    this.route('attachments');
+    this.route('attachments', function () {
+      this.route('create');
+      this.route('destroy');
+    });
   });
 });
 

@@ -1,0 +1,16 @@
+<div>
+  <hr>
+  {{#each attachments as |attachment|}}
+    <blockquote>
+      <a target="_blank" href="{{attachment.source}}">{{attachment.name}}</a>
+      <cite class="text-muted">
+        <small>
+          {{time-ago attachment.createdAt}}
+          <button type="button" class="btn btn-xs btn-danger"
+            {{action 'removeAttachment' attachment.id on='click'}}>
+            Remove</button>
+        </small>
+      </cite>
+    </blockquote>
+  {{/each}}
+</div>

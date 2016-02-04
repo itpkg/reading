@@ -73,5 +73,47 @@ export default function () {
     ];
 
     return {data: logs};
-  })
+  });
+
+  this.get('/attachments', function () {
+    let attachments = [
+      {
+        type: 'attachment',
+        id: 1,
+        attributes: {
+          'name': 'attachment a',
+          'source': '/attachments/attachment_a.pdf',
+          'created-at': (new Date()).toISOString()
+        }
+      },
+      {
+        type: 'attachment',
+        id: 2,
+        attributes: {
+          'name': 'attachment b',
+          'source': '/attachments/attachment_b.pdf',
+          'created-at': (new Date(new Date().setDate(new Date().getDate() - 1))).toISOString()
+        }
+      },
+      {
+        type: 'attachment',
+        id: 3,
+        attributes: {
+          'name': 'attachment c',
+          'source': '/attachments/attachment_c.pdf',
+          'created-at': (new Date(new Date().setDate(new Date().getDate() - 6))).toISOString()
+        }
+      }
+    ];
+
+    return {data: attachments};
+  });
+
+  this.del('/attachments/:id', function (db, request) {
+    var id = request.params.id,
+      success = true,
+      responseCode = success ? 204 : 401;
+
+    return new Mirage.Response(responseCode, {}, {});
+  });
 }
