@@ -1,0 +1,7 @@
+<div>
+  <h4>{{link-to 'Notices' 'notices'}}</h4>
+  <hr>
+  {{#each notices as |notice|}}
+    {{notice-summary-item notice=notice}}
+  {{/each}}
+</div>

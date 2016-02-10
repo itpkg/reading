@@ -16,6 +16,23 @@ Router.map(function () {
   this.route('users', function () {
     this.route('new', {path: '/sign_up'});
   });
+  this.route('notices', function () {
+  });
+  this.route('dashboard', function () {
+    this.route('cms', function () {
+      this.route('articles', function () {
+        this.route('new');
+        this.route('edit', {path: '/:id'});
+      })
+    });
+    this.route('personal', function () {
+      this.route('logs');
+    });
+    this.route('attachments', function () {
+      this.route('create');
+      this.route('destroy');
+    });
+  });
 });
 
 export default Router;

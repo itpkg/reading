@@ -1,0 +1,19 @@
+<form id='drag_drop' class="dropzone dropzone-dashboard" action={{url}}>
+  <div class='fallback'>
+    <input name='file' type='file' multiple/>
+  </div>
+</form>
+
+<br>
+
+{{#if fileName}}
+  <div id="file_name">{{fileName}}</div>
+{{/if}}
+
+<button type="button"
+        id="drag_drop_upload"
+        class="btn btn-primary"
+        disabled={{if fileName false 'disabled'}}>
+  Upload
+</button>
+<button type="button" id="drag_drop_reset" class="btn btn-default">Reset</button>
