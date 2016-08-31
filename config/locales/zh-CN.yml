@@ -2,3 +2,5 @@
   buttons:
     more: 更多
     view: 查看
+  errors:
+    unauthorized: 未鉴别

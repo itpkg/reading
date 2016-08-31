@@ -6,7 +6,7 @@ I love reading.
 ### Install ruby
     git clone https://github.com/rbenv/rbenv.git ~/.rbenv
     git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
-    git clone https://github.com/rbenv/rbenv-vars.git $(rbenv root)/plugins/rbenv-vars
+    git clone https://github.com/rbenv/rbenv-vars.git ~/.rbenv/plugins/rbenv-vars
 
     # Modify your ~/.zshrc file instead of ~/.bash_profile
     echo 'export PATH="$HOME/.rbenv/bin:$PATH"\neval "$(rbenv init -)"' >> ~/.bash_profile 
@@ -29,10 +29,5 @@ I love reading.
     vi config/deploy.rb
     cap production deploy
     
-## Documents
-
-* [rails](http://guides.rubyonrails.org/)
-* [devise](https://github.com/plataformatec/devise/wiki)
-* [rolify](https://github.com/RolifyCommunity/rolify/wiki)
 
     

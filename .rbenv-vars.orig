@@ -1,4 +1,4 @@
-RAILS_ENV=development
+RAILS_ENV=production
 
 READING_HOST=www.change-me.com
 MAILER_SENDER=please-change-me-at-config-initializers-devise@example.com
