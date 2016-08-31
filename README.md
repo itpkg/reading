@@ -15,6 +15,7 @@ I love reading.
     rbenv install 2.3.1
     rbenv local 2.3.1
     gem install bundler
+    npm install
     
 ### Starting
     git clone https://github.com/itpkg/reading.git

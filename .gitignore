@@ -19,6 +19,8 @@
 
 # My
 /.idea
+/node_modules
 *.swp
+/public/assets
 
 

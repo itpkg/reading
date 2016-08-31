@@ -40,6 +40,7 @@ GEM
       tzinfo (~> 1.1)
     arel (7.1.1)
     bcrypt (3.1.11)
+    bootstrap_form (2.5.0)
     builder (3.2.2)
     byebug (9.0.5)
     cancancan (1.15.0)
@@ -58,6 +59,7 @@ GEM
       railties (>= 4.1.0, < 5.1)
       responders
       warden (~> 1.2.3)
+    devise-bootstrap-views (0.0.9)
     devise-i18n (1.1.0)
     erubis (2.7.0)
     execjs (2.7.0)
@@ -170,10 +172,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bootstrap_form
   byebug
   cancancan
   coffee-rails (~> 4.2)
   devise
+  devise-bootstrap-views
   devise-i18n
   jbuilder (~> 2.5)
   jquery-rails

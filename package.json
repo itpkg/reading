@@ -1,0 +1,26 @@
+{
+  "name": "reading",
+  "version": "0.1.0",
+  "description": "I love reading.",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "dependencies": {
+    "bootstrap-sass": "^3.3.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/itpkg/reading.git"
+  },
+  "author": "Jitang Zheng <jitang.zheng@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/itpkg/reading/issues"
+  },
+  "homepage": "https://github.com/itpkg/reading#readme"
+}
