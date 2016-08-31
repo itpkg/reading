@@ -18,6 +18,7 @@ module.exports = function (options) {
         'react-router-redux',
         'react-timeago',
         'react-markdown',
+        'react-tap-event-plugin',
 
         'i18next',
         'i18next-xhr-backend',
@@ -113,11 +114,11 @@ module.exports = function (options) {
         output: output,
         plugins: plugins,
         module: {
-            preLoaders: [{
-                test: /\.jsx?$/,
-                loader: 'eslint-loader',
-                exclude: /node_modules/
-            }],
+            // preLoaders: [{
+            //     test: /\.jsx?$/,
+            //     loader: 'eslint-loader',
+            //     exclude: /node_modules/
+            // }],
             loaders: loaders
         },
         resolve: {

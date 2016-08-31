@@ -1,4 +1,4 @@
-<% %w(en zh-CN).each do |lang|%>
+<% %w(en zh-CN).each do |lang| %>
     <li><%= link_to t("languages.#{lang}"), root_path(locale: lang) %></li>
 <% end %>
 

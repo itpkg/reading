@@ -2,10 +2,12 @@ class HomeController < ApplicationController
   def index
 
   end
+
   def about
     @key = :about
     render 'page'
   end
+
   def help
     @key = :help
     render 'page'

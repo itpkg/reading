@@ -1,4 +1,3 @@
-
 class ApplicationController < ActionController::Base
   include DeviseTokenAuth::Concerns::SetUserByToken
   protect_from_forgery with: :exception
@@ -13,7 +12,6 @@ class ApplicationController < ActionController::Base
   def default_url_options
     {locale: I18n.locale}
   end
-
 
 
 end

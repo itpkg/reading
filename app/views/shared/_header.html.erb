@@ -11,10 +11,14 @@
     </div>
     <div id="navbar" class="navbar-collapse collapse">
       <ul class="nav navbar-nav">
-        <li class="active"><li><%= link_to t('home.index'), home_path %></li></li>
+        <li class="active">
+        <li><%= link_to t('home.index'), home_path %></li>
+
         <li><%= link_to t('cms.articles.index'), cms_articles_path %></li>
         <li><%= link_to t('cms.tags.index'), cms_tags_path %></li>
         <li><%= link_to t('epub.books.index'), epub_books_path %></li>
+
+        <li><%= link_to t('home.dashboard'), dashboard_path, {target: :_blank} %></li>
         <li><%= link_to t('home.help'), home_help_path %></li>
         <li><%= link_to t('home.faq'), home_faq_path %></li>
         <li><%= link_to t('home.about'), home_about_path %></li>
