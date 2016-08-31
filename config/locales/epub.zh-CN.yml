@@ -1,5 +1,7 @@
 'zh-CN':
   epub:
+    books:
+      index: 电子书籍
     book:
       creator: 作者
       title: 标题

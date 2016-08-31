@@ -1,5 +1,7 @@
 en:
   epub:
+    books:
+      index: Books
     book:
       creator: Creator
       title: Title

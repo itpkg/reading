@@ -55,13 +55,14 @@ gem 'cancancan'
 gem 'rolify'
 gem 'devise_invitable', '~> 1.7.0'
 gem 'devise_token_auth'
-gem 'rack-cors'
+gem 'rack-cors', :require => 'rack/cors'
 
 gem 'omniauth-github'
 gem 'omniauth-facebook'
 gem 'omniauth-google-oauth2'
 gem "omniauth-wechat-oauth2"
 gem 'omniauth-qq'
+gem 'omniauth-weibo-oauth2'
 
 gem 'bootstrap_form'
 gem 'kaminari'

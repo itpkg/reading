@@ -5,7 +5,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
 
   provider :google_oauth2, ENV['GOOGLE_KEY'],   ENV['GOOGLE_SECRET']
 
-  provider :weibo, ENV['WEIBO_KEY'], ENV['WEIBO_SCRET']
+  provider :weibo, ENV['WEIBO_KEY'], ENV['WEIBO_SECRET']
 
   provider :wechat, ENV['WECHAT_APP_ID'], ENV['WECHAT_APP_SECRET']
 
