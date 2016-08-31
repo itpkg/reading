@@ -49,9 +49,9 @@ module.exports = function (options) {
     };
     var htmlOptions = {
         inject: true,
-        template: 'front/index.ejs',
+        template: path.join('front','index.html'),
         filename: 'index.html',
-        favicon: path.join(__dirname, 'public', 'apple-touch-icon.png'),
+       // favicon: path.join(__dirname, 'public', 'apple-touch-icon.png'),
         title: 'READING'
     };
 
@@ -63,7 +63,7 @@ module.exports = function (options) {
             removeComments: true
         };
 
-        plugins.push(new CleanWebpackPlugin(['public', 'build']));
+        plugins.push(new CleanWebpackPlugin([output.path]));
         plugins.push(new webpack.optimize.UglifyJsPlugin({
             compress: {
                 drop_console: true,
@@ -132,3 +132,5 @@ module.exports = function (options) {
         // }
     }
 };
+
+
