@@ -11,7 +11,7 @@ Rails.application.routes.draw do
 
     namespace :epub do
       resources :books, only: [:index, :show, :destroy]
-      resources :pages, only: [:show]
+      get 'pages/:bid/*name', to:'pages#show', as: :page
     end
 
     devise_for :users

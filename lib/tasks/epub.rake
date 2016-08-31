@@ -8,8 +8,12 @@ namespace :epub do
     Dir.glob(root).each do |file|
       puts "find file #{file}"
       book = EPUB::Parser.parse(file)
+
+      puts book.ocf.container.rootfile.inspect
+
+
+
       meta = book.metadata
-      # puts meta.inspect
 
       bid = meta.identifiers.first.content
       bk = Epub::Book.where(identifier: bid).first
@@ -24,9 +28,11 @@ namespace :epub do
       bk.publisher = meta.publishers.first.content
       bk.subject = meta.subjects.first.content
       bk.date = meta.date.content
+      bk.home = book.rootfiles.first.full_path
       bk.save
 
-      book.each_page_on_spine do |page|
+
+      book.each_content do |page|
         name = page.entry_name
         puts "find page #{name}"
         pg = Epub::Page.where(epub_books_id: bk.id, entry_name: name).first
@@ -40,6 +46,8 @@ namespace :epub do
 
         pg.save
       end
+
+
 
 
     end

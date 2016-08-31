@@ -1,2 +1,26 @@
-<h1>Epub::Books#index</h1>
-<p>Find me in app/views/epub/books/index.html.erb</p>
+<div class="row">
+  <div class="col-md-offset-1 col-md-10">
+    <%= paginate @books %>
+  </div>
+  <% @books.each do |bk| %>
+      <div class="col-md-4">
+        <div class="thumbnail">
+          <h3>
+            <%= link_to bk.title, epub_book_path(bk) %>
+          </h3>
+          <p>
+            <%= t 'epub.book.creator' %>: <%= bk.creator %>
+            <br>
+            <%= t 'epub.book.publisher' %>: <%= bk.publisher %>
+            <br>
+            <%= t 'epub.book.subject' %>: <%= bk.subject %>
+            <br>
+            <%= t 'epub.book.date' %>: <%= bk.date %>
+          </p>
+          <p>
+            <%= link_to t('buttons.view'), epub_book_path(bk), {class:'btn btn-primary'}%>
+          </p>
+        </div>
+      </div>
+  <% end %>
+</div>

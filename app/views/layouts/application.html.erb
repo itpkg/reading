@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title><%= site_info :sub_title %>-<%= site_info :title %></title>
+  <title><%= @title %>-<%= site_info :sub_title %>-<%= site_info :title %></title>
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>

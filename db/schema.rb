@@ -61,6 +61,7 @@ ActiveRecord::Schema.define(version: 20160831072356) do
     t.string   "language",   limit: 5,             null: false
     t.string   "publisher",                        null: false
     t.string   "date",                             null: false
+    t.string   "home",                             null: false
     t.integer  "rate",                 default: 0, null: false
     t.datetime "created_at",                       null: false
     t.datetime "updated_at",                       null: false
@@ -79,6 +80,7 @@ ActiveRecord::Schema.define(version: 20160831072356) do
     t.datetime "updated_at",    null: false
     t.integer  "epub_books_id"
     t.index ["entry_name", "epub_books_id"], name: "index_epub_pages_on_entry_name_and_epub_books_id", unique: true, using: :btree
+    t.index ["entry_name"], name: "index_epub_pages_on_entry_name", using: :btree
     t.index ["epub_books_id"], name: "index_epub_pages_on_epub_books_id", using: :btree
   end
 

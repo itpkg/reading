@@ -8,6 +8,7 @@ class CreateEpubBooks < ActiveRecord::Migration[5.0]
       t.string :language, null:false, limit: 5
       t.string :publisher, null:false
       t.string :date, null:false
+      t.string :home, null:false
       t.integer :rate, null:false, default:0
       t.timestamps
     end
