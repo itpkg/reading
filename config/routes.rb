@@ -3,6 +3,12 @@ Rails.application.routes.draw do
   scope '(:locale)', locale: /en|zh-CN/ do
     get 'home', to: 'home#index'
 
+    namespace :cms do
+      resources :tags
+      resources :articles
+      resources :comments
+    end
+
     devise_for :users
   end
 

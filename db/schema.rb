@@ -10,10 +10,48 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831061436) do
+ActiveRecord::Schema.define(version: 20160831064837) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "cms_articles", force: :cascade do |t|
+    t.string   "title",                               null: false
+    t.string   "locale",     limit: 5, default: "en", null: false
+    t.string   "summary"
+    t.text     "body",                                null: false
+    t.integer  "rate",                 default: 0,    null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.integer  "user_id"
+    t.index ["locale"], name: "index_cms_articles_on_locale", using: :btree
+    t.index ["user_id"], name: "index_cms_articles_on_user_id", using: :btree
+  end
+
+  create_table "cms_articles_tags", id: false, force: :cascade do |t|
+    t.integer "cms_article_id", null: false
+    t.integer "cms_tag_id",     null: false
+  end
+
+  create_table "cms_comments", force: :cascade do |t|
+    t.text     "body",           null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+    t.integer  "user_id"
+    t.integer  "cms_article_id"
+    t.index ["cms_article_id"], name: "index_cms_comments_on_cms_article_id", using: :btree
+    t.index ["user_id"], name: "index_cms_comments_on_user_id", using: :btree
+  end
+
+  create_table "cms_tags", force: :cascade do |t|
+    t.string   "name",                                null: false
+    t.string   "locale",     limit: 5, default: "en", null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["locale"], name: "index_cms_tags_on_locale", using: :btree
+    t.index ["name", "locale"], name: "index_cms_tags_on_name_and_locale", unique: true, using: :btree
+    t.index ["name"], name: "index_cms_tags_on_name", using: :btree
+  end
 
   create_table "roles", force: :cascade do |t|
     t.string   "name"
@@ -67,4 +105,7 @@ ActiveRecord::Schema.define(version: 20160831061436) do
     t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
   end
 
+  add_foreign_key "cms_articles", "users"
+  add_foreign_key "cms_comments", "cms_articles"
+  add_foreign_key "cms_comments", "users"
 end
