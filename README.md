@@ -32,5 +32,6 @@ I love reading.
 
 * [rails](http://guides.rubyonrails.org/)
 * [devise](https://github.com/plataformatec/devise/wiki)
+* [rolify](https://github.com/RolifyCommunity/rolify/wiki)
 
     
