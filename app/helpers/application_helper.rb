@@ -4,6 +4,6 @@ module ApplicationHelper
   end
 
   def dashboard_path
-    Rails.env.production? ? '/dashboard' : 'http://localhost:4200/dashboard'
+    Rails.env.production? ? '/dashboard/' : 'http://localhost:4200/dashboard/'
   end
 end

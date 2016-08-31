@@ -20,6 +20,8 @@ module.exports = function (options) {
         'react-markdown',
         'react-tap-event-plugin',
 
+        'jwt-decode',
+
         'i18next',
         'i18next-xhr-backend',
         'i18next-browser-languagedetector'
@@ -39,20 +41,20 @@ module.exports = function (options) {
     }];
 
     var env = {
-        CONFIG: JSON.stringify({
+        'process.env.CONFIG': JSON.stringify({
             backend: options.backend,
             version: '2016.8.31'
         })
     };
     var output = {
         path: path.join(__dirname, 'public', 'dashboard'),
-        publicPath: '/dashboard'
+        publicPath: '/dashboard/'
     };
     var htmlOptions = {
         inject: true,
-        template: path.join('front','index.html'),
+        template: path.join('front', 'index.html'),
         filename: 'index.html',
-       // favicon: path.join(__dirname, 'public', 'apple-touch-icon.png'),
+        // favicon: path.join(__dirname, 'public', 'apple-touch-icon.png'),
         title: 'READING'
     };
 
@@ -125,7 +127,7 @@ module.exports = function (options) {
             extensions: ['', '.js', '.jsx']
         },
         devServer: {
-            historyApiFallback: true,
+            historyApiFallback: {index: output.publicPath},
             port: 4200
         }
         // eslint: {

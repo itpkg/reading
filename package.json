@@ -11,6 +11,7 @@
     "i18next": "^3.4.1",
     "i18next-browser-languagedetector": "^1.0.0",
     "i18next-xhr-backend": "^1.1.0",
+    "jwt-decode": "^2.1.0",
     "marked": "^0.3.6",
     "material-ui": "^0.15.4",
     "path": "^0.12.7",
