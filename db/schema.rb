@@ -84,6 +84,14 @@ ActiveRecord::Schema.define(version: 20160831072356) do
     t.index ["epub_books_id"], name: "index_epub_pages_on_epub_books_id", using: :btree
   end
 
+  create_table "notices", force: :cascade do |t|
+    t.text     "body",                                null: false
+    t.string   "lang",       limit: 5, default: "en", null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.index ["lang"], name: "index_notices_on_lang", using: :btree
+  end
+
   create_table "roles", force: :cascade do |t|
     t.string   "name"
     t.string   "resource_type"

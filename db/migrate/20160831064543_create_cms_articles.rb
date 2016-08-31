@@ -2,7 +2,7 @@ class CreateCmsArticles < ActiveRecord::Migration[5.0]
   def change
     create_table :cms_articles do |t|
       t.string :title, null: false
-      t.string :locale, null: false, limit: 5, default: :en
+      t.string :lang, null: false, limit: 5, default: :en
       t.string :summary
       t.text :body, null: false
 
@@ -12,7 +12,7 @@ class CreateCmsArticles < ActiveRecord::Migration[5.0]
     end
 
     add_reference :cms_articles, :user, foreign_key: true
-    add_index :cms_articles, :locale
+    add_index :cms_articles, :lang
 
   end
 end
