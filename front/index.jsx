@@ -6,10 +6,11 @@ injectTapEventPlugin();
 console.log("react version: " + React.version);
 console.log("front version: " + process.env.CONFIG.version);
 
+
 import React from 'react'
 import ReactDOM from 'react-dom'
 
 import App from './App'
 
-ReactDOM.render(<App />, document.getElementById('root'));
 
+ReactDOM.render(<App />, document.getElementById('root'));

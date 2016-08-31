@@ -19,11 +19,11 @@ module.exports = function (options) {
         'react-timeago',
         'react-markdown',
         'react-tap-event-plugin',
+        'react-i18next',
 
         'jwt-decode',
 
         'i18next',
-        'i18next-xhr-backend',
         'i18next-browser-languagedetector'
     ];
 
