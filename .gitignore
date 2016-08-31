@@ -20,8 +20,9 @@
 # My
 /.idea
 /node_modules
-*.swp
 /public/assets
+/public/dashboard
 /.rbenv-vars
-
+npm-debug.log
+*.swp
 
