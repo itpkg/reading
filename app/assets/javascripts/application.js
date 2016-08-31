@@ -16,3 +16,4 @@
 //= require_tree .
 
 //= require bootstrap-sass/assets/javascripts/bootstrap-sprockets
+//= require marked/lib/marked

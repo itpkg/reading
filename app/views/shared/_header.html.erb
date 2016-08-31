@@ -10,15 +10,18 @@
       <%= link_to site_info(:sub_title), root_path, {class: 'navbar-brand'} %>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <form class="navbar-form navbar-right">
-        <div class="form-group">
-          <input type="text" placeholder="Email" class="form-control">
-        </div>
-        <div class="form-group">
-          <input type="password" placeholder="Password" class="form-control">
-        </div>
-        <button type="submit" class="btn btn-success">Sign in</button>
-      </form>
+      <ul class="nav navbar-nav">
+        <li class="active"><li><%= link_to t('home.index'), home_path %></li></li>
+        <li><%= link_to t('cms.articles.index'), cms_articles_path %></li>
+        <li><%= link_to t('cms.tags.index'), cms_tags_path %></li>
+        <li><%= link_to t('epub.books.index'), epub_books_path %></li>
+        <li><%= link_to t('home.help'), home_help_path %></li>
+        <li><%= link_to t('home.faq'), home_faq_path %></li>
+        <li><%= link_to t('home.about'), home_about_path %></li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <%= render 'shared/switch_lang' %>
+      </ul>
     </div>
   </div>
 </nav>

@@ -1,4 +1,7 @@
 'zh-CN':
+  languages:
+    en: English
+    'zh-CN': 简体中文
   buttons:
     more: 更多
     view: 查看
