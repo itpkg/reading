@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Reading</title>
+  <title><%= site_info :sub_title %>-<%= site_info :title %></title>
   <%= csrf_meta_tags %>
 
   <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
@@ -9,8 +9,13 @@
 </head>
 
 <body>
-<p class="notice"><%= notice %></p>
-<p class="alert"><%= alert %></p>
-<%= yield %>
+<%= render 'shared/header' %>
+
+<div class="container">
+  <%= render 'shared/devise_notices' %>
+  <br/>
+  <%= yield %>
+  <%= render 'shared/footer' %>
+</div>
 </body>
 </html>
