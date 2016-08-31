@@ -1,0 +1,2 @@
+module Epub::PagesHelper
+end

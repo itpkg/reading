@@ -56,3 +56,4 @@ gem 'bootstrap_form'
 gem 'devise-bootstrap-views'
 
 gem 'rails-settings-cached'
+gem 'carrierwave'

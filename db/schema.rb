@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160831064837) do
+ActiveRecord::Schema.define(version: 20160831072356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,6 +51,34 @@ ActiveRecord::Schema.define(version: 20160831064837) do
     t.index ["locale"], name: "index_cms_tags_on_locale", using: :btree
     t.index ["name", "locale"], name: "index_cms_tags_on_name_and_locale", unique: true, using: :btree
     t.index ["name"], name: "index_cms_tags_on_name", using: :btree
+  end
+
+  create_table "epub_books", force: :cascade do |t|
+    t.string   "title",                null: false
+    t.string   "creator",              null: false
+    t.string   "subject",              null: false
+    t.string   "language",   limit: 5, null: false
+    t.string   "publisher",            null: false
+    t.string   "date",                 null: false
+    t.string   "home",                 null: false
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+    t.index ["creator"], name: "index_epub_books_on_creator", using: :btree
+    t.index ["language"], name: "index_epub_books_on_language", using: :btree
+    t.index ["publisher"], name: "index_epub_books_on_publisher", using: :btree
+    t.index ["subject"], name: "index_epub_books_on_subject", using: :btree
+  end
+
+  create_table "epub_pages", force: :cascade do |t|
+    t.string   "name",          null: false
+    t.string   "title",         null: false
+    t.text     "body",          null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "epub_books_id"
+    t.index ["epub_books_id"], name: "index_epub_pages_on_epub_books_id", using: :btree
+    t.index ["name", "epub_books_id"], name: "index_epub_pages_on_name_and_epub_books_id", unique: true, using: :btree
+    t.index ["name"], name: "index_epub_pages_on_name", using: :btree
   end
 
   create_table "roles", force: :cascade do |t|
@@ -108,4 +136,5 @@ ActiveRecord::Schema.define(version: 20160831064837) do
   add_foreign_key "cms_articles", "users"
   add_foreign_key "cms_comments", "cms_articles"
   add_foreign_key "cms_comments", "users"
+  add_foreign_key "epub_pages", "epub_books", column: "epub_books_id"
 end

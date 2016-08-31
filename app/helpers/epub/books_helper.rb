@@ -1,0 +1,2 @@
+module Epub::BooksHelper
+end

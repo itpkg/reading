@@ -9,6 +9,11 @@ Rails.application.routes.draw do
       resources :comments
     end
 
+    namespace :epub do
+      resources :books, only: [:index, :show, :destroy]
+      resources :pages, only: [:show]
+    end
+
     devise_for :users
   end
 
