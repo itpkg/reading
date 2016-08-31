@@ -49,11 +49,19 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 # My
 gem 'jwt'
-gem 'devise'
+gem 'devise', '~> 4.2'
 gem 'devise-i18n'
 gem 'cancancan'
 gem 'rolify'
-gem 'devise-bootstrap-views'
+gem 'devise_invitable', '~> 1.7.0'
+gem 'devise_token_auth'
+gem 'rack-cors'
+
+gem 'omniauth-github'
+gem 'omniauth-facebook'
+gem 'omniauth-google-oauth2'
+gem "omniauth-wechat-oauth2"
+gem 'omniauth-qq'
 
 gem 'bootstrap_form'
 gem 'kaminari'
