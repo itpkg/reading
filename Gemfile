@@ -57,3 +57,5 @@ gem 'devise-bootstrap-views'
 
 gem 'rails-settings-cached'
 gem 'carrierwave'
+
+gem 'epub-parser'
