@@ -54,3 +54,5 @@ gem 'cancancan'
 gem 'rolify'
 gem 'bootstrap_form'
 gem 'devise-bootstrap-views'
+
+gem 'rails-settings-cached'
