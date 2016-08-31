@@ -82,5 +82,4 @@ test:
 production:
   <<: *default
   database: reading_production
-  username: reading
   password: <%= ENV['READING_DATABASE_PASSWORD'] %>

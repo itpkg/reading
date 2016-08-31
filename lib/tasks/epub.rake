@@ -9,10 +9,6 @@ namespace :epub do
       puts "find file #{file}"
       book = EPUB::Parser.parse(file)
 
-      puts book.ocf.container.rootfile.inspect
-
-
-
       meta = book.metadata
 
       bid = meta.identifiers.first.content
