@@ -74,10 +74,14 @@ gem 'carrierwave'
 
 gem 'epub-parser'
 
+gem 'sidekiq'
+gem 'sinatra', require: false
+
 group :development do
   gem 'capistrano', '~> 3.1'
   gem 'capistrano-rails', '~> 1.1'
   gem 'capistrano-rbenv', '~> 2.0'
   gem 'capistrano-npm'
-  gem 'capistrano3-puma'
+  gem 'capistrano3-puma', github: 'seuros/capistrano-puma'
+  gem 'capistrano-sidekiq', github: 'seuros/capistrano-sidekiq'
 end

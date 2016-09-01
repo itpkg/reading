@@ -5,6 +5,8 @@ DS_HOST=http://ds.change-me.com
 
 MAILER_SENDER=no-reply@change-me.com
 
+REDIS_URL=redis://localhost:6379/0
+
 # pwgen -n 128 1
 SECRET_KEY_BASE=pheeThaeghaKahf6hengou2saekohngaivuhoh0hohh8haihuhaiQuaoNg5fee8ohtheix7Eingohz4toe9yoo1kaeghahthee4yaTh4iNae1aeng9queitae0PheiJa
 
