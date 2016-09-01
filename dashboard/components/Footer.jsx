@@ -2,9 +2,9 @@ import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 
 const Widget = ({info}) => (
-    <p>
+    <div className="footer">
         {info.copyright}
-    </p>
+    </div>
 );
 
 Widget.propTypes = {

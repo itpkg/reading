@@ -1,10 +1,22 @@
-import React from 'react'
+import React, {PropTypes} from 'react'
+import {connect} from 'react-redux'
 
-const Widget = ({}) => (
-    <div>
-        index
-    </div>
-);
+import {Links as NonSignInLinks, LeaveWord} from '../engines/platform/auth'
+
+const Widget = (user) => user.id ?
+    (<div>index</div>) :
+    (<div>
+        <LeaveWord/>
+        <br/>
+        <NonSignInLinks/>
+    </div>);
 
 
-export default Widget
+Widget.propTypes = {
+    user: PropTypes.object.isRequired
+};
+
+export default connect(
+    state=>({user: state.currentUser}),
+    dispatch => ({})
+)(Widget);

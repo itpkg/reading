@@ -13,6 +13,47 @@ body {
     line-height: 20px;
 }
 
-div#root {
+fieldset.form {
+    margin: 20px;
+    padding: 20px;
 
+    border: 2px solid green;
+    -moz-border-radius: 8px;
+    -webkit-border-radius: 8px;
+    border-radius: 8px;
+}
+
+div.container {
+    width: 80%;
+    margin: auto;
+}
+
+div.footer {
+    margin-left: 5%;
+}
+
+hr.gradient {
+    border: 0;
+    height: 1px;
+    background: #333;
+    background-image: linear-gradient(to right, #ccc, #333, #ccc);
+}
+
+hr.flaired {
+    height: 30px;
+    border-style: solid;
+    border-color: black;
+    border-width: 1px 0 0 0;
+    border-radius: 20px;
+}
+
+hr.flaired:before {
+    display: block;
+    content: "";
+    height: 30px;
+    margin-top: -31px;
+    border-style: solid;
+    border-color: black;
+    border-width: 0 0 1px 0;
+    border-radius: 20px;
 }

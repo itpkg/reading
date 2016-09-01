@@ -7,6 +7,11 @@ export default {
         confirm: '激活账户',
         unlock: '解锁账户',
         'forgot-password': '忘记密码?',
-        'reset-password': '重置密码'
+        'reset-password': '重置密码',
+        leave_a_message: '留言给我们'
+    },
+    user: {
+        email: '邮箱',
+        password: '密码',
     }
 }

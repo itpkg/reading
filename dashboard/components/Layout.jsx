@@ -1,10 +1,9 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 import {Link} from 'react-router'
-import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+import darkBaseTheme from 'material-ui/styles/baseThemes/darkBaseTheme';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
-
 
 import i18n from 'i18next'
 
@@ -12,7 +11,6 @@ import {refresh} from '../engines/platform/actions'
 import {get} from '../ajax'
 
 import Header from './Header'
-import NavBar from './NavBar'
 import Footer from './Footer'
 
 
@@ -24,13 +22,18 @@ const Widget = React.createClass({
     },
     render: function () {
         const {children} = this.props;
+
+        //fixme hidden listitem's text
+        //<MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+
         return (
-            <MuiThemeProvider muiTheme={getMuiTheme(darkBaseTheme)}>
+            <MuiThemeProvider>
                 <div>
                     <Header/>
-                    <NavBar/>
-                    {children}
-                    <hr/>
+                    <div className="container">
+                        {children}
+                    </div>
+                    <hr className="flaired"/>
                     <Footer/>
                 </div>
             </MuiThemeProvider>
