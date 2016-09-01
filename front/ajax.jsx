@@ -1,4 +1,3 @@
-
 export function get(url, done, fail) {
     call("get", url, null, done, fail);
 }
