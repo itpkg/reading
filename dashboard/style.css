@@ -29,7 +29,9 @@ div.container {
 }
 
 div.footer {
-    margin-left: 5%;
+    /*margin-top: -20px;*/
+    /*padding: 20px 5%;*/
+    margin: 0 5% 30px 5%;
 }
 
 hr.gradient {

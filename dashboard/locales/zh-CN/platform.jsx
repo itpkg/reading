@@ -8,10 +8,11 @@ export default {
         unlock: '解锁账户',
         'forgot-password': '忘记密码?',
         'reset-password': '重置密码',
-        leave_a_message: '留言给我们'
+        leave_a_message: '留言给我们',
     },
     user: {
         email: '邮箱',
         password: '密码',
+        password_confirmation: '密码确认',
     }
 }

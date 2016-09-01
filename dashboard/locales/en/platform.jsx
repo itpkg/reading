@@ -8,10 +8,11 @@ export default {
         unlock: 'Unlock your account',
         'forgot-password': 'Forgot your password?',
         'reset-password': 'Reset your password',
-        leave_a_message: 'Leave a message to us'
+        leave_a_message: 'Leave a message to us',
     },
     user: {
         email: 'Email',
         password: 'Password',
+        password_confirmation: 'Password confirmation',
     }
 }

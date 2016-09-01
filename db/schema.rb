@@ -82,6 +82,19 @@ ActiveRecord::Schema.define(version: 20160831072356) do
     t.index ["epub_books_id"], name: "index_epub_pages_on_epub_books_id", using: :btree
   end
 
+  create_table "leave_words", force: :cascade do |t|
+    t.text     "message",    null: false
+    t.datetime "created_at", null: false
+  end
+
+  create_table "logs", force: :cascade do |t|
+    t.string   "message",                null: false
+    t.integer  "flag",       default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.integer  "user_id"
+    t.index ["user_id"], name: "index_logs_on_user_id", using: :btree
+  end
+
   create_table "notices", force: :cascade do |t|
     t.text     "body",                                null: false
     t.string   "lang",       limit: 5, default: "en", null: false
@@ -164,4 +177,5 @@ ActiveRecord::Schema.define(version: 20160831072356) do
   add_foreign_key "cms_comments", "cms_articles"
   add_foreign_key "cms_comments", "users"
   add_foreign_key "epub_pages", "epub_books", column: "epub_books_id"
+  add_foreign_key "logs", "users"
 end

@@ -84,6 +84,10 @@ export const SignUp = ({}) => (
                        floatingLabelText={i18n.t('platform.user.password')}
                        type="password"
             />
+            <TextField id="password_confirmation"
+                       floatingLabelText={i18n.t('platform.user.password_confirmation')}
+                       type="password"
+            />
             <FlatButton label={i18n.t("buttons.submit")} primary={true}/>
         </fieldset>
         <br/>

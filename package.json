@@ -8,6 +8,10 @@
   },
   "dependencies": {
     "bootstrap-sass": "^3.3.7",
+    "emoji": "^0.3.2",
+    "famfamfam-flags": "^1.0.0",
+    "famfamfam-mini": "^1.0.0",
+    "famfamfam-silk": "^1.0.0",
     "i18next": "^3.4.1",
     "i18next-browser-languagedetector": "^1.0.0",
     "jwt-decode": "^2.1.0",
