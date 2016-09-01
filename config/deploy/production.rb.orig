@@ -1,3 +1,8 @@
+role :app, %w{deploy@localhost}, name: 'app.change-me.com'
+role :web, %w{deploy@localhost}, name: 'www.change-me.com'
+role :db,  %w{deploy@localhost}, name: 'www.change-me.com'
+
+
 # server-based syntax
 # ======================
 # Defines a single server with a list of roles and multiple properties.
