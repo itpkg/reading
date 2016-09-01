@@ -24,6 +24,7 @@ Rails.application.routes.draw do
     end
 
     namespace :api do
+      get 'site/info'
       resources :notices #todo
     end
 

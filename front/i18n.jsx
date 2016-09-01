@@ -4,8 +4,6 @@ import LanguageDetector from 'i18next-browser-languagedetector'
 import {LOCALE} from './constants'
 import resources from './locales'
 
-console.log(resources);
-
 i18n
     .use(LanguageDetector)
     .init({
