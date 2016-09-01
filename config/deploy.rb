@@ -1,6 +1,7 @@
 # config valid only for current version of Capistrano
 lock '3.6.1'
 
+set :application, 'reading'
 
 set :repo_url, 'https://github.com/itpkg/reading.git'
 
@@ -8,7 +9,7 @@ set :repo_url, 'https://github.com/itpkg/reading.git'
 # ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
 # Default deploy_to directory is /var/www/my_app_name
-# set :deploy_to, '/var/www/my_app_name'
+set :deploy_to, -> { "/var/www/#{fetch :app_domain, 'localhost'}" }
 
 # Default value for :scm is :git
 # set :scm, :git
@@ -47,6 +48,6 @@ set :rbenv_roles, :all # default value
 set :npm_flags, '--silent --no-progress'
 
 # nginx
-set :nginx_config_name, -> { "#{fetch(:application)}_#{fetch(:stage)}.conf" }
+set :nginx_config_name, -> { "#{fetch(:app_domain)}.conf" }
 set :nginx_use_ssl, false
 

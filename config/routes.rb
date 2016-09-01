@@ -20,7 +20,7 @@ Rails.application.routes.draw do
 
     namespace :epub do
       resources :books, only: [:index, :show]
-      get 'pages/:bid/*name', to:'pages#show', as: :page
+      get 'pages/:bid/*name', to: 'pages#show', as: :page
     end
 
     namespace :api do

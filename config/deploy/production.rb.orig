@@ -1,6 +1,10 @@
-role :app, %w{deploy@localhost}, name: 'app.change-me.com'
-role :web, %w{deploy@localhost}, name: 'www.change-me.com'
-role :db,  %w{deploy@localhost}, name: 'www.change-me.com'
+set :app_domain, 'localhost.localdomain'
+
+role :app, %w{deploy@localhost}
+role :web, %w{deploy@localhost}
+role :db,  %w{deploy@localhost}
+
+
 
 
 # server-based syntax
