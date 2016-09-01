@@ -17,14 +17,14 @@ ActiveRecord::Schema.define(version: 20160831072356) do
 
   create_table "cms_articles", force: :cascade do |t|
     t.string   "title",                               null: false
-    t.string   "locale",     limit: 5, default: "en", null: false
+    t.string   "lang",       limit: 5, default: "en", null: false
     t.string   "summary"
     t.text     "body",                                null: false
     t.integer  "rate",                 default: 0,    null: false
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
     t.integer  "user_id"
-    t.index ["locale"], name: "index_cms_articles_on_locale", using: :btree
+    t.index ["lang"], name: "index_cms_articles_on_lang", using: :btree
     t.index ["user_id"], name: "index_cms_articles_on_user_id", using: :btree
   end
 
@@ -44,13 +44,11 @@ ActiveRecord::Schema.define(version: 20160831072356) do
   end
 
   create_table "cms_tags", force: :cascade do |t|
-    t.string   "name",                                null: false
-    t.string   "locale",     limit: 5, default: "en", null: false
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
-    t.index ["locale"], name: "index_cms_tags_on_locale", using: :btree
-    t.index ["name", "locale"], name: "index_cms_tags_on_name_and_locale", unique: true, using: :btree
-    t.index ["name"], name: "index_cms_tags_on_name", using: :btree
+    t.string   "name",                   null: false
+    t.integer  "rate",       default: 0, null: false
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+    t.index ["name"], name: "index_cms_tags_on_name", unique: true, using: :btree
   end
 
   create_table "epub_books", force: :cascade do |t|

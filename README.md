@@ -35,7 +35,9 @@ I love reading.
     cd reading
     vi config/deploy.rb
     cap production deploy
+    # upload puma.conf
     cap production puma:config
+    # upload nginx config file
     cap production puma:nginx_config
     
 
