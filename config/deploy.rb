@@ -25,10 +25,10 @@ set :deploy_to, -> { "/var/www/#{fetch :app_domain, 'localhost'}" }
 # set :pty, true
 
 # Default value for :linked_files is []
-append :linked_files, '.rbenv-vars'
+append :linked_files, '.rbenv-vars', 'webpack-production.config.js'
 
 # Default value for linked_dirs is []
-append :linked_dirs, 'node_modules', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets'
+append :linked_dirs, 'node_modules', 'log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'public/system'
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }

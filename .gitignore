@@ -22,11 +22,12 @@
 /node_modules
 /public/assets
 /dist
-/.rbenv-vars
-
-
-/config/deploy/*.rb
 
 npm-debug.log
 *.swp
+
+/.rbenv-vars
+/webpack-production.config.js
+/config/deploy/*.rb
+
 

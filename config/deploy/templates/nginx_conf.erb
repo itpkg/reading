@@ -37,7 +37,7 @@ keepalive_timeout 10;
 error_page 500 502 504 /500.html;
 error_page 503 @503;
 
-server_name <%= fetch(:nginx_server_name) %>;
+server_name www.<%= fetch(:app_domain) %>;
 root <%= current_path %>/public;
 try_files $uri/index.html $uri @puma_<%= fetch(:nginx_config_name) %>;
 
@@ -52,13 +52,6 @@ proxy_pass http://puma_<%= fetch(:nginx_config_name) %>;
 # limit_req zone=one;
 access_log <%= shared_path %>/log/nginx.access.log;
 error_log <%= shared_path %>/log/nginx.error.log;
-}
-
-location ~ /dashboard/(.*) {
-try_files /dashboard/$1 /dashboard/index.html;
-# gzip_static on;
-# expires max;
-# add_header Cache-Control public;
 }
 
 location ^~ /assets/ {
@@ -94,4 +87,34 @@ return 503;
 location ~ \.(php|html)$ {
 return 405;
 }
+}
+
+
+server {
+<% if fetch(:nginx_use_ssl) %>
+    listen 443;
+    ssl on;
+    ssl_certificate /etc/ssl/certs/<%= fetch(:nginx_config_name) %>.crt;
+    ssl_certificate_key /etc/ssl/private/<%= fetch(:nginx_config_name) %>.key;
+<% else %>
+    listen 80;
+<% end %>
+
+client_max_body_size 4G;
+keepalive_timeout 10;
+access_log off;
+
+server_name ds.<%= fetch(:app_domain) %>;
+root <%= current_path %>/dist;
+
+location / {
+try_files $uri /index.html;
+}
+
+location ~* \.(?:css|js)$ {
+gzip_static on;
+expires max;
+add_header Cache-Control "public";
+}
+
 }
