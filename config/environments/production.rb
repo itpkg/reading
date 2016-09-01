@@ -86,5 +86,5 @@ Rails.application.configure do
 
 
   #Devise
-  config.action_mailer.default_url_options = {host: ENV['READING_HOST']}
+  config.action_mailer.default_url_options = {host: ENV['WWW_HOST']}
 end

@@ -21,7 +21,7 @@
 /.idea
 /node_modules
 /public/assets
-/public/dashboard
+/dist
 /.rbenv-vars
 
 

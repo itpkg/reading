@@ -47,14 +47,14 @@ module.exports = function (options) {
         })
     };
     var output = {
-        path: path.join(__dirname, 'public', 'dashboard'),
-        publicPath: '/dashboard/'
+        path: path.join(__dirname, 'dist'),
+        publicPath: '/'
     };
     var htmlOptions = {
         inject: true,
         template: path.join('front', 'index.html'),
         filename: 'index.html',
-        // favicon: path.join(__dirname, 'public', 'apple-touch-icon.png'),
+        favicon: path.join(__dirname, 'public', 'favicon.ico'),
         title: 'READING'
     };
 
@@ -127,7 +127,7 @@ module.exports = function (options) {
             extensions: ['', '.js', '.jsx']
         },
         devServer: {
-            historyApiFallback: {index: output.publicPath},
+            historyApiFallback: true,
             port: 4200
         }
         // eslint: {
