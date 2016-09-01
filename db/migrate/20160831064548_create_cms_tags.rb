@@ -10,6 +10,6 @@ class CreateCmsTags < ActiveRecord::Migration[5.0]
 
     add_index :cms_tags, :name, unique: true
     create_join_table :cms_articles, :cms_tags
-    
+
   end
 end

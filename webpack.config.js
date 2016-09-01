@@ -6,9 +6,11 @@ const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const StatsPlugin = require('stats-webpack-plugin');
 const SriPlugin = require('webpack-subresource-integrity');
 
+const src_root = 'dashboard';
+
 module.exports = function (options) {
     var entry = {
-        app: path.join(__dirname, 'front')
+        app: path.join(__dirname, src_root)
     };
     entry.vendor = [
         'react',
@@ -52,7 +54,7 @@ module.exports = function (options) {
     };
     var htmlOptions = {
         inject: true,
-        template: path.join('front', 'index.html'),
+        template: path.join(src_root, 'index.html'),
         filename: 'index.html',
         favicon: path.join(__dirname, 'public', 'favicon.ico'),
         title: 'READING'
