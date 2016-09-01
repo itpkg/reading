@@ -9,6 +9,7 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import i18n from 'i18next'
 
 import {refresh} from '../engines/platform/actions'
+import {get} from '../ajax'
 
 import Header from './Header'
 import NavBar from './NavBar'
@@ -16,7 +17,7 @@ import Footer from './Footer'
 
 
 const Widget = React.createClass({
-    getInitialState: function() {
+    getInitialState: function () {
         const {onRefresh} = this.props;
         onRefresh();
         return {};
@@ -47,14 +48,11 @@ export default connect(
     state=>({}),
     dispatch => ({
         onRefresh: function () {
-            fetch('http://localhost:3000/api/site/info')
-                .then(res => res.json())
-                .then(rst => dispatch(refresh(rst)));
-            // ajax("get", "/site/info", null, function(ifo){
-            //   dispatch(refresh(ifo));
-            //   document.documentElement.lang = ifo.lang;
-            //   document.title = ifo.title;
-            // });
+            get('/site/info', rst => {
+                document.documentElement.lang = rst.lang;
+                document.title = `${rst.subTitle}-${rst.title}`;
+                dispatch(refresh(rst));
+            });
         }
     })
 )(Widget);

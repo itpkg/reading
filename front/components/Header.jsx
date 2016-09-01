@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -36,9 +36,9 @@ Widget.propTypes = {
 };
 
 export default connect(
-    state => ({ info: state.siteInfo }),
+    state => ({info: state.siteInfo}),
     dispatch => ({
-        onToggle: function(){
+        onToggle: function () {
             console.log("on toggle");
         }
     })

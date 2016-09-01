@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 import Drawer from 'material-ui/Drawer';
 import MenuItem from 'material-ui/MenuItem';
@@ -22,9 +22,9 @@ Widget.propTypes = {
     open: PropTypes.bool.isRequired
 };
 export default connect(
-    state => ({ open:false }),
+    state => ({open: false}),
     dispatch => ({
-        onClose: function(){
+        onClose: function () {
             console.log("on close");
         }
     })

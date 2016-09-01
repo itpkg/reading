@@ -10,6 +10,8 @@ class Api::SiteController < ApplicationController
     end
     rst[:author] = author
 
+    rst[:lang] = I18n.locale
+
     render json: rst
   end
 end

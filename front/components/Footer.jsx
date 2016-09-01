@@ -1,5 +1,5 @@
 import React, {PropTypes} from 'react'
-import { connect } from 'react-redux'
+import {connect} from 'react-redux'
 
 const Widget = ({info}) => (
     <p>
@@ -12,6 +12,6 @@ Widget.propTypes = {
 };
 
 export default connect(
-  state => ({ info: state.siteInfo })
+    state => ({info: state.siteInfo})
 )(Widget)
 

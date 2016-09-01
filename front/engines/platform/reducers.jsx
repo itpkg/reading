@@ -2,7 +2,8 @@ import jwtDecode from 'jwt-decode'
 
 import {
     AUTH_SIGN_IN, AUTH_SIGN_OUT,
-    SITE_REFRESH
+    REFRESH_SITE_INFO,
+    TOGGLE_NAV_BAR
 } from './actions'
 
 import {TOKEN} from '../../constants'
@@ -32,13 +33,22 @@ function currentUser(state = initCurrentUserState, action) {
 
 function siteInfo(state = {}, action) {
     switch (action.type) {
-        case SITE_REFRESH:
+        case REFRESH_SITE_INFO:
             return action.info;
         default:
             return state
     }
 }
 
-const reducers = {currentUser, siteInfo};
+function navBar(state = {}, action) {
+    switch (action.type) {
+        case TOGGLE_NAV_BAR:
+            return !action.open;
+        default:
+            return state
+    }
+}
+
+const reducers = {currentUser, siteInfo, navBar};
 
 export default reducers
