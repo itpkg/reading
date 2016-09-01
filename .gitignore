@@ -23,6 +23,11 @@
 /public/assets
 /public/dashboard
 /.rbenv-vars
+
+
+/config/deploy/*
+!/config/deploy/production.rb.orig
+
 npm-debug.log
 *.swp
 

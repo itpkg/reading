@@ -31,4 +31,6 @@ I love reading.
     
 
 ## Documents
-* [Material-UI Icons](https://design.google.com/icons/)    
+* [Material-UI](http://www.material-ui.com)
+* [Material-UI Icons](https://design.google.com/icons/)
+* [Redux](http://redux.js.org/index.html)
