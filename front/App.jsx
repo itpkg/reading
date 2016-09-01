@@ -20,6 +20,7 @@ const store = createStore(
         routing: routerReducer
     })
 );
+
 const history = syncHistoryWithStore(browserHistory, store);
 
 const Widget = () => (

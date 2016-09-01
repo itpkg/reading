@@ -8,9 +8,9 @@ import Divider from 'material-ui/Divider';
 import i18n from 'i18next'
 
 
-const Widget = ({onClose}) => (
+const Widget = ({onClose, open}) => (
 
-    <Drawer docked={false} open={this.state.open}>
+    <Drawer docked={false} open={open}>
         <MenuItem onTouchTap={onClose}>Menu Item</MenuItem>
         <Divider />
         <MenuItem onTouchTap={onClose}>Menu Item 2</MenuItem>
@@ -18,10 +18,11 @@ const Widget = ({onClose}) => (
 );
 
 Widget.propTypes = {
-    onClose: PropTypes.func.isRequired
+    onClose: PropTypes.func.isRequired,
+    open: PropTypes.bool.isRequired
 };
 export default connect(
-    state => ({ }),
+    state => ({ open:false }),
     dispatch => ({
         onClose: function(){
             console.log("on close");
