@@ -3,6 +3,7 @@ import jwtDecode from 'jwt-decode'
 import {
     AUTH_SIGN_IN, AUTH_SIGN_OUT,
     REFRESH_SITE_INFO,
+TOGGLE_MESSAGE_BOX,
     TOGGLE_NAV_BAR
 } from './actions'
 
@@ -49,6 +50,15 @@ function navBar(state = {}, action) {
     }
 }
 
-const reducers = {currentUser, siteInfo, navBar};
+function messageBox(state={show:false, message:''}, action) {
+    switch (action.type) {
+        case TOGGLE_MESSAGE_BOX:
+            return action.data;
+        default:
+            return state
+    }
+}
+
+const reducers = {currentUser, siteInfo, navBar, messageBox};
 
 export default reducers

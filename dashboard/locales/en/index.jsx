@@ -1,7 +1,13 @@
 import platform from './platform'
-import buttons from './buttons'
 
 export default {
-    buttons,
+    buttons: {
+        save: 'Save',
+        submit: 'Submit'
+    },
+    notices: {
+        success: 'Success!',
+        fail: 'Failed',
+    },
     platform
 }

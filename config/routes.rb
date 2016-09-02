@@ -3,7 +3,6 @@
 
 Rails.application.routes.draw do
 
-
   scope '(:locale)', locale: /en|zh-CN/ do
     get 'home', to: 'home#index'
     get 'home/about'
@@ -11,6 +10,7 @@ Rails.application.routes.draw do
     get 'home/faq'
 
     resources :notices, only: [:index] #TODO
+
 
     #todo
     namespace :cms do
@@ -27,6 +27,7 @@ Rails.application.routes.draw do
     namespace :api do
       get 'site/info'
       resources :notices #todo
+       resources :leave_words, only:[:index, :create, :destroy] #todo
     end
 
     mount_devise_token_auth_for 'User', at: 'api/auth'

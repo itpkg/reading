@@ -14,18 +14,8 @@ import FlatButton from 'material-ui/FlatButton';
 
 import i18n from 'i18next'
 
-export const LeaveWord = ({}) => (
-    <fieldset className="form">
-        <legend>{i18n.t('platform.auth.leave_a_message')}</legend>
-        <TextField
-            id='message'
-            multiLine={true}
-        />
-        <br/>
-        <FlatButton label={i18n.t("buttons.save")} primary={true}/>
-    </fieldset>
 
-);
+
 
 const LinksW = ({onGoto}) => (
     <List>

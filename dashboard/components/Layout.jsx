@@ -12,6 +12,7 @@ import {get} from '../ajax'
 
 import Header from './Header'
 import Footer from './Footer'
+import MessageBox from './MessageBox'
 
 
 const Widget = React.createClass({
@@ -33,6 +34,7 @@ const Widget = React.createClass({
                     <div className="container">
                         {children}
                     </div>
+                    <MessageBox/>
                     <hr className="flaired"/>
                     <Footer/>
                 </div>

@@ -1,7 +1,9 @@
 import React, {PropTypes} from 'react'
 import {connect} from 'react-redux'
 
-import {Links as NonSignInLinks, LeaveWord} from '../engines/platform/auth'
+import {Links as NonSignInLinks} from '../engines/platform/auth'
+
+import {NewFm as LeaveWord} from '../engines/platform/leave_words'
 
 const Widget = (user) => user.id ?
     (<div>index</div>) :

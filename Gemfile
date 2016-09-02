@@ -76,6 +76,7 @@ gem 'epub-parser'
 
 gem 'sidekiq'
 gem 'sinatra', require: false
+gem 'rails-i18n', '~> 5.0.0'
 
 group :development do
   gem 'capistrano', '~> 3.1'

@@ -83,7 +83,7 @@ ActiveRecord::Schema.define(version: 20160831072356) do
   end
 
   create_table "leave_words", force: :cascade do |t|
-    t.text     "message",    null: false
+    t.text     "content",    null: false
     t.datetime "created_at", null: false
   end
 
