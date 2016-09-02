@@ -1,4 +1,6 @@
 class Api::LeaveWordsController < ApplicationController
+  protect_from_forgery with: :null_session
+  skip_before_action :verify_authenticity_token
 
   def index
 
@@ -14,7 +16,7 @@ class Api::LeaveWordsController < ApplicationController
     if lw.valid?
       render json: lw
     else
-      render json:{errors:lw.errors.messages}
+      render json: {errors: lw.errors.messages}
     end
   end
 

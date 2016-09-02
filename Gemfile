@@ -55,6 +55,7 @@ gem 'cancancan'
 gem 'rolify'
 gem 'devise_invitable', '~> 1.7.0'
 gem 'devise_token_auth'
+gem 'devise-bootstrap-views'
 gem 'rack-cors', :require => 'rack/cors'
 
 gem 'omniauth-github'

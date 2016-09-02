@@ -30,7 +30,10 @@ Rails.application.routes.draw do
        resources :leave_words, only:[:index, :create, :destroy] #todo
     end
 
-    mount_devise_token_auth_for 'User', at: 'api/auth'
+    mount_devise_token_auth_for 'User', at: 'api/auth', controllers: {
+        sessions: 'auth/sessions',
+        registrations: 'auth/registrations',
+    }
 
   end
 

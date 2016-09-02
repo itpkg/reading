@@ -17,6 +17,7 @@ import i18n from 'i18next'
 
 import {post} from '../../ajax'
 import {checkResult} from './actions'
+import Form from '../../components/Form'
 
 
 const LinksW = ({onGoto}) => (
@@ -79,102 +80,85 @@ export const SignIn = connect(
     })
 )(SignInW);
 
-const SignUpW = React.createClass({
-    getInitialState: function () {
-        return {
-            email: '',
-            password: '',
-            password_confirmation: '',
-        };
-    },
-    handleChange: function (e) {
-        var tmp = this.state;
-        tmp[e.target.id] = e.target.value;
-        this.setState(tmp);
-    },
-    handleSubmit: function (e) {
-        e.preventDefault();
-        const {onCheck} = this.props;
-        var data = new FormData();
-        data.append("email", this.state.email);
-        data.append("password", this.state.password);
-        data.append("password_confirmation", this.state.password_confirmation);
-        data.append('confirm_success_url', `${process.env.CONFIG.backend}/flash`);
-        post('/auth', data, function (rst) {
-            onCheck(rst);
-            if (!rst.errors) {
-                this.setState({content: ''});
+export const SignUp = () =>(<div>
+    <Form
+        fields={[
+            {
+                id: 'email',
+                type: 'text',
+                label: i18n.t('platform.user.email'),
+                value: '',
+            },
+            {
+                id: 'password',
+                type: 'password',
+                label: i18n.t('platform.user.password'),
+                value: '',
+            },
+            {
+                id: 'password_confirmation',
+                type: 'password',
+                label: i18n.t('platform.user.password_confirmation'),
+                value: '',
+            },
+            {
+                id:'confirm_success_url',
+                type:'hidden',
+                value:`${process.env.CONFIG.host}/flash`,
             }
+        ]}
+        title={i18n.t('platform.auth.sign-up')}
+        method="post"
+        action="/auth"/>
+    <br/>
+    <Links/>
+</div>);
 
-        }.bind(this));
-    },
-    render: function () {
-        return (<div>
-            <fieldset className="form">
-                <legend>{i18n.t('platform.auth.sign-up')}</legend>
-                <TextField id="email"
-                           value={this.state.email}
-                           onChange={this.handleChange}
-                           floatingLabelText={i18n.t('platform.user.email')}
-                />
-                <TextField id="password"
-                           value={this.state.password}
-                           onChange={this.handleChange}
-                           floatingLabelText={i18n.t('platform.user.password')}
-                           type="password"
-                />
-                <TextField id="password_confirmation"
-                           value={this.state.password_confirmation}
-                           onChange={this.handleChange}
-                           floatingLabelText={i18n.t('platform.user.password_confirmation')}
-                           type="password"
-                />
-                <FlatButton onClick={this.handleSubmit} label={i18n.t("buttons.submit")} primary={true}/>
-            </fieldset>
-            <br/>
-            <Links/>
-        </div>)
-    }
-});
-
-
-SignUpW.propTypes = {
-    onCheck: PropTypes.func.isRequired
-};
-
-
-export const SignUp = connect(
-    state => ({}),
-    dispatch => ({
-        onCheck: function (rst) {
-            dispatch(checkResult(rst));
-        }
-    })
-)(SignUpW);
-
+//todo 暂时不支持重新发送激活邮件
 export const Confirm = ({}) => (
     <div>
-        <fieldset className="form">
-            <legend>{i18n.t('platform.auth.confirm')}</legend>
-            <TextField id="email"
-                       floatingLabelText={i18n.t('platform.user.email')}
-            />
-            <FlatButton label={i18n.t("buttons.submit")} primary={true}/>
-        </fieldset>
+        <Form
+            fields={[
+                {
+                    id: 'email',
+                    type: 'text',
+                    label: i18n.t('platform.user.email'),
+                    value: '',
+                },
+                {
+                    id:'confirm_success_url',
+                    type:'hidden',
+                    value:`${process.env.CONFIG.host}/flash`,
+                }
+            ]}
+            title={i18n.t('platform.auth.confirm')}
+            method="post"
+            action="/auth/confirmation"/>
         <br/>
         <Links/>
     </div>
 );
 
+//todo
 export const Unlock = ({}) => (
     <div>
-        <fieldset className="form">
-            <legend>{i18n.t('platform.auth.unlock')}</legend>
-            <TextField id="email"
-                       floatingLabelText={i18n.t('platform.user.email')}
-            />
-            <FlatButton label={i18n.t("buttons.submit")} primary={true}/>
-        </fieldset>
+        <Form
+            fields={[
+                {
+                    id: 'email',
+                    type: 'text',
+                    label: i18n.t('platform.user.email'),
+                    value: '',
+                },
+                {
+                    id:'confirm_success_url',
+                    type:'hidden',
+                    value:`${process.env.CONFIG.host}/flash`,
+                }
+            ]}
+            title={i18n.t('platform.auth.unlock')}
+            method="post"
+            action="/auth/unlock"/>
         <br/>
         <Links/>
     </div>
@@ -187,7 +171,7 @@ export const Profile = ({}) => (
     </div>
 );
 
-
+//todo
 export const ForgotPassword = ({}) => (
     <div>
         <fieldset className="form">

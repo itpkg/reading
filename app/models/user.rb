@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  include DeviseTokenAuth::Concerns::User
   include RailsSettings::Extend
 
   rolify
@@ -10,10 +9,18 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable,
          :confirmable, :lockable, :timeoutable,
          :invitable
+  include DeviseTokenAuth::Concerns::User
 
   belongs_to :role
 
   def send_devise_notification(notification, *args)
     devise_mailer.send(notification, self, *args).deliver_later
+  end
+
+
+  before_create :skip_duplicate_devise_confirmation_email
+  # Fixes problem with duplicate account confirmation emails
+  def skip_duplicate_devise_confirmation_email
+    skip_confirmation_notification!
   end
 end
