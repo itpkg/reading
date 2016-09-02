@@ -1,7 +1,4 @@
-class Api::LeaveWordsController < ApplicationController
-  protect_from_forgery with: :null_session
-  skip_before_action :verify_authenticity_token
-
+class Api::LeaveWordsController < ApiController
   def index
 
     if current_user.is_admin?

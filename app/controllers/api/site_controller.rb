@@ -1,4 +1,4 @@
-class Api::SiteController < ApplicationController
+class Api::SiteController < ApiController
   def info
     rst = {}
     %w(title subTitle keywords description copyright).each do |key|

@@ -51,12 +51,20 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 gem 'jwt'
 gem 'devise', '~> 4.2'
 gem 'devise-i18n'
-gem 'cancancan'
-gem 'rolify'
 gem 'devise_invitable', '~> 1.7.0'
 gem 'devise_token_auth'
 gem 'devise-bootstrap-views'
+gem 'cancancan'
+gem 'rolify'
 gem 'rack-cors', :require => 'rack/cors'
+
+gem 'activeadmin', github: 'activeadmin'
+gem 'inherited_resources', github: 'activeadmin/inherited_resources'
+gem 'activemodel-serializers-xml', github: 'rails/activemodel-serializers-xml'
+# cannot load such file -- rails/test_unit/sub_test_task
+gem 'draper', github:'drapergem/draper'
+gem 'pundit'
+gem 'simple_form'
 
 gem 'omniauth-github'
 gem 'omniauth-facebook'

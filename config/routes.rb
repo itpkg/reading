@@ -3,7 +3,14 @@
 
 Rails.application.routes.draw do
 
+  #admin
+  devise_for :users, ActiveAdmin::Devise.config
+  ActiveAdmin.routes(self)
+
+
   scope '(:locale)', locale: /en|zh-CN/ do
+
+    #home todo
     get 'home', to: 'home#index'
     get 'home/about'
     get 'home/help'
@@ -24,16 +31,18 @@ Rails.application.routes.draw do
       get 'pages/:bid/*name', to: 'pages#show', as: :page
     end
 
+
     namespace :api do
       get 'site/info'
       resources :notices #todo
-       resources :leave_words, only:[:index, :create, :destroy] #todo
+      resources :leave_words, only: [:index, :create, :destroy] #todo
+
+      mount_devise_token_auth_for 'User', at: 'auth', controllers: {
+          sessions: 'auth/sessions',
+          registrations: 'auth/registrations',
+      }
     end
 
-    mount_devise_token_auth_for 'User', at: 'api/auth', controllers: {
-        sessions: 'auth/sessions',
-        registrations: 'auth/registrations',
-    }
 
   end
 
