@@ -28,7 +28,7 @@ export function showNavBar() {
 
 
 export function showMessage(msg) {
-    var data = msg ? {show:true, message:msg} : {show:false, message:''};
+    var data = msg ? {show: true, message: msg} : {show: false, message: ''};
     return {type: TOGGLE_MESSAGE_BOX, data}
 }
 
@@ -36,7 +36,9 @@ export function showMessage(msg) {
 export function checkResult(rst) {
     var data = {show: true, message: i18n.t('notices.success')};
     if (rst.errors) {
-        data.message = i18n.t('notices.fail')+JSON.stringify(rst.errors);
+        data.message = `${i18n.t('notices.fail')}: ${JSON.stringify(rst.errors)}`;
+    } else if (rst.status) {
+        data.message = rst.status;
     }
 
     return {type: TOGGLE_MESSAGE_BOX, data}

@@ -83,8 +83,8 @@ const SignUpW = React.createClass({
     getInitialState: function () {
         return {
             email: '',
-            password:'',
-            password_confirmation:'',
+            password: '',
+            password_confirmation: '',
         };
     },
     handleChange: function (e) {
@@ -96,14 +96,14 @@ const SignUpW = React.createClass({
         e.preventDefault();
         const {onCheck} = this.props;
         var data = new FormData();
-        data.append( "email", this.state.email );
+        data.append("email", this.state.email);
         data.append("password", this.state.password);
         data.append("password_confirmation", this.state.password_confirmation);
         data.append('confirm_success_url', `${process.env.CONFIG.backend}/flash`);
         post('/auth', data, function (rst) {
             onCheck(rst);
-            if(!rst.errors){
-                this.setState({content:''});
+            if (!rst.errors) {
+                this.setState({content: ''});
             }
 
         }.bind(this));
@@ -136,7 +136,6 @@ const SignUpW = React.createClass({
         </div>)
     }
 });
-
 
 
 SignUpW.propTypes = {

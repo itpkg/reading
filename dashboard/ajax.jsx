@@ -10,8 +10,8 @@ export function post(url, form, done, fail) {
     call("POST", url, form, done, fail);
 }
 
-function call(method, url, data, done, fail) {
-    if(!done){
+export function call(method, url, data, done, fail) {
+    if (!done) {
         done = function (rst) {
             console.log(rst);
         }
@@ -25,9 +25,8 @@ function call(method, url, data, done, fail) {
 
     fetch(`${process.env.CONFIG.backend}/${i18n.language}/api${url}`,
         {
-            headers:{
-                'Authorization':'Bearer ' + window.sessionStorage.getItem(TOKEN),
-                //'Access-Control-Allow-Origin': 'http://localhost:4200',
+            headers: {
+                'Authorization': 'Bearer ' + window.sessionStorage.getItem(TOKEN),
             },
             method: method,
             body: data,
