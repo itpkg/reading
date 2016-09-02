@@ -15,6 +15,8 @@ import FlatButton from 'material-ui/FlatButton';
 import i18n from 'i18next'
 
 
+import {post} from '../../ajax'
+import {checkResult} from './actions'
 
 
 const LinksW = ({onGoto}) => (
@@ -45,7 +47,7 @@ export const Links = connect(
     })
 )(LinksW);
 
-export const SignIn = ({}) => (
+const SignInW = ({}) => (
     <div>
         <fieldset className="form">
             <legend>{i18n.t('platform.auth.sign-in')}</legend>
@@ -63,27 +65,93 @@ export const SignIn = ({}) => (
     </div>
 );
 
-export const SignUp = ({}) => (
-    <div>
-        <fieldset className="form">
-            <legend>{i18n.t('platform.auth.sign-up')}</legend>
-            <TextField id="email"
-                       floatingLabelText={i18n.t('platform.user.email')}
-            />
-            <TextField id="password"
-                       floatingLabelText={i18n.t('platform.user.password')}
-                       type="password"
-            />
-            <TextField id="password_confirmation"
-                       floatingLabelText={i18n.t('platform.user.password_confirmation')}
-                       type="password"
-            />
-            <FlatButton label={i18n.t("buttons.submit")} primary={true}/>
-        </fieldset>
-        <br/>
-        <Links/>
-    </div>
-);
+SignInW.propTypes = {
+    onCheck: PropTypes.func.isRequired
+};
+
+
+export const SignIn = connect(
+    state => ({}),
+    dispatch => ({
+        onCheck: function (rst) {
+            dispatch(checkResult(rst));
+        }
+    })
+)(SignInW);
+
+const SignUpW = React.createClass({
+    getInitialState: function () {
+        return {
+            email: '',
+            password:'',
+            password_confirmation:'',
+        };
+    },
+    handleChange: function (e) {
+        var tmp = this.state;
+        tmp[e.target.id] = e.target.value;
+        this.setState(tmp);
+    },
+    handleSubmit: function (e) {
+        e.preventDefault();
+        const {onCheck} = this.props;
+        var data = new FormData();
+        data.append( "email", this.state.email );
+        data.append("password", this.state.password);
+        data.append("password_confirmation", this.state.password_confirmation);
+        data.append('confirm_success_url', `${process.env.CONFIG.backend}/flash`);
+        post('/auth', data, function (rst) {
+            onCheck(rst);
+            if(!rst.errors){
+                this.setState({content:''});
+            }
+
+        }.bind(this));
+    },
+    render: function () {
+        return (<div>
+            <fieldset className="form">
+                <legend>{i18n.t('platform.auth.sign-up')}</legend>
+                <TextField id="email"
+                           value={this.state.email}
+                           onChange={this.handleChange}
+                           floatingLabelText={i18n.t('platform.user.email')}
+                />
+                <TextField id="password"
+                           value={this.state.password}
+                           onChange={this.handleChange}
+                           floatingLabelText={i18n.t('platform.user.password')}
+                           type="password"
+                />
+                <TextField id="password_confirmation"
+                           value={this.state.password_confirmation}
+                           onChange={this.handleChange}
+                           floatingLabelText={i18n.t('platform.user.password_confirmation')}
+                           type="password"
+                />
+                <FlatButton onClick={this.handleSubmit} label={i18n.t("buttons.submit")} primary={true}/>
+            </fieldset>
+            <br/>
+            <Links/>
+        </div>)
+    }
+});
+
+
+
+SignUpW.propTypes = {
+    onCheck: PropTypes.func.isRequired
+};
+
+
+export const SignUp = connect(
+    state => ({}),
+    dispatch => ({
+        onCheck: function (rst) {
+            dispatch(checkResult(rst));
+        }
+    })
+)(SignUpW);
 
 export const Confirm = ({}) => (
     <div>
