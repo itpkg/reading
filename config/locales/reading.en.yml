@@ -4,7 +4,12 @@ en:
       write_note: New note
       subscribe: Subscribe
       unsubscribe: Unsubscribe
+    fields:
+      keywords: Keywords
+    errors:
+      bad_input: Bad input data
     index: Reading
     books: Books
     notes: Notes
     members: Maillist
+    dict: Dict

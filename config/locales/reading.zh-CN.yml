@@ -4,7 +4,12 @@ zh-CN:
       write_note: 写笔记
       subscribe: 订阅
       unsubscribe: 解除
+    fields:
+      keywords: 关键字
+    errors:
+      bad_input: 错误的输入
     index: 精选书籍
     books: 书籍列表
     notes: 笔记列表
     members: 订阅/解订
+    dict: 在线字典
