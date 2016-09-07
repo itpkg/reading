@@ -1,0 +1,21 @@
+<% books.each do |bk| %>
+      <div class="col-md-4">
+        <div class="thumbnail">
+          <h3>
+            <%= link_to bk.title, book_path(bk) %>
+          </h3>
+          <p>
+            <%= t 'epub.book.creator' %>: <%= bk.creator %>
+            <br>
+            <%= t 'epub.book.publisher' %>: <%= bk.publisher %>
+            <br>
+            <%= t 'epub.book.subject' %>: <%= bk.subject %>
+            <br>
+            <%= t 'epub.book.date' %>: <%= bk.date %>
+          </p>
+          <p>
+            <%= link_to t('buttons.view'), book_path(bk), {class: 'btn btn-default'} %>
+          </p>
+        </div>
+      </div>
+  <% end %>

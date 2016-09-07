@@ -27,7 +27,14 @@ namespace :reading do
         bk.publisher = meta.publishers.first.content
         bk.subject = meta.subjects.first.content
         bk.date = meta.date.content
-        bk.home = book.rootfiles.first.full_path
+
+        book.each_content do |page|
+          puts "find page #{page.entry_name}"
+          if page.media_type == 'application/x-dtbncx+xml'
+            bk.home = page.read
+            break
+          end
+        end
         bk.save
 
       end

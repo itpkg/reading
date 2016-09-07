@@ -1,0 +1,16 @@
+<% @title = @doc.css('docTitle text').first.content %>
+
+<h3>
+  <%= @title %>
+  <% if policy(@book).destroy? %>
+  <%= link_to t('buttons.remove'), book_path(@book), method: :delete, data: {confirm: t('home.are_you_sure')} %>
+  <% end %>
+</h3>
+<hr/>
+<ol>
+  <% @doc.css('navPoint').each do |item| %>
+      <li>
+        <%= link_to item.css('navLabel text').first.content, page_path(bid: @book.id, name: item.css('content').first.attribute('src').value) %>
+      </li>
+  <% end %>
+</ol>
