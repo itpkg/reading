@@ -21,13 +21,17 @@ namespace :reading do
 
         bk.title = meta.title
         bk.creator = meta.creators.first.content
+
         bk.identifier = bid
         bk.language = meta.language.content
         bk.publisher = meta.publishers.first.content
 
-        bk.subject = meta.subjects.empty? ? ' ': meta.subjects.first.content
+        bk.subject = meta.subjects.empty? ? '': meta.subjects.first.content
         bk.date = meta.date.content
         bk.save
+        unless bk.valid?
+          raise bk.errors.inspect
+        end
 
 
         book.each_content do |page|
@@ -43,6 +47,9 @@ namespace :reading do
           pg.book_id = bk.id
 
           pg.save
+          unless pg.valid?
+            raise pg.errors.inspect
+          end
         end
 
       end
