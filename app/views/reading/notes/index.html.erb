@@ -6,7 +6,9 @@
         <footer>
           <%= time_ago_in_words n.updated_at %>
           <cite>
-            <%= link_to t('buttons.more'), book_path(n.book) %>
+            <% if n.book %>
+                <%= link_to t('buttons.more'), book_path(n.book) %>
+            <% end %>
             <% if policy(n).edit? %>
                 <%= link_to t('buttons.edit'), edit_note_path(n) %>
                 <%= link_to t('buttons.remove'), note_path(n), method: :delete, data: {confirm: t('home.are_you_sure')} %>
