@@ -1,0 +1,18 @@
+<div class="row">
+  <div class="col-md-9">
+    <h3>
+      <%= @title = @doc.css('head title').first.content %>
+    </h3>
+    <hr/>
+    <div class="book-content">
+      <%= raw @doc.css('body').first.inner_html%>
+    </div>
+    <br/>
+    <div class="row pull-right">
+      <%= render 'shared/rate_box', resource: @page.book %>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <%= render 'reading/shared/book_bar', book: @page.book %>
+  </div>
+</div>

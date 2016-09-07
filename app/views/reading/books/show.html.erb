@@ -27,13 +27,6 @@
     </div>
   </div>
   <div class="col-md-3">
-    <h3>
-      <%= t 'reading.notes' %>
-      <% if current_user %>
-          <%= link_to t('buttons.new'), new_note_path(book_id: @page.book_id) %>
-      <% end %>
-    </h3>
-    <hr/>
-    <%= render 'reading/shared/notes', notes: @page.book.notes.order(updated_at: :desc) %>
+    <%= render 'reading/shared/book_bar', book: @page.book %>
   </div>
 </div>

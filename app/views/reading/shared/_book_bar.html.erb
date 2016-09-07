@@ -1,4 +1,11 @@
-<% notes.each do |n| %>
+<h3>
+  <%= t 'reading.notes' %>
+  <% if current_user %>
+      <%= link_to t('buttons.new'), new_note_path(book_id: book.id) %>
+  <% end %>
+</h3>
+<hr/>
+<% book.notes.order(updated_at: :desc).each do |n| %>
     <blockquote>
       <p class="markdown"><%= n.body %></p>
       <footer>
