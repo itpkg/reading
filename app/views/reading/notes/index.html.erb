@@ -1,2 +1,19 @@
-<h1>Notes#index</h1>
-<p>Find me in app/views/reading/notes/index.html.erb</p>
+<% @title = t 'reading.notes' %>
+<div class="row">
+  <% @notes.each do |n| %>
+      <blockquote>
+        <p class="markdown"><%= n.body %></p>
+        <footer>
+          <%= time_ago_in_words n.updated_at %>
+          <cite>
+            <%= link_to t('buttons.more'), book_path(n.book) %>
+            <% if policy(n).edit? %>
+                <%= link_to t('buttons.edit'), edit_note_path(n) %>
+                <%= link_to t('buttons.remove'), note_path(n), method: :delete, data: {confirm: t('home.are_you_sure')} %>
+            <% end %>
+          </cite>
+        </footer>
+      </blockquote>
+  <% end %>
+</div>
+<%= paginate @notes %>
