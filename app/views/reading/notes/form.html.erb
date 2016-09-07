@@ -1,0 +1,5 @@
+<%= simple_form_for @note do |f| %>
+    <%= f.input :book_id, as: :hidden %>
+    <%= f.input :body, input_html: {rows: 10} %>
+    <%= f.button :submit %>
+<% end %>

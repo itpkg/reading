@@ -1,1 +1,7 @@
 zh-CN:
+  activerecord:
+    models:
+      reading/note: 笔记
+    attributes:
+      reading/note:
+        body: 正文

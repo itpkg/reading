@@ -1,16 +1,31 @@
 <% @title = @doc.css('docTitle text').first.content %>
-
-<h3>
-  <%= @title %>
-  <% if policy(@book).destroy? %>
-  <%= link_to t('buttons.remove'), book_path(@book), method: :delete, data: {confirm: t('home.are_you_sure')} %>
-  <% end %>
-</h3>
-<hr/>
-<ol>
-  <% @doc.css('navPoint').each do |item| %>
-      <li>
-        <%= link_to item.css('navLabel text').first.content, page_path(bid: @book.id, name: item.css('content').first.attribute('src').value) %>
-      </li>
-  <% end %>
-</ol>
+<div class="row">
+  <div class="col-md-9">
+    <h3>
+      <%= @title %>
+      <% if policy(@book).destroy? %>
+          <%= link_to t('buttons.remove'), book_path(@book), method: :delete, data: {confirm: t('home.are_you_sure')} %>
+      <% end %>
+    </h3>
+    <hr/>
+    <div class="book-content">
+      <ol>
+        <% @doc.css('navPoint').each do |item| %>
+            <li>
+              <%= link_to item.css('navLabel text').first.content, page_path(bid: @book.id, name: item.css('content').first.attribute('src').value) %>
+            </li>
+        <% end %>
+      </ol>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <h3>
+      <%= t 'reading.notes' %>
+      <% if current_user %>
+          <%= link_to t('buttons.new'), new_note_path(book_id: @book.id) %>
+      <% end %>
+    </h3>
+    <hr/>
+    <%= render 'reading/shared/notes', notes: @book.notes.order(updated_at: :desc) %>
+  </div>
+</div>

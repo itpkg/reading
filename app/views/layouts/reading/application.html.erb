@@ -2,7 +2,7 @@
 <html>
 <head>
   <%= render 'shared/meta' %>
-  <%= stylesheet_link_tag    'reading/application', media: 'all' %>
+  <%= stylesheet_link_tag 'reading/application', media: 'all' %>
   <%= javascript_include_tag 'reading/application' %>
   <%= csrf_meta_tags %>
 </head>
@@ -27,9 +27,6 @@
         <li><%= link_to t('reading.members'), members_path %></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <% if current_user %>
-            <li><%= link_to t('reading.buttons.write_note'), new_note_path %></li>
-        <% end %>
         <%= render 'shared/sign_in_or_out' %>
       </ul>
     </div>
