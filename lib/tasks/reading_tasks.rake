@@ -24,7 +24,8 @@ namespace :reading do
         bk.identifier = bid
         bk.language = meta.language.content
         bk.publisher = meta.publishers.first.content
-        bk.subject = meta.subjects.first.content
+
+        bk.subject = meta.subjects.empty? ? ' ': meta.subjects.first.content
         bk.date = meta.date.content
         bk.save
 
