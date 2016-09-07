@@ -3,7 +3,7 @@
   <%= form_tag members_path do %>
       <div class="form-group">
         <%= label_tag :email, t('activerecord.attributes.reading/member.email') %>
-        <%= text_field_tag :email, '',  {class: 'form-control'} %>
+        <%= text_field_tag :email, '', {class: 'form-control'} %>
       </div>
       <div class="form-group">
         <%= radio_button_tag :flag, 'subscribe', true %>

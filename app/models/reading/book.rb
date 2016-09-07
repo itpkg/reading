@@ -4,5 +4,6 @@ module Reading
     validates :identifier, presence: true, uniqueness: true
 
     has_many :notes, class_name: 'Reading::Note'
+    has_many :pages, class_name: 'Reading::Page'
   end
 end

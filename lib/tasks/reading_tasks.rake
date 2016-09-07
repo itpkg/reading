@@ -6,7 +6,6 @@ namespace :reading do
     desc 'Scan e-books'
     task :scan, [:dir] => :environment do |_, args|
       root = File.join(Rails.application.root, args.dir, '**', '*.epub')
-
       puts "scan books from #{root}"
       Dir.glob(root).each do |file|
         puts "find file #{file}"
@@ -27,15 +26,23 @@ namespace :reading do
         bk.publisher = meta.publishers.first.content
         bk.subject = meta.subjects.first.content
         bk.date = meta.date.content
+        bk.save
+
 
         book.each_content do |page|
-          puts "find page #{page.entry_name}"
-          if page.media_type == 'application/x-dtbncx+xml'
-            bk.home = page.read
-            break
+          name = page.entry_name
+          puts "find page #{name}"
+          pg = Reading::Page.where(book_id: bk.id, entry_name: name).first
+          unless pg
+            pg = Reading::Page.new
           end
+          pg.media_type = page.media_type
+          pg.entry_name = name
+          pg.body = page.read
+          pg.book_id = bk.id
+
+          pg.save
         end
-        bk.save
 
       end
 

@@ -7,8 +7,8 @@ module Reading
     end
 
     def show
-      @book = Book.find params[:id]
-      @doc =Nokogiri::XML(@book.home)
+      @page = Page.where(book_id: params[:id], media_type: 'application/x-dtbncx+xml').first
+      @doc =Nokogiri::XML(@page.body)
     end
 
     def destroy

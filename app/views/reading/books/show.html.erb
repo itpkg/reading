@@ -3,8 +3,8 @@
   <div class="col-md-9">
     <h3>
       <%= @title %>
-      <% if policy(@book).destroy? %>
-          <%= link_to t('buttons.remove'), book_path(@book), method: :delete, data: {confirm: t('home.are_you_sure')} %>
+      <% if policy(@page.book).destroy? %>
+          <%= link_to t('buttons.remove'), book_path(@page.book), method: :delete, data: {confirm: t('home.are_you_sure')} %>
       <% end %>
     </h3>
     <hr/>
@@ -12,24 +12,28 @@
       <ol>
         <% @doc.css('navPoint').each do |item| %>
             <li>
-              <%= link_to item.css('navLabel text').first.content, page_path(book_id: @book.id, name: item.css('content').first.attribute('src').value) %>
+              <%= link_to item.css('navLabel text').first.content,
+                          File::join(page_path(book_id: @page.book_id, name: 'tmp'),
+                                     '..',
+                                     item.css('content').first.attribute('src').value
+                          ) %>
             </li>
         <% end %>
       </ol>
     </div>
     <br/>
     <div class="row pull-right">
-      <%= render 'shared/rate_box', resource: @book %>
+      <%= render 'shared/rate_box', resource: @page.book %>
     </div>
   </div>
   <div class="col-md-3">
     <h3>
       <%= t 'reading.notes' %>
       <% if current_user %>
-          <%= link_to t('buttons.new'), new_note_path(book_id: @book.id) %>
+          <%= link_to t('buttons.new'), new_note_path(book_id: @page.book_id) %>
       <% end %>
     </h3>
     <hr/>
-    <%= render 'reading/shared/notes', notes: @book.notes.order(updated_at: :desc) %>
+    <%= render 'reading/shared/notes', notes: @page.book.notes.order(updated_at: :desc) %>
   </div>
 </div>

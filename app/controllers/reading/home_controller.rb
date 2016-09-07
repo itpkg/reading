@@ -6,5 +6,9 @@ module Reading
       @books = Book.order(rate: :desc).limit(32)
       @title = t 'reading.index'
     end
+
+    def page
+
+    end
   end
 end
