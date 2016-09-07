@@ -8,7 +8,8 @@ module Reading
     end
 
     def page
-
+      page = Page.where(book_id: params[:book_id], entry_name: "#{params[:name]}.#{params[:format]}").first
+      send_data page.body, type: page.media_type, disposition: 'inline'
     end
   end
 end

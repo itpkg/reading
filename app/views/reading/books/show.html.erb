@@ -13,7 +13,7 @@
         <% @doc.css('navPoint').each do |item| %>
             <li>
               <%= link_to item.css('navLabel text').first.content,
-                          File::join(page_path(book_id: @page.book_id, name: 'tmp'),
+                          File::join(page_path(book_id: @page.book_id, name: @page.entry_name),
                                      '..',
                                      item.css('content').first.attribute('src').value
                           ) %>
