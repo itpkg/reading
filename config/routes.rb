@@ -1,12 +1,10 @@
 Reading::Engine.routes.draw do
-  get 'members'=> 'members#index'
 
+  resources :members, only: [:new, :create, :show]
   resources :books, only: [:index, :show, :destroy]
   resources :notes
 
-  get 'home/index'
-
-  get 'page/:bid/*name', to: 'home#page', as: :page
+  get 'page/:book_id/*name', to: 'home#page', as: :page
 
   root to: 'home#index'
 end

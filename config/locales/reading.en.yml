@@ -2,6 +2,8 @@ en:
   reading:
     buttons:
       write_note: New note
+      subscribe: Subscribe
+      unsubscribe: Unsubscribe
     index: Reading
     books: Books
     notes: Notes

@@ -1,0 +1,16 @@
+<fieldset>
+  <legend><%= @title = t 'reading.members' %></legend>
+  <%= form_tag members_path do %>
+      <div class="form-group">
+        <%= label_tag :email, t('activerecord.attributes.reading/member.email') %>
+        <%= text_field_tag :email, '',  {class: 'form-control'} %>
+      </div>
+      <div class="form-group">
+        <%= radio_button_tag :flag, 'subscribe', true %>
+        <%= label_tag :flag_subscribe, t('reading.buttons.subscribe') %>
+        <%= radio_button_tag :flag, 'unsubscribe' %>
+        <%= label_tag :flag_unsubscribe, t('reading.buttons.unsubscribe') %>
+      </div>
+      <%= submit_tag t('buttons.submit'), {class: 'btn btn-default'} %>
+  <% end %>
+</fieldset>

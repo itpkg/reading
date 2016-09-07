@@ -5,3 +5,5 @@ zh-CN:
     attributes:
       reading/note:
         body: 正文
+      reading/member:
+        email: 邮箱
