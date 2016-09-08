@@ -10,7 +10,7 @@ module Reading
     validates :media_type, :entry_name, :book_id, presence: true
 
     def as_indexed_json(options={})
-      as_json(except: [:payload])
+      as_json(only: [:body, :title, :book_id, :entry_name])
     end
 
     def is_html?

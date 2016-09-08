@@ -6,12 +6,11 @@ Reading::Engine.routes.draw do
 
   get 'page/:book_id/*name', to: 'home#page', as: :page
 
-  %w(dict).each do |a|
+  %w(dict search).each do |a|
     get a => "home##{a}"
     post a => "home##{a}"
   end
 
-  post 'search' => 'home#search'
 
   root to: 'home#index'
 end

@@ -5,6 +5,10 @@ module Reading
     include Elasticsearch::Model
     include Elasticsearch::Model::Callbacks
 
+    def as_indexed_json(options={})
+      as_json(expect: [:title, :creator, :subject, :language, :publisher, :date])
+    end
+
     # some book missing?
     # validates :creator, :language, :subject, :publisher, presence: true
     validates :identifier, presence: true, uniqueness: true

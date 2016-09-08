@@ -11,9 +11,9 @@ module Reading
 
       @page = Page.where(book_id: params[:book_id], entry_name: "#{params[:name]}.#{params[:format]}").first
       if @page.is_html?
-          render 'page'
-        else
-          send_data @page.body, type: @page.media_type, disposition: 'inline'
+        render 'page'
+      else
+        send_data @page.body, type: @page.media_type, disposition: 'inline'
       end
     end
 
@@ -31,6 +31,10 @@ module Reading
         else
       end
 
+    end
+
+    def search
+      @items = Object.const_get(params.require(:resource)).search(params.require(:keywords))
     end
   end
 end

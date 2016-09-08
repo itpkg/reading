@@ -29,7 +29,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-          <%= render 'shared/search_form', action:search_path%>
+          <%= render 'shared/search_nav_form', action: search_path, resource: 'Reading::Book' %>
         </li>
         <%= render 'shared/sign_in_or_out' %>
       </ul>

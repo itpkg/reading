@@ -2,6 +2,8 @@ zh-CN:
   activerecord:
     models:
       reading/note: 笔记
+      reading/book: 书籍
+      reading/page: 内容
     attributes:
       reading/note:
         body: 正文

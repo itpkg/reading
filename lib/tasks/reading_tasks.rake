@@ -1,6 +1,7 @@
 require 'epub/parser'
 
 namespace :reading do
+
   namespace :books do
 
     desc 'Scan e-books'

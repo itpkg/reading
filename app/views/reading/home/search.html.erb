@@ -1,1 +1,23 @@
-search
+<div class="row">
+  <%= render 'shared/search_form', action: search_path, resources: %w(Reading::Book Reading::Page Reading::Note) %>
+</div>
+
+<% unless @items.nil? %>
+    <div class="row">
+      <% @items.each do |item| %>
+          <blockquote>
+            <% case params[:resource] %>
+            <% when 'Reading::Note' %>
+                <p class="markdown"><%= item.body %></p>
+            <% when 'Reading::Page' %>
+                <%= link_to raw(item.body[0..200]), page_path(book_id: item.book_id, name: item.entry_name), {target: :_blank} %>
+            <% when 'Reading::Book' %>
+                <%= link_to item.title, book_path(item.id), {target: :_blank} %>
+            <% else %>
+                <%= item.to_s %>
+            <% end %>
+          </blockquote>
+      <% end %>
+    </div>
+    <%= paginate @items %>
+<% end %>

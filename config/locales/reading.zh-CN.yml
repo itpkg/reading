@@ -4,6 +4,9 @@ zh-CN:
       write_note: 写笔记
       subscribe: 订阅
       unsubscribe: 解除
+      search:
+        book: 书名
+        page: 内容
     fields:
       keywords: 关键字
     errors:

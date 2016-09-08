@@ -9,5 +9,9 @@ module Reading
     belongs_to :book, class_name: 'Reading::Book'
 
     validates :user_id, :book_id, :body, presence: true
+
+    def as_indexed_json(options={})
+      as_json(only: [:body])
+    end
   end
 end
