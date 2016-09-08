@@ -1,5 +1,10 @@
+require 'elasticsearch/model'
+
 module Reading
   class Note < ApplicationRecord
+    include Elasticsearch::Model
+    include Elasticsearch::Model::Callbacks
+
     belongs_to :user
     belongs_to :book, class_name: 'Reading::Book'
 

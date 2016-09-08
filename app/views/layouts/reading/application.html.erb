@@ -28,6 +28,9 @@
         <li><%= link_to t('reading.dict'), dict_path %></li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li>
+          <%= render 'shared/search_form', action:search_path%>
+        </li>
         <%= render 'shared/sign_in_or_out' %>
       </ul>
     </div>

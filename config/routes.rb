@@ -11,5 +11,7 @@ Reading::Engine.routes.draw do
     post a => "home##{a}"
   end
 
+  post 'search' => 'home#search'
+
   root to: 'home#index'
 end
