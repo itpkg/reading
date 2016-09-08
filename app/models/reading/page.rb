@@ -7,6 +7,18 @@ module Reading
 
     belongs_to :book, class_name: 'Reading::Book'
 
-    validates :media_type, :entry_name, :book_id, :body, presence: true
+    validates :media_type, :entry_name, :book_id, presence: true
+
+    def as_indexed_json(options={})
+      as_json(except: [:payload])
+    end
+
+    def is_html?
+      self.media_type == 'application/xhtml+xml'
+    end
+
+    def is_home?
+      self.media_type == 'application/x-dtbncx+xml'
+    end
   end
 end

@@ -10,9 +10,8 @@ module Reading
     def page
 
       @page = Page.where(book_id: params[:book_id], entry_name: "#{params[:name]}.#{params[:format]}").first
-      case @page.media_type
-        when 'application/xhtml+xml'
-          @doc =Nokogiri::XML(@page.body)
+      if @page.is_html?
+          render 'page'
         else
           send_data @page.body, type: @page.media_type, disposition: 'inline'
       end

@@ -1,11 +1,11 @@
 <div class="row">
   <div class="col-md-9">
     <h3>
-      <%= @title = @doc.css('head title').first.content %>
+      <%= @title = @page.title %>
     </h3>
     <hr/>
     <div class="book-content">
-      <%= raw @doc.css('body').first.inner_html%>
+      <%= raw @page.body%>
     </div>
     <br/>
     <div class="row pull-right">

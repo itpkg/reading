@@ -13,6 +13,8 @@ namespace :reading do
 
         meta = book.metadata
 
+
+
         bid = meta.identifiers.first.content
         bk = Reading::Book.where(identifier: bid).first
         unless bk
@@ -26,7 +28,7 @@ namespace :reading do
         bk.language = meta.language.content
         bk.publisher = meta.publishers.first.content
 
-        bk.subject = meta.subjects.empty? ? '': meta.subjects.first.content
+        bk.subject = meta.subjects.empty? ? '' : meta.subjects.first.content
         bk.date = meta.date.content
         bk.save
         unless bk.valid?
@@ -43,7 +45,15 @@ namespace :reading do
           end
           pg.media_type = page.media_type
           pg.entry_name = name
-          pg.body = page.read
+
+          if pg.is_html?
+            doc =Nokogiri::XML(page.read)
+            pg.title = doc.css('head title').first.content
+            pg.body = doc.css('body').first.inner_html
+          else
+            pg.payload = page.read
+          end
+
           pg.book_id = bk.id
 
           pg.save

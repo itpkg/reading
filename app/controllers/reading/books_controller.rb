@@ -8,7 +8,7 @@ module Reading
 
     def show
       @page = Page.where(book_id: params[:id], media_type: 'application/x-dtbncx+xml').first
-      @doc =Nokogiri::XML(@page.body)
+      @doc =Nokogiri::XML(@page.payload)
     end
 
     def destroy
